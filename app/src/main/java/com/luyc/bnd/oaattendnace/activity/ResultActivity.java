@@ -8,8 +8,8 @@ import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,20 +32,6 @@ public class ResultActivity extends AppCompatActivity {
     RelativeLayout activityResult;
     @InjectView(R.id.sfv_camera)
     ImageView sfvCamera;
-    @InjectView(R.id.tv_time)
-    TextView tvTime;
-    @InjectView(R.id.tv_date)
-    TextView tvDate;
-    @InjectView(R.id.imgvBtn_switchFlash)
-    ImageButton imgvBtnSwitchFlash;
-    @InjectView(R.id.imgvBtn_switchCamera)
-    ImageButton imgvBtnSwitchCamera;
-    @InjectView(R.id.rl_setting)
-    RelativeLayout rlSetting;
-    @InjectView(R.id.tv_username)
-    TextView tvUsername;
-    @InjectView(R.id.tv_address)
-    TextView tvAddress;
     @InjectView(R.id.tv_cancel)
     TextView tvCancel;
     @InjectView(R.id.tv_user_photo)
@@ -56,7 +42,8 @@ public class ResultActivity extends AppCompatActivity {
     private String nowTime;
     private String userName="陆永春";
     private String userLocation="广东省佛山市顺德区大良街道S43广珠西线高速";
-
+    private boolean isCamera;
+    private String TAG="ResultActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +54,8 @@ public class ResultActivity extends AppCompatActivity {
         String filePath = intent.getStringExtra("filePath");
         nowData = intent.getStringExtra("nowData");
         nowTime = intent.getStringExtra("nowTime");
-
-
+        isCamera = intent.getBooleanExtra("isCamera",false);
+        Log.e(TAG, "onCreate:isCamera== "+isCamera );
         showPic2ImageView(filePath);
 
     }
@@ -81,7 +68,11 @@ public class ResultActivity extends AppCompatActivity {
                 Bitmap bitmap = BitmapFactory.decodeStream(fis);
                 Matrix matrix = new Matrix();
                 //通过Matrix把图片旋转90度
-                matrix.setRotate(90);
+                if (isCamera){
+                    matrix.setRotate(-90);
+                }else {
+                    matrix.setRotate(90);
+                }
                 bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
                 Bitmap btm1 = ImageUtil.drawTextToLeftTop(this, bitmap, nowTime, 35, Color.WHITE, 10, 15);
                 Bitmap btm2 = ImageUtil.drawTextToLeftTop(this, btm1, nowData, 20, Color.WHITE, 10, 50);

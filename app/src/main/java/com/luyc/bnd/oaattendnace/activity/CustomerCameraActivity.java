@@ -89,7 +89,10 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
     private String nowData;
     private String nowTime;
     private CameraManager manager;
-    private boolean isCheched = true;
+    private boolean isCamera = false;
+    //是否开启闪光灯 默认关闭闪光灯
+    private String isOpenFlashMode= Camera.Parameters.FLASH_MODE_OFF;
+    private boolean mIsOpenFlashMode =true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,7 +186,6 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
 
             }
         });
-//        camera.takePicture();
     }
 
     private void dealWithCameraData(byte[] data) {
@@ -204,6 +206,7 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
             intent.putExtra("filePath", filePath);
             intent.putExtra("nowData", nowData);
             intent.putExtra("nowTime", nowTime);
+            intent.putExtra("isCamera",isCamera);
             startActivity(intent);
             finish();
         } catch (Exception e) {
@@ -270,7 +273,6 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
 
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -290,7 +292,6 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         setPrive(camera, surfaceHolder);
-
     }
 
     @Override
@@ -304,7 +305,7 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
         releaseCamera();
     }
 
-    @OnClick({R.id.btn_cancel, R.id.iv_take_photo})
+    @OnClick({R.id.btn_cancel, R.id.iv_take_photo,R.id.btn_switch,R.id.cb_light})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_take_photo:
@@ -314,8 +315,17 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
                 finish();
                 break;
             case R.id.cb_light:
-                manager = ((CameraManager) getSystemService(Context.CAMERA_SERVICE));
-                selectLight();
+                Camera.Parameters parameters = camera.getParameters();
+                if(mIsOpenFlashMode){
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                    camera.setParameters(parameters);
+                    mIsOpenFlashMode =false;
+                } else{
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                    camera.setParameters(parameters);
+                    mIsOpenFlashMode =true;
+                }
+                setPrive(camera,surfaceHolder);//重新预览相机
                 break;
             case R.id.btn_switch:
                 switchCamera();
@@ -325,25 +335,6 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
         }
     }
 
-    private void selectLight() {
-        if (isLOLLIPOP() && isCheched) {
-            try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    manager.setTorchMode("1", true);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if (isLOLLIPOP() && !isCheched) {
-            try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    manager.setTorchMode("0", false);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     private void switchCamera() {
         //切换前后摄像头
@@ -354,21 +345,8 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
             //获取每个摄像头的信息
             if (cameraPosition == 1) {
                 if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-                    camera.stopPreview();//停掉原来摄像头的预览
-                    camera.release();//释放资源
-                    camera = null;
-                    camera = Camera.open(i);
-                    try {
-                        camera.setPreviewDisplay(surfaceHolder);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    setPrive(camera,surfaceHolder);
-                    cameraPosition = 0;
-                    break;
-                }
-            } else {
-                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+//                    releaseCamera();
+                    isCamera =true;
                     camera.stopPreview();//停掉原来摄像头的预览
                     camera.release();//释放资源
                     camera = null;
@@ -380,12 +358,45 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
                     }
                     setPrive(camera,surfaceHolder);
 
+                    cameraPosition = 0;
+                    break;
+                }
+            } else {
+                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+//                    releaseCamera();
+                    isCamera =false;
+                    camera.stopPreview();//停掉原来摄像头的预览
+                    camera.release();//释放资源
+                    camera = null;
+                    camera = Camera.open(i);
+                    try {
+                        camera.setPreviewDisplay(surfaceHolder);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    setPrive(camera,surfaceHolder);
                     cameraPosition = 1;
                     break;
                 }
             }
         }
     }
+
+    /**
+     * @Description:  设置开启闪光灯(重新预览)
+     * @Since:2015-8-12
+     * @Version:1.1.0
+     * @param mIsOpenFlashMode
+     */
+    public void setIsOpenFlashMode(boolean mIsOpenFlashMode) {
+        if(mIsOpenFlashMode)
+            this.isOpenFlashMode = Camera.Parameters.FLASH_MODE_ON;
+        else
+            this.isOpenFlashMode =  Camera.Parameters.FLASH_MODE_OFF;;
+        setPrive(camera,surfaceHolder);//重新预览相机
+    }
+
+
     /**
      * 检测手机是否存在SD卡,网络连接是否打开
      */

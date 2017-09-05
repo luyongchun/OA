@@ -4,139 +4,45 @@
     android:id="@+id/activity_result"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue_iii"
+    android:background="@color/blak"
     tools:context="com.luyc.bnd.oaattendnace.activity.ResultActivity">
-    <RelativeLayout
+    <!--这是用来预览相机的空间，大家可以去好好了解一下，这里我就不详细讲了-->
+    <ImageView
+        android:id="@+id/sfv_camera"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <!--这是用来预览相机的空间，大家可以去好好了解一下，这里我就不详细讲了-->
-        <ImageView
-            android:id="@+id/sfv_camera"
-            android:layout_width="match_parent"
+        android:layout_marginBottom="50dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_launcher" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_vertical"
+        android:background="@color/blak">
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginBottom="50dp"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_launcher"
-            />
-        <!--想要的信息放在surfaceview之上就OK了，下面是我想要加入的信息-->
-        <RelativeLayout
-            android:id="@+id/rl_setting"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@null"
-            android:gravity="center_vertical">
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:text="重拍"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:shadowColor="#000"
-                    android:shadowDx="3"
-                    android:shadowDy="3"
-                    android:shadowRadius="2"
-                    android:text="08:27"
-                    android:visibility="gone"
-                    android:textColor="#fff"
-                    android:textSize="25sp" />
-
-                <TextView
-                    android:id="@+id/tv_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:shadowColor="#000"
-                    android:shadowDx="3"
-                    android:shadowDy="3"
-                    android:visibility="gone"
-                    android:shadowRadius="2"
-                    android:text="2017.09.02"
-                    android:textColor="#fff"
-                    android:textSize="15sp" />
-            </LinearLayout>
-
-            <ImageButton
-                android:id="@+id/imgvBtn_switchFlash"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
-                android:background="@null"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" />
-
-            <ImageButton
-                android:id="@+id/imgvBtn_switchCamera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
-                android:background="@null"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:visibility="gone" />
-        </RelativeLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
+        <TextView
+            android:id="@+id/tv_user_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="55dp"
-            android:gravity="right"
-            android:layout_marginRight="3dp"
-            android:orientation="vertical">
+            android:layout_marginRight="20dp"
+            android:gravity="center"
+            android:text="使用照片"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/tv_username"
-                style="@style/textView_water"
-                android:visibility="gone"
-                android:drawableLeft="@mipmap/me"
-                android:text="小木匠" />
-
-            <TextView
-                android:id="@+id/tv_address"
-                style="@style/textView_water"
-                android:visibility="gone"
-                android:drawableLeft="@mipmap/location"
-                android:text="广东省佛山市顺德区大良街道S43广珠西线高速" />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/blak"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="center_vertical">
-            <TextView
-                android:id="@+id/tv_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:text="重拍"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-            <TextView
-                android:id="@+id/tv_user_photo"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
-                android:text="使用照片"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-
-        </RelativeLayout>
     </RelativeLayout>
-
 </RelativeLayout>
