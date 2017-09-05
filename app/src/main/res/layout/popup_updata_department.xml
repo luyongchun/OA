@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_popupwin_bg"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="修改部门"
+        android:textColor="@color/blue_iii"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color3" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="请根据提示输入您的相关资料信息，一旦保存，您的资料将会被存入档案库" />
+
+    <EditText
+        android:id="@+id/et_user_number"
+        style="@style/UpdataEditTextStyle"
+        android:hint="请输入您的员工编号" />
+    />
+
+    <EditText
+        android:id="@+id/et_old_department"
+        style="@style/UpdataEditTextStyle"
+        android:hint="请输入您的原来所在部门" />
+    />
+
+    <EditText
+        android:id="@+id/et_new_department"
+        style="@style/UpdataEditTextStyle"
+        android:hint="请输入新的部门" />
+    />
+
+    <EditText
+        android:id="@+id/et_again_department"
+        style="@style/UpdataEditTextStyle"
+        android:hint="请再次输入新的部门" />
+    />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_all_rg"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="取消"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_all_rg"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="保存"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </LinearLayout>
+</LinearLayout>

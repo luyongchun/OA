@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_marginBottom="10dp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/ll_department"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/department"
+            />
+
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="所在部门"
+                android:textSize="18sp"
+                android:padding="5dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center" />
+            <TextView
+                android:layout_alignParentBottom="true"
+                android:background="@color/gray_ii"
+                style="@style/HorizontalStyle" />
+            <TextView
+                android:id="@+id/tv_department"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="研发部"
+                android:textColor="@color/split_line_ii"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:layout_marginRight="15dp"
+                />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_bin_phone"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/phone"
+            />
+
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="手机绑定"
+                android:padding="5dp"
+                android:textSize="18sp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center" />
+            <TextView
+                android:id="@+id/tv_bin_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="01234567890"
+                android:textColor="@color/split_line_ii"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:layout_marginRight="15dp"
+                />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

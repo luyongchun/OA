@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        >
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:padding="2dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/left"
+            />
+        <RadioButton
+            android:id="@+id/rb_all"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:button="@null"
+            android:text="申请记录"
+            android:textColor="@color/record_bg"
+            android:drawableRight="@mipmap/bottom"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/rb_day_bg"
+        >
+
+
+        <RadioButton
+            android:id="@+id/startTimeByRb"
+            style="@style/TextColorByRadioButton"
+            android:text="2017-8-21 08：30"
+            />
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/gray_ii"
+            />
+
+        <RadioButton
+            style="@style/TextColorByRadioButton"
+            android:text="2017-8-21 17：30"
+            android:id="@+id/endTimeByRb" />
+
+    </RadioGroup>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="true"
+        android:paddingLeft="10dp"
+        android:scrollbars="vertical"
+        />
+</LinearLayout>

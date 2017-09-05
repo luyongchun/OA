@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="事项标题:"
+            android:textColor="@color/blue_iii"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_matter_title_rg"
+            android:cursorVisible="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:hint="事项标题"
+            android:imeOptions="actionNext"
+            android:singleLine="true" />
+
+    </LinearLayout>
+
+    <TextView style="@style/HorizontalStyle_i" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="关联流程:"
+            android:textColor="@color/blue_iii"
+            android:textSize="18sp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_flow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_matter_flow_rg"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_flow"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_img_bg"
+                android:padding="5dp"
+                android:src="@mipmap/down" />
+
+            <TextView
+                android:id="@+id/tv_flow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/iv_flow"
+                android:background="@null"
+                android:gravity="center"
+                android:text="请选择请假类型"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <TextView style="@style/HorizontalStyle_i" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="请假理由:"
+            android:textColor="@color/blue_iii"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_cause"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_matter_title_rg"
+            android:cursorVisible="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:hint="请输入请假理由"
+            android:imeOptions="actionNext"
+            android:singleLine="true" />
+
+    </LinearLayout>
+
+    <TextView style="@style/HorizontalStyle_i" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="请假人员:"
+            android:textColor="@color/blue_iii"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_matter_flow_rg"
+            android:cursorVisible="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:hint="伯乐"
+            android:imeOptions="actionNext"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <TextView style="@style/HorizontalStyle_i" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="请假类型:"
+            android:textColor="@color/blue_iii"
+            android:textSize="18sp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_type"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_matter_flow_rg">
+
+            <Spinner
+                android:id="@+id/sp_type"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="请假"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView style="@style/HorizontalStyle_i" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="开始时间:"
+            android:textColor="@color/blue_iii"
+            android:textSize="18sp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_start_time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_matter_flow_rg">
+
+            <ImageView
+                android:id="@+id/iv_i"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_img_bg"
+                android:padding="5dp"
+                android:src="@mipmap/select_time" />
+
+            <TextView
+                android:id="@+id/tv_start_time"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/iv_i"
+                android:gravity="center"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView style="@style/HorizontalStyle_i" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="结束时间:"
+            android:textColor="@color/blue_iii"
+            android:textSize="18sp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_end_time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_matter_flow_rg">
+
+            <ImageView
+                android:id="@+id/iv_ii"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_img_bg"
+                android:padding="5dp"
+                android:src="@mipmap/select_time" />
+
+            <TextView
+                android:id="@+id/tv_end_time"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@id/iv_ii"
+                android:gravity="center"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView style="@style/HorizontalStyle_i" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="请假时长:"
+            android:textColor="@color/blue_iii"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_releas_time"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_matter_title_rg"
+            android:cursorVisible="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:imeOptions="actionNext"
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="小时"
+            android:textColor="@color/blue_iii"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="15dp"
+            android:gravity="bottom"
+            android:text="(精确到半小时)"
+            android:textColor="@color/colorAccent"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_ii" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/split_line"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_discommit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_matter_flow_rg"
+            android:button="@null"
+            android:gravity="center"
+            android:text="取消" />
+
+        <RadioButton
+            android:id="@+id/rb_commit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_matter_flow_rg"
+            android:button="@null"
+            android:gravity="center"
+            android:text="提交" />
+
+    </RadioGroup>
+</LinearLayout>

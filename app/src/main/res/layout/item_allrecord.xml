@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:paddingLeft="5dp"
+    android:paddingRight="10dp"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_height="70dp">
+
+    <LinearLayout
+        android:id="@+id/ll_item"
+        android:orientation="horizontal"
+        android:layout_height="65dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        >
+
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            >
+
+            <ImageView
+                android:id="@+id/iv_userIamge"
+                android:layout_width="25dp"
+                android:scaleType="fitXY"
+                android:layout_margin="2dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/male_employees" />
+
+            <TextView
+                android:id="@+id/tv_user_release"
+                android:layout_width="wrap_content"
+                android:layout_toRightOf="@+id/iv_userIamge"
+                android:background="@drawable/shape_textview_rb"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_margin="2dp"
+                android:text="请假调休"
+                android:padding="3dp" />
+
+            <TextView
+                android:id="@+id/tv_userName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="事假"
+                android:singleLine="true"
+                android:textSize="18sp"
+                android:layout_margin="2dp"
+                android:layout_toRightOf="@+id/tv_user_release"
+                />
+                <RelativeLayout
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_below="@+id/iv_userIamge"
+                    >
+
+                    <RelativeLayout
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:background="@color/color_i"
+                        android:layout_marginRight="5dp"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="已通过"
+                            android:gravity="center"
+                            android:drawableLeft="@mipmap/ok" />
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:src="@mipmap/left_icon"
+                        android:scaleType="fitXY"
+                        android:layout_alignParentRight="true" />
+                </RelativeLayout>
+
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="40dp"
+            android:orientation="vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/iv_start"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/begin" />
+
+            <ImageView
+                android:id="@+id/iv_end"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/end"
+                android:layout_below="@+id/iv_start" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_startTime"
+                android:text="2017年8月22日 8：30"
+                style="@style/RecyclerViewItemTextStyle" />
+            <TextView
+                android:id="@+id/tv_endTime"
+                android:text="2017年8月22日 17：30"
+                style="@style/RecyclerViewItemTextStyle" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray_ii" />
+
+</LinearLayout>

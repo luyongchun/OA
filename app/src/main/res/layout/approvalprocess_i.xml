@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="事项标题:"
+            android:textColor="@color/blue_iii"
+            android:textSize="18sp"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="标题"
+            android:gravity="center"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_matter_title_rg"
+            android:id="@+id/textView4" />
+
+    </LinearLayout>
+
+    <TextView style="@style/HorizontalStyle_i" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="关联流程:"
+            android:textColor="@color/blue_iii"
+            android:textSize="18sp"
+            android:gravity="center" />
+
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_matter_flow_rg">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:padding="5dp"
+                android:background="@drawable/shape_img_bg"
+                android:layout_height="match_parent"
+                android:src="@mipmap/down" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="请假"
+                android:background="@null"
+                android:gravity="center" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <TextView style="@style/HorizontalStyle_i" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="请假理由:"
+            android:textColor="@color/blue_iii"
+            android:textSize="18sp"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="请假理由"
+            android:gravity="center"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_matter_title_rg" />
+
+    </LinearLayout>
+
+    <TextView style="@style/HorizontalStyle_i" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="请假人员:"
+            android:textColor="@color/blue_iii"
+            android:textSize="18sp"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="伯乐"
+            android:gravity="center"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_matter_flow_rg" />
+    </LinearLayout>
+
+    <TextView style="@style/HorizontalStyle_i" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="请假类型:"
+            android:textColor="@color/blue_iii"
+            android:textSize="18sp"
+            android:gravity="center" />
+
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_matter_flow_rg">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:padding="5dp"
+                android:background="@drawable/shape_img_bg"
+                android:layout_height="match_parent"
+                android:src="@mipmap/down" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="请选择请假类型"
+                android:background="@null"
+                android:gravity="center" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView style="@style/HorizontalStyle_i" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="开始时间:"
+            android:textColor="@color/blue_iii"
+            android:textSize="18sp"
+            android:gravity="center" />
+
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_matter_flow_rg">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:padding="5dp"
+                android:background="@drawable/shape_img_bg"
+                android:layout_height="match_parent"
+                android:src="@mipmap/select_time" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView style="@style/HorizontalStyle_i" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="结束时间:"
+            android:textColor="@color/blue_iii"
+            android:textSize="18sp"
+            android:gravity="center" />
+
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_matter_flow_rg">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:padding="5dp"
+                android:background="@drawable/shape_img_bg"
+                android:layout_height="match_parent"
+                android:src="@mipmap/select_time" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView style="@style/HorizontalStyle_i" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="请假时长:"
+            android:textColor="@color/blue_iii"
+            android:textSize="18sp"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_matter_title_rg" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="小时"
+            android:textColor="@color/blue_iii"
+            android:gravity="center"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="(精确到半小时)"
+            android:gravity="bottom"
+            android:textColor="@color/colorAccent"
+            android:layout_marginBottom="15dp"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_ii" />
+</LinearLayout>
