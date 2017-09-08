@@ -131,7 +131,8 @@
                 android:id="@+id/tv_address"
                 style="@style/textView_water"
                 android:drawableLeft="@mipmap/location"
-                android:text="广东省佛山市顺德区大良街道S43广珠西线高速" />
+
+                android:text="广珠西线高速" />
         </LinearLayout>
 
         <RelativeLayout

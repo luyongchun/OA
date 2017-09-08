@@ -4,147 +4,148 @@
     android:id="@+id/activity_attendance"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.luyc.bnd.oaattendnace.activity.AttendanceActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.luyc.bnd.oaattendnace.activity.AttendanceActivity">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp">
+
         <ImageView
             android:id="@+id/iv_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@mipmap/left_i"
             android:layout_marginLeft="10dp"
-            />
+            android:src="@mipmap/left_i" />
+
         <TextView
             android:id="@+id/tv_company"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="佛山市数融通信息科技有限公司"
-            android:singleLine="true"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_toRightOf="@+id/iv_back"
             android:layout_marginLeft="20dp"
-            />
-            />
+            android:layout_toRightOf="@+id/iv_back"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="佛山市数融通信息科技有限公司"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        />
+
         <TextView
             android:id="@+id/tv_help"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="帮助"
-            android:singleLine="true"
-            android:gravity="center"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            />
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="帮助" />
     </RelativeLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/split_line_ii"
-        />
+        android:background="@color/split_line_ii" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp">
+
         <ImageView
             android:id="@+id/iv_header"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
-            android:src="@mipmap/male_employees"
             android:layout_marginLeft="10dp"
-            />
+            android:src="@mipmap/male_employees" />
+
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="2dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/iv_header"
+            android:gravity="center"
+            android:singleLine="true"
             android:text="陆永春"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:singleLine="true"
-            android:gravity="center"
-            android:layout_toRightOf="@+id/iv_header"
-            />
+            android:textStyle="bold" />
         />
 
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="2017.09.01"
-            android:singleLine="true"
-            android:gravity="center"
-            android:layout_margin="5dp"
-            android:padding="5dp"
-            android:background="@drawable/shape_time_bg"
             android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
             android:layout_marginRight="10dp"
-            />
+            android:background="@drawable/shape_time_bg"
+            android:gravity="center"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:text="2017.09.01" />
 
         <TextView
             android:id="@+id/tv_attendance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="考勤组：考勤"
-            android:singleLine="true"
-            android:textSize="12sp"
-            android:textColor="@color/split_line_i"
-            android:gravity="center"
-
-            android:layout_below="@+id/tv_name"
             android:layout_alignLeft="@+id/tv_name"
-            android:layout_alignStart="@+id/tv_name" />
+            android:layout_alignStart="@+id/tv_name"
+            android:layout_below="@+id/tv_name"
+            android:gravity="center"
+            android:singleLine="true"
+
+            android:text="考勤组：考勤"
+            android:textColor="@color/split_line_i"
+            android:textSize="12sp" />
     </RelativeLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/split_line_ii"
-        />
+        android:background="@color/split_line_ii" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="失去一日甚易，欲得回已无途"
-        android:textSize="12sp"
-        android:textColor="@color/split_line_i"
         android:padding="10dp"
-        />
+        android:text="追求卓越，成功就会在不经意间遇上你"
+        android:textColor="@color/split_line_i"
+        android:textSize="12sp" />
 
     <RelativeLayout
+        android:id="@+id/rl_all_card"
         android:layout_width="match_parent"
-        android:background="@color/blue_v"
-        android:layout_height="250dp">
+        android:layout_height="200dp"
+        android:background="@color/blue_v">
+
         <ImageView
             android:id="@+id/iv_go_work"
             android:layout_width="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
             android:layout_height="25dp"
-            android:src="@mipmap/go_work_ii"
-            />
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/go_work_i" />
+
         <TextView
+            android:id="@+id/tv_work_attendace"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:layout_marginTop="10dp"
-            android:text="上班时间 08:30"
-            android:gravity="center"
             android:layout_toRightOf="@+id/iv_go_work"
-            />
+            android:gravity="center"
+            android:text="上班时间08:30" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_centerInParent="true"
-            >
+            android:layout_centerInParent="true">
 
             <RelativeLayout
                 android:id="@+id/rl_card"
-                android:layout_height="200dp"
                 android:layout_width="150dp"
+                android:layout_height="match_parent"
                 android:layout_centerInParent="true">
 
                 <com.luyc.bnd.oaattendnace.view.MyCircleView
@@ -156,15 +157,15 @@
                     android:id="@+id/tv_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:text="上班打卡"
                     android:textColor="@color/white"
-                    android:textSize="15sp"
-                    android:layout_centerInParent="true" />
+                    android:textSize="15sp" />
 
                 <ImageView
-                    android:layout_above="@+id/tv_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_above="@+id/tv_card"
                     android:layout_centerInParent="true"
                     android:src="@mipmap/camera_i" />
 
@@ -172,54 +173,79 @@
                     android:id="@+id/tv_now_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"
-                    android:text="13:53:01"
+                    android:layout_below="@+id/tv_card"
                     android:layout_centerInParent="true"
-                    android:layout_below="@+id/tv_card" />
+                    android:text="13:53:01"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
             </RelativeLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerInParent="true"
-                android:gravity="center"
-                >
+                android:gravity="center">
+
                 <ImageView
+                    android:id="@+id/iv_attendance"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginRight="2dp"
-                    android:src="@mipmap/ok_ii"
+
                     />
+
                 <TextView
+                    android:id="@+id/tv_attendance_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="您已进入考勤范围："
-                    android:textSize="12sp"
-                    />
+                    android:textSize="12sp" />
+
                 <TextView
                     android:id="@+id/tv_address"
-                    android:layout_width="70dp"
-                    android:singleLine="true"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="合耕新村东..."
-                    android:textSize="12sp"
-                    />
+                    android:singleLine="true"
+                    android:textSize="12sp" />
+
                 <TextView
-                    android:id="@+id/tv_location"
-                    android:layout_width="70dp"
-                    android:singleLine="true"
+                    android:id="@+id/tv_again_location"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     android:text="去重新定位"
                     android:textColor="@color/color_iii"
-                    android:textSize="12sp"
-                    />
-
-
+                    android:textSize="12sp" />
             </LinearLayout>
         </RelativeLayout>
 
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:visibility="gone"
+            android:background="@color/split_line_ii" />
+        <include
+            layout="@layout/item_rcv_attendance" />
+
+        <include
+            layout="@layout/item_rcv_ii" />
+
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcv_attendance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/split_line"
+        android:padding="5dp"
+        android:visibility="gone" />
 </LinearLayout>

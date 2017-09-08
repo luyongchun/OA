@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/ll_gowork_i"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:layout_height="30dp">
+            <ImageView
+                android:id="@+id/iv_attend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/go_work_i" />
+            <TextView
+                android:id="@+id/tv_attendance_time"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="打卡时间 08:10" />
+
+            <TextView
+                android:id="@+id/tv_company_work_time"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="(A上班时间08:30)"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_addressed"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:text="S43广珠西线高速21号"
+            android:padding="5dp"
+            android:textSize="12sp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/gray_ii"
+            android:drawableLeft="@mipmap/location_i" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/tv_work_nor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="正常"
+                android:layout_marginLeft="25dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@drawable/shape_attend_nor_bg"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_look"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看备注"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/color_iii"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_updata_attend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更新打卡"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="12sp"
+            android:textColor="@color/color_iii"
+            android:background="@drawable/shape_matter_bg_iii" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="30dp"
+            android:background="@color/split_line_ii" />
+
+</LinearLayout>

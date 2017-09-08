@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -87,6 +88,7 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
     private String TAG = "CustomerCameraActivity";
     public byte[] datas;
     private String nowData;
+    private String address;
     private String nowTime;
     private CameraManager manager;
     private boolean isCamera = false;
@@ -100,14 +102,13 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
         setContentView(R.layout.activity_customer_camera);
         ButterKnife.inject(this);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.CHINA);
-        String now = sdf.format(new Date());
-        nowData = now.substring(0, 11);
-        tvDate.setText(nowData);
-        nowTime = now.substring(11);
-        tvTime.setText(nowTime);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getBundleExtra("bundle");
+        String address = bundle.getString("address");
+        this.address = address;
 
-        suf_camera = (SurfaceView) findViewById(R.id.sfv_camera);
+        Log.e(TAG, "onCreate: address=="+address );
+        initData();
         checkSoftStage();//检查是否有内存卡
 
         suf_camera.setOnClickListener(new View.OnClickListener() {
@@ -131,6 +132,19 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
         surfaceHolder = suf_camera.getHolder();
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);//surfaceview不维护自己的缓存
+    }
+
+
+
+    private void initData() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.CHINA);
+        String now = sdf.format(new Date());
+        nowData = now.substring(0, 11);
+        tvDate.setText(nowData);
+        nowTime = now.substring(11);
+        tvTime.setText(nowTime);
+
+        suf_camera = (SurfaceView) findViewById(R.id.sfv_camera);
     }
 
     @Override
@@ -191,7 +205,7 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
     private void dealWithCameraData(byte[] data) {
         FileOutputStream fos = null;
 //        String filePath = "/sdcard/oa" + System.currentTimeMillis() + ".jpg";
-        String filePath = "/sdcard/oa" + "temp.jpg";
+        String filePath = "/sdcard/oa" + System.currentTimeMillis()+".jpg";
         try {
             File tempFile = new File(filePath);
             if (tempFile.exists()){
@@ -203,10 +217,13 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
             fos.close();
             //启动显示图片的activity
             Intent intent = new Intent(CustomerCameraActivity.this, ResultActivity.class);
-            intent.putExtra("filePath", filePath);
-            intent.putExtra("nowData", nowData);
-            intent.putExtra("nowTime", nowTime);
-            intent.putExtra("isCamera",isCamera);
+            Bundle bundle = new Bundle();
+            bundle.putString("filePath", filePath);
+            bundle.putString("nowData", nowData);
+            bundle.putString("nowTime", nowTime);
+            bundle.putBoolean("isCamera",isCamera);
+            bundle.putString("address",address);
+            intent.putExtra("bundle", bundle);
             startActivity(intent);
             finish();
         } catch (Exception e) {
@@ -276,6 +293,7 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
     @Override
     protected void onResume() {
         super.onResume();
+        tvAddress.setText(this.address);
         getCamera();
         if (surfaceHolder != null) {
             setPrive(camera, surfaceHolder);

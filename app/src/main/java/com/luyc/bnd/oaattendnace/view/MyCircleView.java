@@ -8,6 +8,10 @@ import android.view.View;
 
 import com.luyc.bnd.oaattendnace.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * Created by admin on 2017/9/2.
  */
@@ -40,16 +44,26 @@ public class MyCircleView extends View {
     }
 
     private void initPaint() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH", Locale.CHINA);
+        String now = sdf.format(new Date());
+        int parseTime = Integer.parseInt(now);
         wPaint = new Paint();
         wPaint.setAntiAlias(true);
         wPaint.setDither(true);
         wPaint.setStyle(Paint.Style.STROKE);
-        wPaint.setColor(getResources().getColor(R.color.color_ii));
 
         nPaint = new Paint();
         nPaint.setAntiAlias(true);
         nPaint.setDither(true);
         nPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        nPaint.setColor(getResources().getColor(R.color.color_ii));
+        if (parseTime>12){
+            wPaint.setColor(getResources().getColor(R.color.color_ii));
+            nPaint.setColor(getResources().getColor(R.color.color_ii));
+        }else {
+            wPaint.setColor(getResources().getColor(R.color.color_iii));
+            nPaint.setColor(getResources().getColor(R.color.color_iii));
+        }
     }
+
+
 }

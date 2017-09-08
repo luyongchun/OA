@@ -7,6 +7,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
+import android.view.WindowManager;
 
 /**
  *  图片工具类
@@ -153,11 +154,21 @@ public class ImageUtil {
          */
         public static Bitmap drawTextToRightBottom(Context context, Bitmap bitmap, String text,
                                                    int size, int color, int paddingRight, int paddingBottom) {
+
+            int drawTextWidth = 0;
             Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
             paint.setColor(color);
             paint.setTextSize(dp2px(context, size));
             Rect bounds = new Rect();
-            paint.getTextBounds(text, 0, text.length(), bounds);
+            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+            int width = wm.getDefaultDisplay().getWidth();
+            if (text.length() < width &&text.length()-10<width){
+                drawTextWidth = text.length();
+
+            }else {
+                drawTextWidth = width-20;
+            }
+            paint.getTextBounds(text, 0, drawTextWidth, bounds);
             return drawTextToBitmap(context, bitmap, text, paint, bounds,
                     bitmap.getWidth() - bounds.width() - dp2px(context, paddingRight),
                     bitmap.getHeight() - dp2px(context, paddingBottom));
@@ -176,11 +187,21 @@ public class ImageUtil {
          */
         public static Bitmap drawTextToRightTop(Context context, Bitmap bitmap, String text,
                                                 int size, int color, int paddingRight, int paddingTop) {
+            int drawTextWidth = 0;
             Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
             paint.setColor(color);
             paint.setTextSize(dp2px(context, size));
             Rect bounds = new Rect();
-            paint.getTextBounds(text, 0, text.length(), bounds);
+            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+            int width = wm.getDefaultDisplay().getWidth();
+            if (text.length() < width &&text.length()-10<width){
+                drawTextWidth = text.length();
+
+            }else {
+                drawTextWidth = width-10;
+            }
+
+            paint.getTextBounds(text, 0, drawTextWidth, bounds);
             return drawTextToBitmap(context, bitmap, text, paint, bounds,
                     bitmap.getWidth() - bounds.width() - dp2px(context, paddingRight),
                     dp2px(context, paddingTop) + bounds.height());
