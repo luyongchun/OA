@@ -133,6 +133,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
 
     private PopupWindow popupWindow,mPopupWindow,aPopupWindow;
     private String address;
+    private String mapTime;//地图时间
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
     //声明AMapLocationClientOption对象
@@ -164,7 +165,9 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
     private void initAddressAndView(AMapLocation aMapLocation) {
         address = aMapLocation.getAddress();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.CHINA);
-        String now = sdf.format(new Date(aMapLocation.getTime()));
+        mapTime = sdf.format(new Date(aMapLocation.getTime()));//获取地图时间
+
+        Log.e(TAG, "initAddressAndView: now=="+mapTime );
         String street = aMapLocation.getStreet();//街道
         String streetNum = aMapLocation.getStreetNum();//街道号
 
@@ -174,7 +177,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         LatLng start = new LatLng(22.811404, 113.33247);//固定对比的经度和纬度
         LatLng end = new LatLng(latitude, longitude);
         float v = AMapUtils.calculateLineDistance(start, end);//比较两点之间的距离
-        float v1 = AMapUtils.calculateArea(start, end);
+        float v1 = AMapUtils.calculateArea(start, end);//面积
 
         int distance = (int) getDistance(start, end);
 
@@ -183,7 +186,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
 
         //endgion
         if (!mAddress.equals("")) {
-            if (distance <= 300) {
+            if (distance <= 500) {
                 tvAttendanceAddress.setText("您已进入考勤范围:");
                 tvAddress.setText(mAddress);
                 ivAttendance.setImageResource(R.mipmap.ok_ii);
@@ -246,6 +249,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         ButterKnife.inject(this);
         getSystemTime();
         new TimeThread().start();//开启定时器
+        //初始化地图
         mLocationClient = new AMapLocationClient(this);
         //初始化AMapLocationClientOption对象
         mLocationOption = new AMapLocationClientOption();
@@ -279,13 +283,11 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             llGoworkI.setVisibility(View.VISIBLE);
             llAfterIi.setVisibility(View.GONE);
         } else if (list.size() > 1) {
-//            tvOrizontal.setVisibility(View.VISIBLE);
             tvHorizontal.setVisibility(View.VISIBLE);
             rlAllCard.setVisibility(View.GONE);
             llGoworkI.setVisibility(View.VISIBLE);
             llAfterIi.setVisibility(View.VISIBLE);
         }
-
         rcvAttendance.setLayoutManager(new LinearLayoutManager(this));
         //防止recycleview会因为没有数据报空指针异常而闪退
         if (list != null) {
@@ -438,7 +440,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                 finish();
                 break;
             case R.id.tv_help:
-                showPopupWindow();
+                Toast.makeText(this,"正在努力完善哦",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_again_location:
                 requestLocationAdrees(1);
@@ -485,6 +487,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         }
         Intent intent = new Intent(this, CustomerCameraActivity.class);
         Bundle bundle = new Bundle();
+        bundle.putString("mapTime",mapTime);
         bundle.putString("address", address);
         Log.e(TAG, "setPermision: address" + address);
         intent.putExtra("bundle", bundle);
@@ -496,7 +499,10 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         View view = LayoutInflater.from(this).inflate(R.layout.popupwindows_attendance, null);
         TextView tvColse = (TextView) view.findViewById(R.id.tv_colse);
         ImageView ivBtm = (ImageView) view.findViewById(R.id.iv_btm);
-
+        TextView address = (TextView) view.findViewById(R.id.tv_pop_attendance_address);
+        TextView time = (TextView) view.findViewById(R.id.tv_pop_attendance_time);
+        address.setText(this.address);
+        time.setText(succeedTime);
         ivBtm.setOnClickListener(this);
         tvColse.setOnClickListener(this);
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -530,8 +536,9 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         mPopupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, true);
         tvKnow.setOnClickListener(this);
-        tvSucceed.setText(succeedTime);
-        String str = succeedTime.substring(0, 2);
+        String aTime = mapTime.substring(11, 16);
+        tvSucceed.setText(aTime);
+        String str = mapTime.substring(0, 2);
         int i = Integer.parseInt(str);
         if (i<12 && list.size()<1){
             tvWorkType.setText("上");
@@ -543,7 +550,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             tvHorizontal.setVisibility(View.VISIBLE);
             llAfterIi.setVisibility(View.VISIBLE);
             rlAllCard.setVisibility(View.GONE);
-            tvAttendanceTimeI.setText("打卡时间："+str+succeedTime.substring(2));
+            tvAttendanceTimeI.setText("打卡时间："+aTime);
         }
         setPopupWindow(mPopupWindow, view);
 
@@ -588,6 +595,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             switch (action){
                 case ResultActivity.ACTION:
                     showSucceedPopupWindow();
+                    tvAddressedI.setText(address);
                     break;
 
             }
