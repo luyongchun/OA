@@ -86,7 +86,7 @@
             android:layout_width="match_parent"
             android:gravity="center"
             android:layout_height="wrap_content"
-            android:text="广东省佛山市顺德区大良街道缝沙大道西安交通大学研究院"
+            android:text="广东省佛山市顺德区"
             />
     </LinearLayout>
     <TextView

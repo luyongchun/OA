@@ -1,19 +1,24 @@
 package com.luyc.bnd.oaattendnace.activity;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,6 +47,10 @@ import com.luyc.bnd.oaattendnace.adapter.AttendanceRcvAdapter;
 import com.luyc.bnd.oaattendnace.utils.MyToos;
 import com.luyc.bnd.oaattendnace.view.MyCircleView;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,79 +64,43 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
 
     private static final int REQUEST_TAKE_PHOTO_PERMISSION = 100;
     private static final int REQUEST_LOCATION_PERMISSION = 11;
-    @InjectView(R.id.iv_back)
-    ImageView ivBack;
-    @InjectView(R.id.tv_company)
-    TextView tvCompany;
-    @InjectView(R.id.tv_help)
-    TextView tvHelp;
-    @InjectView(R.id.iv_header)
-    ImageView ivHeader;
-    @InjectView(R.id.tv_name)
-    TextView tvName;
-    @InjectView(R.id.tv_time)
-    TextView tvTime;
-    @InjectView(R.id.tv_attendance)
-    TextView tvAttendance;
-    @InjectView(R.id.iv_go_work)
-    ImageView ivGoWork;
-    @InjectView(R.id.activity_attendance)
-    LinearLayout activityAttendance;
-    @InjectView(R.id.mcv_card)
-    MyCircleView mcvCard;
-    @InjectView(R.id.tv_card)
-    TextView tvCard;
-    @InjectView(R.id.tv_now_time)
-    TextView tvNowTime;
-    @InjectView(R.id.rl_card)
-    RelativeLayout rlCard;
-    @InjectView(R.id.tv_address)
-    TextView tvAddress;
+    @InjectView(R.id.iv_back) ImageView ivBack;
+    @InjectView(R.id.tv_company) TextView tvCompany;
+    @InjectView(R.id.tv_help) TextView tvHelp;
+    @InjectView(R.id.iv_header) ImageView ivHeader;
+    @InjectView(R.id.tv_name) TextView tvName;
+    @InjectView(R.id.tv_time) TextView tvTime;
+    @InjectView(R.id.tv_attendance) TextView tvAttendance;
+    @InjectView(R.id.iv_go_work) ImageView ivGoWork;
+    @InjectView(R.id.activity_attendance) LinearLayout activityAttendance;
+    @InjectView(R.id.mcv_card) MyCircleView mcvCard;
+    @InjectView(R.id.tv_card) TextView tvCard;
+    @InjectView(R.id.tv_now_time) TextView tvNowTime;
+    @InjectView(R.id.rl_card) RelativeLayout rlCard;
+    @InjectView(R.id.tv_address) TextView tvAddress;
 
-    @InjectView(R.id.rcv_attendance)
-    RecyclerView rcvAttendance;
-    @InjectView(R.id.tv_work_attendace)
-    TextView tvWorkAttendace;
-    @InjectView(R.id.tv_again_location)
-    TextView tvAgainLocation;
-    @InjectView(R.id.tv_attendance_address)
-    TextView tvAttendanceAddress;
-    @InjectView(R.id.iv_attendance)
-    ImageView ivAttendance;
-    @InjectView(R.id.rl_all_card)
-    RelativeLayout rlAllCard;
-    @InjectView(R.id.iv_attend)
-    ImageView ivAttend;
-    @InjectView(R.id.tv_attendance_time)
-    TextView tvAttendanceTime;
-    @InjectView(R.id.tv_company_work_time)
-    TextView tvCompanyWorkTime;
-    @InjectView(R.id.tv_addressed)
-    TextView tvAddressed;
-    @InjectView(R.id.tv_work_nor)
-    TextView tvWorkNor;
-    @InjectView(R.id.tv_look)
-    TextView tvLook;
-    @InjectView(R.id.tv_updata_attend)
-    TextView tvUpdataAttend;
-    @InjectView(R.id.iv_attend_i)
-    ImageView ivAttendI;
-    @InjectView(R.id.tv_attendance_time_i)
-    TextView tvAttendanceTimeI;
-    @InjectView(R.id.tv_addressed_i)
-    TextView tvAddressedI;
-    @InjectView(R.id.tv_work_nor_i)
-    TextView tvWorkNorI;
-    @InjectView(R.id.tv_look_i)
-    TextView tvLookI;
-    @InjectView(R.id.tv_updata_attend_i)
-    TextView tvUpdataAttendI;
-    @InjectView(R.id.ll_gowork_i)
-    LinearLayout llGoworkI;
-    @InjectView(R.id.ll_after_ii)
-    LinearLayout llAfterIi;
-    @InjectView(R.id.tv_horizontal)
-    TextView tvHorizontal;
+    @InjectView(R.id.rcv_attendance) RecyclerView rcvAttendance;
+    @InjectView(R.id.tv_work_attendace) TextView tvWorkAttendace;
+    @InjectView(R.id.tv_again_location) TextView tvAgainLocation;
+    @InjectView(R.id.tv_attendance_address) TextView tvAttendanceAddress;
+    @InjectView(R.id.iv_attendance) ImageView ivAttendance;
+    @InjectView(R.id.rl_all_card) RelativeLayout rlAllCard;
+    @InjectView(R.id.iv_attend) ImageView ivAttend;
+    @InjectView(R.id.tv_attendance_time) TextView tvAttendanceTime;
+    @InjectView(R.id.tv_company_work_time) TextView tvCompanyWorkTime;
+    @InjectView(R.id.tv_addressed) TextView tvAddressed;
+    @InjectView(R.id.tv_work_nor) TextView tvWorkNor;
+    @InjectView(R.id.tv_look) TextView tvLook;
+    @InjectView(R.id.tv_updata_attend) TextView tvUpdataAttend;
+    @InjectView(R.id.iv_attend_i) ImageView ivAttendI;
+    @InjectView(R.id.tv_attendance_time_i) TextView tvAttendanceTimeI;
+    @InjectView(R.id.tv_addressed_i) TextView tvAddressedI;
+    @InjectView(R.id.tv_work_nor_i) TextView tvWorkNorI;
+    @InjectView(R.id.tv_look_i) TextView tvLookI;
+    @InjectView(R.id.tv_updata_attend_i) TextView tvUpdataAttendI;
+    @InjectView(R.id.ll_gowork_i) LinearLayout llGoworkI;
+    @InjectView(R.id.ll_after_ii) LinearLayout llAfterIi;
+    @InjectView(R.id.tv_horizontal) TextView tvHorizontal;
 //    @InjectView(R.id.tv_orizontal)
 //    TextView tvOrizontal;
 
@@ -160,7 +133,8 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             }
         }
     };
-    private String succeedTime;
+    private String succeedTime,backAddress = "";;
+    private Dialog dialog;
 
     private void initAddressAndView(AMapLocation aMapLocation) {
         address = aMapLocation.getAddress();
@@ -188,12 +162,22 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         if (!mAddress.equals("")) {
             if (distance <= 300) {
                 tvAttendanceAddress.setText("您已进入考勤范围:");
-                tvAddress.setText(mAddress);
+                if (backAddress.equals("")){
+                    tvAddress.setText(mAddress);
+                }else {
+                    tvAddress.setText(backAddress);
+                }
                 ivAttendance.setImageResource(R.mipmap.ok_ii);
             } else {
                 tvCard.setText("外勤打卡");
                 tvAttendanceAddress.setText("当前不在考勤范围内 ");
-                tvAddress.setText(mAddress);
+//                tvAddress.setText(mAddress);
+                if (backAddress.equals("")){
+                    tvAddress.setText(mAddress);
+                }else {
+                    tvAddress.setText(backAddress);
+                }
+
                 ivAttendance.setImageResource(R.mipmap.warring);
             }
         } else {
@@ -322,7 +306,6 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
-        requestLocationAdrees(1);
     }
 
     @Override
@@ -361,7 +344,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_btm:
-                showImgPopupWindow();
+                dialog.show();
                 break;
             case R.id.tv_colse:
                 popupWindow.dismiss();
@@ -383,7 +366,73 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
+    private void showBigBitmap() {
+        dialog = new Dialog(AttendanceActivity.this, R.style.AlertDialog_AppCompat_Light_);
+        final ImageView imagView = getImagView();
+        dialog.setContentView(imagView);
+        imagView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        imagView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                //弹出的“保存图片”的Dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(AttendanceActivity.this);
+                builder.setItems(new String[]{getResources().getString(R.string.save_picture)}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        saveCroppedImage(((BitmapDrawable) imagView.getDrawable()).getBitmap());
+                    }
+                });
+                builder.show();
+                return true;
+            }
+        });
+    }
 
+    //动态设置iamgview
+    private ImageView getImagView() {
+        ImageView iv = new ImageView(AttendanceActivity.this);
+        iv.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        InputStream is = getResources().openRawResource(R.mipmap.day);
+        Drawable drawable = BitmapDrawable.createFromStream(is, null);
+        iv.setImageDrawable(drawable);
+//        iv.setScaleType(ImageView.ScaleType.FIT_XY);
+        return iv;
+
+    }
+
+    //保存图片
+    private void saveCroppedImage(Bitmap bmp) {
+        File file = new File("/sdcard/myOA");
+        if (!file.exists())
+            file.mkdir();
+
+        file = new File("/sdcard/"+System.currentTimeMillis()+"temp.jpg".trim());
+        String fileName = file.getName();
+        String mName = fileName.substring(0, fileName.lastIndexOf("."));
+        String sName = fileName.substring(fileName.lastIndexOf("."));
+
+        // /sdcard/myFolder/temp_cropped.jpg
+        String newFilePath = "/sdcard/myOA" + "/" + mName + "_cropped" + sName;
+        file = new File(newFilePath);
+        try {
+            file.createNewFile();
+            FileOutputStream fos = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            Toast.makeText(this,"图片保存成功",Toast.LENGTH_SHORT).show();
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
     class TimeThread extends Thread {
         @Override
         public void run() {
@@ -433,12 +482,13 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                 finish();
                 break;
             case R.id.tv_help:
+                showBigBitmap();
                 Toast.makeText(this,"正在努力完善哦",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_again_location:
-                requestLocationAdrees(1);
+//                requestLocationAdrees(1);
                 Intent intent = new Intent(this, MapActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,0);
                 break;
             case R.id.rl_card:
                 setPermision();
@@ -457,6 +507,28 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                 break;
 
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (data!=null){
+            backAddress = data.getStringExtra("address");
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case 0:
+                if (!backAddress.equals("")){
+                    tvAddress.setText(backAddress);
+                }else if (!address.equals("")){
+                    tvAddress.setText(address);
+                }else {
+                    tvAddress.setText("");
+                }
+                break;
+
+        }
+
     }
 
     private void setPermision() {
@@ -483,7 +555,11 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         Intent intent = new Intent(this, CustomerCameraActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("mapTime",mapTime);
-        bundle.putString("address", address);
+        if (backAddress.equals("")){
+            bundle.putString("address", address);
+        }else {
+            bundle.putString("address", backAddress);
+        }
         Log.e(TAG, "setPermision: address" + address);
         intent.putExtra("bundle", bundle);
         startActivity(intent);
@@ -504,15 +580,14 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                 ViewGroup.LayoutParams.WRAP_CONTENT, true);
         tvColse.setOnClickListener(this);
         setPopupWindow(popupWindow, view);
-
+        showBigBitmap();
     }
     private void showImgPopupWindow() {
-
         View view = LayoutInflater.from(this).inflate(R.layout.popupwindows_img, null);
         ImageView img = (ImageView) view.findViewById(R.id.iv_img);
         img.setOnClickListener(this);
-        iPopupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        iPopupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT, false);
         setPopupWindow(iPopupWindow, view);
 
     }
@@ -600,7 +675,10 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             switch (action){
                 case ResultActivity.ACTION:
                     showSucceedPopupWindow();
-                    tvAddressedI.setText(address);
+                    if (backAddress.equals(""))
+                        tvAddressedI.setText(address);
+                    else
+                        tvAddressedI.setText(backAddress);
                     break;
             }
         }

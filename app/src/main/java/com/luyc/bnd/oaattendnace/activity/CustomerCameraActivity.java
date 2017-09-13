@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Display;
 import android.view.SurfaceHolder;
@@ -138,13 +139,6 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
 
 
     private void initData(String mapTime) {
-
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.CHINA);
-//        String aNow = sdf.format(new Date());
-//        String mTime = aNow.substring(0, 15);
-//        if (mapTime.equals("") && !str.equals(mTime)){
-//
-//        }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.CHINA);
         String now = sdf.format(new Date());
         nowData = now.substring(0, 11);
@@ -218,17 +212,25 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
     }
 
     private void dealWithCameraData(byte[] data) {
-        FileOutputStream fos = null;
-//        String filePath = "/sdcard/oa" + System.currentTimeMillis() + ".jpg";
-        String filePath = "/sdcard/oa" + System.currentTimeMillis()+".jpg";
+
+        File file = new File("/sdcard/myOA");
+        if (!file.exists())
+            file.mkdir();
+        long currentTimeMillis = System.currentTimeMillis();
+        CharSequence sysTimeStr = DateFormat.format("MM.dd-HH:mm:ss",currentTimeMillis);
+        file = new File("/sdcard/"+sysTimeStr+"_oa.jpg".trim());
+        String fileName = file.getName();
+        String mName = fileName.substring(0, fileName.lastIndexOf("."));
+        String sName = fileName.substring(fileName.lastIndexOf("."));
+
+        // /sdcard/myFolder/temp_cropped.jpg
+        String filePath = "/sdcard/myOA" + "/" + mName + "_cropped" + sName;
+        file = new File(filePath);
         try {
-            File tempFile = new File(filePath);
-            if (tempFile.exists()){
-                tempFile.delete();
-                tempFile.createNewFile();
-            }
-            fos = new FileOutputStream(tempFile);
-            fos.write(data); //保存图片数据
+            file.createNewFile();
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(data);
+            fos.flush();
             fos.close();
             //启动显示图片的activity
             Intent intent = new Intent(CustomerCameraActivity.this, ResultActivity.class);
@@ -241,9 +243,37 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
             intent.putExtra("bundle", bundle);
             startActivity(intent);
             finish();
-        } catch (Exception e) {
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+//        FileOutputStream fos = null;
+//        String filePath = "/sdcard/oa" +"/"+ System.currentTimeMillis() + ".jpg";
+//
+//        try {
+//            File tempFile = new File(filePath);
+//            if (tempFile.exists()){
+//                tempFile.delete();
+//                tempFile.mkdirs();
+//            }
+//            fos = new FileOutputStream(tempFile);
+//            fos.write(data); //保存图片数据
+//            fos.close();
+//            //启动显示图片的activity
+//            Intent intent = new Intent(CustomerCameraActivity.this, ResultActivity.class);
+//            Bundle bundle = new Bundle();
+//            bundle.putString("filePath", filePath);
+//            bundle.putString("nowData", nowData);
+//            bundle.putString("nowTime", nowTime);
+//            bundle.putBoolean("isCamera",isCamera);
+//            bundle.putString("address",address);
+//            intent.putExtra("bundle", bundle);
+//            startActivity(intent);
+//            finish();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     /**

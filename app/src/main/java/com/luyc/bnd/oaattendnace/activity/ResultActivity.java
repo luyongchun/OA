@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.luyc.bnd.oaattendnace.R;
 import com.luyc.bnd.oaattendnace.utils.ImageUtil;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -105,19 +107,19 @@ public class ResultActivity extends AppCompatActivity {
 
         Log.e(TAG, "showPic2ImageView: drawTextWidth//width//bitmap.getWidth()"
                 +drawTextWidth+"//"+ width+"//"+bitmap.getWidth());
-        if (drawTextWidth>350){
-            userLocation=userLocation.substring(0,27);
-            userLocation=userLocation+"...";
-        }
+//        if (drawTextWidth>350){
+//            userLocation=userLocation.substring(0,27);
+//            userLocation=userLocation+"...";
+//        }
         Bitmap btm4 = ImageUtil.drawTextToRightBottom(this, btm2, userLocation, 22, Color.WHITE, 10, 20);
 
         Bitmap btm5 = ImageUtil.drawTextToRightBottom(this, btm4, userName, 22, Color.WHITE, 20, 50);
 
         Bitmap btm = ImageUtil.createWaterMaskRightBottom(this, btm5,
-                BitmapFactory.decodeResource(getResources(), R.mipmap.location), ((int) ImageUtil.drawTextWidth(userLocation))*2-40, 18);
+                BitmapFactory.decodeResource(getResources(), R.mipmap.location_ii), ((int) ImageUtil.drawTextWidth(userLocation))*2, 18);
 
         return ImageUtil.createWaterMaskRightBottom(this, btm,
-                BitmapFactory.decodeResource(getResources(), R.mipmap.me), ((int) ImageUtil.drawTextWidth(userName))*2+10, 48);
+                BitmapFactory.decodeResource(getResources(), R.mipmap.me_ii), ((int) ImageUtil.drawTextWidth(userName))*2+10, 48);
     }
 
 
@@ -136,17 +138,32 @@ public class ResultActivity extends AppCompatActivity {
             case R.id.tv_user_photo:
                 Intent receiver = new Intent(ACTION);
                 sendBroadcast(receiver);
-                FileOutputStream fos = null;
+
+                File file = new File("/sdcard/myOA");
+                if (!file.exists())
+                    file.mkdir();
+                long currentTimeMillis = System.currentTimeMillis();
+                CharSequence sysTimeStr = DateFormat.format("MM.dd-HH.mm.ss",currentTimeMillis);
+
+                file = new File("/sdcard/"+ sysTimeStr +"_oa.jpg".trim());
+                String fileName = file.getName();
+                String mName = fileName.substring(0, fileName.lastIndexOf("."));
+                String sName = fileName.substring(fileName.lastIndexOf("."));
+
+                // /sdcard/myFolder/temp_cropped.jpg
+                String filePath = "/sdcard/myOA" + "/" + mName + "_cropped" + sName;
+                file = new File(filePath);
                 try {
-                    fos = new FileOutputStream(filePath);
+                    file.createNewFile();
+                    FileOutputStream fos = new FileOutputStream(file);
                     btm3.compress(Bitmap.CompressFormat.JPEG,100,fos);
+                    fos.flush();
                     fos.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    finish();
                 } catch (IOException e) {
+                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                finish();
                 break;
         }
     }

@@ -1,6 +1,7 @@
 package com.luyc.bnd.oaattendnace.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -25,6 +26,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.TextureMapView;
@@ -72,31 +74,35 @@ public class MapActivity extends AppCompatActivity implements
     EditText etRemarks;
     @InjectView(R.id.ll_attendance)
     LinearLayout llAttendance;
-
+    private UiSettings mUiSettings;
+    private AMap aMap;
+    private OnLocationChangedListener mListener;
+    private TextureMapView mv;
+    private  String nowTime,address ;
+    private String mapTime;
+    private Circle circle;
+    // 标识首次定位
+    private boolean isFirstLocation = true;
 
     private String TAG = "MapActivity";
     //声明定位回调监听器
     public AMapLocationListener mLocationListener = new AMapLocationListener() {
 
-        private Circle circle;
+
 
         @Override
         public void onLocationChanged(AMapLocation aMapLocation) {
             //可在其中解析amapLocation获取相应内容。
             if (aMapLocation != null) {
                 if (aMapLocation.getErrorCode() == 0) {
-                    String address = aMapLocation.getAddress();
-//                    SimpleDateFormat df = new SimpleDateFormat("HH:mm");
-//                    Date date = new Date(aMapLocation.getTime());
-//                    String time = df.format(date);//定位时间
-//                    String hour = time.substring(0, 2);
-//                    String min = time.substring(2);
-//
-//                    int Hour = Integer.parseInt(hour);
-//                    int Min = Integer.parseInt(min);
+                  address = aMapLocation.getAddress();
                     if (circle != null) {
                         circle.remove();
                     }
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.CHINA);
+                    mapTime = sdf.format(new Date(aMapLocation.getTime()));//获取地图时间
+                    String street = aMapLocation.getStreet();//街道
+                    String streetNum = aMapLocation.getStreetNum();//街道号
                     double latitude = aMapLocation.getLatitude();//经度
                     double longitude = aMapLocation.getLongitude();//纬度
                     LatLng start = new LatLng(22.811404, 113.33247);//考勤经纬度
@@ -119,16 +125,28 @@ public class MapActivity extends AppCompatActivity implements
                         mListener.onLocationChanged(aMapLocation);
                         isFirstLocation = false;
                     }
+
                     tvAddress.setText(address);
 
-//                    float width = AMapUtils.calculateLineDistance(start, end);//比较两点之间的距离
-//                    if (Hour<= 8 && Min<=30 || Hour>=17 && Min >=30){
-//                        setNormalAttendance(width, "正常打卡", "正常", R.drawable.shape_attend_nor_bg);
-//                    }else if (Hour<= 8 && Min>30){
-//                        setLateAttdence(width, "迟到打卡", "迟到");
-//                    }else if (Hour<17 || Hour==17 && Min<30){
-//                        setLeaveEarlyAttdence(width, "早退打卡", "早退");
-//                    }
+
+                    Intent intent = new Intent();
+                    String mAddress = street + streetNum;
+                    intent.putExtra("address",mAddress);
+                    MapActivity.this.setResult(0,intent);
+
+                    String mHour = nowTime.substring(0, 2);
+                    String mMin = nowTime.substring(3, 5);
+                    int Hour = Integer.parseInt(mHour);
+                    int Min = Integer.parseInt(mMin);
+                    float width = AMapUtils.calculateLineDistance(start, end);//比较两点之间的距离
+
+                    if (Hour<= 8 && Min<=30 || Hour>=17 && Min >=30){
+                        setNormalAttendance(width, "正常打卡", "正常", R.drawable.shape_attend_nor_bg);
+                    }else if (Hour<= 8 && Min>30){
+                        setLateAttdence(width, "迟到打卡", "迟到");
+                    }else if (Hour<17 || Hour==17 && Min<30){
+                        setLeaveEarlyAttdence(width, "早退打卡", "早退");
+                    }
 
                 } else {
                     //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
@@ -142,14 +160,14 @@ public class MapActivity extends AppCompatActivity implements
 
     private void setLeaveEarlyAttdence(float width, String leaveEarly, String label) {
         if (width <= 300) {
-            tvInAttendance.setText("在");
+            tvInAttendance.setText("(在");
             tvAttendance.setText(leaveEarly);
             tvNorAttendance.setText(label);
             Drawable drawable = getResources().getDrawable(R.drawable.shape_attend_late_bg);
             tvNorAttendance.setBackgroundDrawable(drawable);
             llAttendance.setBackgroundDrawable(drawable);
         } else {
-            tvInAttendance.setText("不在");
+            tvInAttendance.setText("(不在");
             tvAttendance.setText("外勤打卡");
             tvNorAttendance.setText(label);
             Drawable drawable = getResources().getDrawable(R.drawable.shape_attend_late_bg);
@@ -178,14 +196,14 @@ public class MapActivity extends AppCompatActivity implements
 
     private void setNormalAttendance(float width, String normal, String label, int shape_attend_nor_bg) {
         if (width <= 300) {
-            tvInAttendance.setText("在");
+            tvInAttendance.setText("(在");
             tvAttendance.setText(normal);
             tvNorAttendance.setText(label);
             Drawable drawable = getResources().getDrawable(shape_attend_nor_bg);
             tvNorAttendance.setBackgroundDrawable(drawable);
             llAttendance.setBackgroundDrawable(drawable);
         } else {
-            tvInAttendance.setText("不在");
+            tvInAttendance.setText("(不在");
             tvAttendance.setText("外勤打卡");
             tvNorAttendance.setText(label);
             Drawable drawable = getResources().getDrawable(R.drawable.shape_attend_late_bg);
@@ -193,13 +211,22 @@ public class MapActivity extends AppCompatActivity implements
             llAttendance.setBackgroundDrawable(drawable);
         }
     }
+    private void openCCActivity() {
+        if (address == null) {
+            Toast.makeText(this, "当前获取到的地址为空，请您重新定位", Toast.LENGTH_LONG).show();
+            return;
+        }
+        Intent intent = new Intent(this, CustomerCameraActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("mapTime",mapTime);
 
-    private UiSettings mUiSettings;
-    private AMap aMap;
-    private OnLocationChangedListener mListener;
-    private TextureMapView mv;
-    // 标识首次定位
-    private boolean isFirstLocation = true;
+        bundle.putString("address", address);
+
+        Log.e(TAG, "setPermision: address" + address);
+        intent.putExtra("bundle", bundle);
+        startActivity(intent);
+    }
+
 
     private Handler handler = new Handler() {
         @Override
@@ -223,8 +250,9 @@ public class MapActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         ButterKnife.inject(this);
+
         getSystemTime();
-        new TimeThread().start();
+        new TimeThread().start();//开启定时器
         initMap(savedInstanceState);
         setStyle();
         requestLocationAdrees(-1);
@@ -235,8 +263,8 @@ public class MapActivity extends AppCompatActivity implements
 
     private void getSystemTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
-        String now = sdf.format(new Date());
-        tvTime.setText(now);
+        nowTime = sdf.format(new Date());
+        tvTime.setText(nowTime);
     }
 
     class TimeThread extends Thread {
@@ -296,7 +324,20 @@ public class MapActivity extends AppCompatActivity implements
         super.onSaveInstanceState(outState);
         mv.onSaveInstanceState(outState);
     }
-
+    private void setPermision() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            //申请权限，REQUEST_TAKE_PHOTO_PERMISSION是自定义的常量
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA}, 2);
+        } else {
+            if (address == null) {
+                Toast.makeText(this, "没有获取到当前位置信息，请您重新定位", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            openCCActivity();
+        }
+    }
     private void set() {
         mUiSettings.setZoomControlsEnabled(true);
         mUiSettings.setCompassEnabled(true);//指南针
@@ -362,7 +403,7 @@ public class MapActivity extends AppCompatActivity implements
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
 
         // 设置定位间隔,单位毫秒,默认为2000ms，最低1000ms。
-        mLocationOption.setInterval(1000);
+        mLocationOption.setInterval(2000);
 
 //        设置是否返回地址信息（默认返回地址信息）
         mLocationOption.setNeedAddress(true);
@@ -379,11 +420,12 @@ public class MapActivity extends AppCompatActivity implements
 
     }
 
-    @OnClick({R.id.tv_attendance, R.id.tv_again_location})
+    @OnClick({ R.id.tv_again_location,R.id.ll_attendance})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.tv_attendance:
-
+            case R.id.ll_attendance:
+                setPermision();
+                finish();  
                 break;
             case R.id.tv_again_location:
                 requestLocationAdrees(1);
@@ -405,6 +447,16 @@ public class MapActivity extends AppCompatActivity implements
                     Toast.makeText(this, "请您先开启定位权限！", Toast.LENGTH_SHORT).show();
                 }
                 break;
+
+            case 2:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openCCActivity();
+                } else {
+                    Toast.makeText(this, "请您先开启照相机权限！", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -433,4 +485,8 @@ public class MapActivity extends AppCompatActivity implements
         }
         mLocationClient = null;
     }
+
+
+
+
 }
