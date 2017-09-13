@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -40,6 +39,7 @@ import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.model.LatLng;
 import com.luyc.bnd.oaattendnace.R;
 import com.luyc.bnd.oaattendnace.adapter.AttendanceRcvAdapter;
+import com.luyc.bnd.oaattendnace.utils.MyToos;
 import com.luyc.bnd.oaattendnace.view.MyCircleView;
 
 import java.text.SimpleDateFormat;
@@ -131,7 +131,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
 //    @InjectView(R.id.tv_orizontal)
 //    TextView tvOrizontal;
 
-    private PopupWindow popupWindow,mPopupWindow,aPopupWindow;
+    private PopupWindow popupWindow,mPopupWindow,aPopupWindow,iPopupWindow;
     private String address;
     private String mapTime;//地图时间
     //声明AMapLocationClient类对象
@@ -186,7 +186,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
 
         //endgion
         if (!mAddress.equals("")) {
-            if (distance <= 500) {
+            if (distance <= 300) {
                 tvAttendanceAddress.setText("您已进入考勤范围:");
                 tvAddress.setText(mAddress);
                 ivAttendance.setImageResource(R.mipmap.ok_ii);
@@ -303,7 +303,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             //初始化AMapLocationClientOption对象
             mLocationOption = new AMapLocationClientOption();
         }
-        if (isLOLLIPOP()) {
+        if (MyToos.isLOLLIPOP()) {
             if (ContextCompat.checkSelfPermission(AttendanceActivity.this,
                     Manifest.permission.ACCESS_COARSE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -322,6 +322,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
+        requestLocationAdrees(1);
     }
 
     @Override
@@ -332,6 +333,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void initLocationValues() {
+
         mLocationClient.setLocationListener(mLocationListener);
         //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
@@ -344,34 +346,22 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         //单位是毫秒，默认30000毫秒，建议超时时间不要低于8000毫秒。
         mLocationOption.setHttpTimeOut(20000);
         //关闭缓存机制
-        mLocationOption.setLocationCacheEnable(false);
+        mLocationOption.setLocationCacheEnable(true);
 
         //给定位客户端对象设置定位参数
         mLocationClient.setLocationOption(mLocationOption);
         //启动定位
         mLocationClient.startLocation();
-        Toast.makeText(this, "正在定位，请稍等...", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "正在定位，请稍等...", Toast.LENGTH_SHORT).show();
 
     }
 
-    /**
-     * 判断Android系统版本是否 >= LOLLIPOP(API21)
-     *
-     * @return boolean
-     */
-    private boolean isLOLLIPOP() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_btm:
-                Toast.makeText(this, "111", Toast.LENGTH_SHORT).show();
+                showImgPopupWindow();
                 break;
             case R.id.tv_colse:
                 popupWindow.dismiss();
@@ -385,6 +375,9 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             case R.id.tv_updata:
                 setPermision();
                 aPopupWindow.dismiss();
+                break;
+            case R.id.iv_img:
+                iPopupWindow.dismiss();
                 break;
 
         }
@@ -444,6 +437,8 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.tv_again_location:
                 requestLocationAdrees(1);
+                Intent intent = new Intent(this, MapActivity.class);
+                startActivity(intent);
                 break;
             case R.id.rl_card:
                 setPermision();
@@ -511,6 +506,16 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         setPopupWindow(popupWindow, view);
 
     }
+    private void showImgPopupWindow() {
+
+        View view = LayoutInflater.from(this).inflate(R.layout.popupwindows_img, null);
+        ImageView img = (ImageView) view.findViewById(R.id.iv_img);
+        img.setOnClickListener(this);
+        iPopupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        setPopupWindow(iPopupWindow, view);
+
+    }
     private void showUpdataPopupWindow() {
 
         View view = LayoutInflater.from(this).inflate(R.layout.popup_updata_attendance, null);
@@ -550,7 +555,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             tvHorizontal.setVisibility(View.VISIBLE);
             llAfterIi.setVisibility(View.VISIBLE);
             rlAllCard.setVisibility(View.GONE);
-            tvAttendanceTimeI.setText("打卡时间："+aTime);
+            tvAttendanceTimeI.setText("打卡时间"+aTime);
         }
         setPopupWindow(mPopupWindow, view);
 
@@ -597,9 +602,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                     showSucceedPopupWindow();
                     tvAddressedI.setText(address);
                     break;
-
             }
-
         }
 
     };

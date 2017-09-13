@@ -105,10 +105,11 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("bundle");
         String address = bundle.getString("address");
+        String mapTime = bundle.getString("mapTime");
         this.address = address;
 
         Log.e(TAG, "onCreate: address=="+address );
-        initData();
+        initData(mapTime);
         checkSoftStage();//检查是否有内存卡
 
         suf_camera.setOnClickListener(new View.OnClickListener() {
@@ -136,13 +137,27 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
 
 
 
-    private void initData() {
+    private void initData(String mapTime) {
+
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.CHINA);
+//        String aNow = sdf.format(new Date());
+//        String mTime = aNow.substring(0, 15);
+//        if (mapTime.equals("") && !str.equals(mTime)){
+//
+//        }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.CHINA);
         String now = sdf.format(new Date());
         nowData = now.substring(0, 11);
-        tvDate.setText(nowData);
         nowTime = now.substring(11);
-        tvTime.setText(nowTime);
+        if (!mapTime.equals("")){
+            nowData = mapTime.substring(0, 11);
+            nowTime = mapTime.substring(11,16);
+            tvDate.setText(nowData);
+            tvTime.setText(nowTime);
+        }else {
+            tvDate.setText(nowData);
+            tvTime.setText(nowTime);
+        }
 
         suf_camera = (SurfaceView) findViewById(R.id.sfv_camera);
     }
@@ -333,17 +348,7 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
                 finish();
                 break;
             case R.id.cb_light:
-                Camera.Parameters parameters = camera.getParameters();
-                if(mIsOpenFlashMode){
-                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-                    camera.setParameters(parameters);
-                    mIsOpenFlashMode =false;
-                } else{
-                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                    camera.setParameters(parameters);
-                    mIsOpenFlashMode =true;
-                }
-                setPrive(camera,surfaceHolder);//重新预览相机
+                switchLight();
                 break;
             case R.id.btn_switch:
                 switchCamera();
@@ -353,9 +358,24 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
         }
     }
 
+    //闪光灯的切换
+    private void switchLight() {
+        Camera.Parameters parameters = camera.getParameters();
+        if(mIsOpenFlashMode){
+            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+            camera.setParameters(parameters);
+            mIsOpenFlashMode =false;
+        } else{
+            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+            camera.setParameters(parameters);
+            mIsOpenFlashMode =true;
+        }
+        setPrive(camera,surfaceHolder);//重新预览相机
+    }
 
+    //切换前后摄像头
     private void switchCamera() {
-        //切换前后摄像头
+
         int cameraCount = 0;
         cameraCount = Camera.getNumberOfCameras();//获取摄像头个数
         for (int i = 0; i < cameraCount; i++) {
@@ -399,21 +419,6 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
             }
         }
     }
-
-    /**
-     * @Description:  设置开启闪光灯(重新预览)
-     * @Since:2015-8-12
-     * @Version:1.1.0
-     * @param mIsOpenFlashMode
-     */
-    public void setIsOpenFlashMode(boolean mIsOpenFlashMode) {
-        if(mIsOpenFlashMode)
-            this.isOpenFlashMode = Camera.Parameters.FLASH_MODE_ON;
-        else
-            this.isOpenFlashMode =  Camera.Parameters.FLASH_MODE_OFF;;
-        setPrive(camera,surfaceHolder);//重新预览相机
-    }
-
 
     /**
      * 检测手机是否存在SD卡,网络连接是否打开

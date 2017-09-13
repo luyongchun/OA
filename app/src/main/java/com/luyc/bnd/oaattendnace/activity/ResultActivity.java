@@ -63,6 +63,7 @@ public class ResultActivity extends AppCompatActivity {
         address = bundle.getString("address");
         isCamera = bundle.getBoolean("isCamera");
         userLocation =address;
+
         Log.e(TAG, "onCreate:address== "+address );
         showPic2ImageView(filePath);
 
@@ -82,6 +83,7 @@ public class ResultActivity extends AppCompatActivity {
                 }else {
                     matrix.setRotate(90);
                 }
+                //给照片打上水印
                 btm3 = drawWaterBitmap(width, bitmap, matrix);
                 sfvCamera.setImageBitmap(btm3);
 
@@ -126,13 +128,14 @@ public class ResultActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, CustomerCameraActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("address",address);
+                bundle.putString("mapTime",nowData+nowTime);
                 intent.putExtra("bundle", bundle);
                 startActivity(intent);
                 finish();
                 break;
             case R.id.tv_user_photo:
-                Intent intent1 = new Intent(ACTION);
-                sendBroadcast(intent1);
+                Intent receiver = new Intent(ACTION);
+                sendBroadcast(receiver);
                 FileOutputStream fos = null;
                 try {
                     fos = new FileOutputStream(filePath);

@@ -36,44 +36,25 @@ import butterknife.Optional;
 
 public class ReleaseActivity extends AppCompatActivity {
 
-    @InjectView(R.id.ll_releas_back)
-    LinearLayout llReleasBack;
-    @InjectView(R.id.id_process)
-    ProcessView idProcess;
-    @InjectView(R.id.et_title)
-    EditText etTitle;
-    @InjectView(R.id.rl_flow)
-    RelativeLayout rlFlow;
-    @InjectView(R.id.et_cause)
-    EditText etCause;
-    @InjectView(R.id.et_name)
-    EditText etName;
-    @InjectView(R.id.rl_type)
-    RelativeLayout rlType;
-    @InjectView(R.id.tv_start_time)
-    TextView tvStartTime;
-    @InjectView(R.id.rl_start_time)
-    RelativeLayout rlStartTime;
-    @InjectView(R.id.tv_end_time)
-    TextView tvEndTime;
-    @InjectView(R.id.rl_end_time)
-    RelativeLayout rlEndTime;
-    @InjectView(R.id.et_releas_time)
-    EditText etReleasTime;
-    @InjectView(R.id.rb_discommit)
-    RadioButton rbDiscommit;
-    @InjectView(R.id.rb_commit)
-    RadioButton rbCommit;
-    @InjectView(R.id.iv_i)
-    ImageView ivI;
-    @InjectView(R.id.iv_ii)
-    ImageView ivIi;
-    @InjectView(R.id.sp_type)
-    Spinner spType;
-    @InjectView(R.id.tv_flow)
-    TextView tvFlow;
-    @InjectView(R.id.tv_bartop)
-    TextView tvBartop;
+    @InjectView(R.id.ll_releas_back) LinearLayout llReleasBack;
+    @InjectView(R.id.id_process) ProcessView idProcess;
+    @InjectView(R.id.et_title) EditText etTitle;
+    @InjectView(R.id.rl_flow) RelativeLayout rlFlow;
+    @InjectView(R.id.et_cause) EditText etCause;
+    @InjectView(R.id.et_name) EditText etName;
+    @InjectView(R.id.rl_type) RelativeLayout rlType;
+    @InjectView(R.id.tv_start_time) TextView tvStartTime;
+    @InjectView(R.id.rl_start_time) RelativeLayout rlStartTime;
+    @InjectView(R.id.tv_end_time) TextView tvEndTime;
+    @InjectView(R.id.rl_end_time) RelativeLayout rlEndTime;
+    @InjectView(R.id.et_releas_time) EditText etReleasTime;
+    @InjectView(R.id.rb_discommit) RadioButton rbDiscommit;
+    @InjectView(R.id.rb_commit) RadioButton rbCommit;
+    @InjectView(R.id.iv_i) ImageView ivI;
+    @InjectView(R.id.iv_ii) ImageView ivIi;
+    @InjectView(R.id.sp_type) Spinner spType;
+    @InjectView(R.id.tv_flow) TextView tvFlow;
+    @InjectView(R.id.tv_bartop) TextView tvBartop;
 
     private CustomDatePicker customDatePicker1, customDatePicker2;
     private String TAG = "ReleaseActivity";
