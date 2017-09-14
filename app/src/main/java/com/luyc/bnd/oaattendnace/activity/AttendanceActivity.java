@@ -133,7 +133,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             }
         }
     };
-    private String succeedTime,backAddress = "";;
+    private String succeedTime,backAddress = "",mapAddress="";;
     private Dialog dialog;
 
     private void initAddressAndView(AMapLocation aMapLocation) {
@@ -160,22 +160,22 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
 
         //endgion
         if (!mAddress.equals("")) {
-            if (distance <= 300) {
+            if (distance <= 400) {
                 tvAttendanceAddress.setText("您已进入考勤范围:");
-                if (backAddress.equals("")){
+                if (mapAddress.equals("")){
                     tvAddress.setText(mAddress);
                 }else {
-                    tvAddress.setText(backAddress);
+                    tvAddress.setText(mapAddress);
                 }
                 ivAttendance.setImageResource(R.mipmap.ok_ii);
             } else {
                 tvCard.setText("外勤打卡");
                 tvAttendanceAddress.setText("当前不在考勤范围内 ");
 //                tvAddress.setText(mAddress);
-                if (backAddress.equals("")){
+                if (mapAddress.equals("")){
                     tvAddress.setText(mAddress);
                 }else {
-                    tvAddress.setText(backAddress);
+                    tvAddress.setText(mapAddress);
                 }
 
                 ivAttendance.setImageResource(R.mipmap.warring);
@@ -321,7 +321,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         //设置定位间隔,单位毫秒,默认为2000ms，最低1000ms。
-        mLocationOption.setInterval(1000);
+        mLocationOption.setInterval(2000);
 
         //设置是否返回地址信息（默认返回地址信息）
         mLocationOption.setNeedAddress(true);
@@ -329,7 +329,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         //单位是毫秒，默认30000毫秒，建议超时时间不要低于8000毫秒。
         mLocationOption.setHttpTimeOut(20000);
         //关闭缓存机制
-        mLocationOption.setLocationCacheEnable(true);
+        mLocationOption.setLocationCacheEnable(false);
 
         //给定位客户端对象设置定位参数
         mLocationClient.setLocationOption(mLocationOption);
@@ -398,7 +398,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         ImageView iv = new ImageView(AttendanceActivity.this);
         iv.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
-        InputStream is = getResources().openRawResource(R.mipmap.day);
+        InputStream is = getResources().openRawResource(R.mipmap.ic_launcher);
         Drawable drawable = BitmapDrawable.createFromStream(is, null);
         iv.setImageDrawable(drawable);
 //        iv.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -482,8 +482,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                 finish();
                 break;
             case R.id.tv_help:
-                showBigBitmap();
-                Toast.makeText(this,"正在努力完善哦",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"正在努力建设哦",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_again_location:
 //                requestLocationAdrees(1);
@@ -514,12 +513,13 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
 
         if (data!=null){
             backAddress = data.getStringExtra("address");
+            mapAddress = data.getStringExtra("mAddress");
         }
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case 0:
-                if (!backAddress.equals("")){
-                    tvAddress.setText(backAddress);
+                if (!mapAddress.equals("")){
+                    tvAddress.setText(mapAddress);
                 }else if (!address.equals("")){
                     tvAddress.setText(address);
                 }else {
@@ -530,7 +530,6 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         }
 
     }
-
     private void setPermision() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -560,6 +559,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         }else {
             bundle.putString("address", backAddress);
         }
+
         Log.e(TAG, "setPermision: address" + address);
         intent.putExtra("bundle", bundle);
         startActivity(intent);

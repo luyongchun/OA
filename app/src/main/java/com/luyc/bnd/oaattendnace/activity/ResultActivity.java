@@ -116,10 +116,10 @@ public class ResultActivity extends AppCompatActivity {
         Bitmap btm5 = ImageUtil.drawTextToRightBottom(this, btm4, userName, 22, Color.WHITE, 20, 50);
 
         Bitmap btm = ImageUtil.createWaterMaskRightBottom(this, btm5,
-                BitmapFactory.decodeResource(getResources(), R.mipmap.location_ii), ((int) ImageUtil.drawTextWidth(userLocation))*2, 18);
+                BitmapFactory.decodeResource(getResources(), R.mipmap.location_ii), ((int) ImageUtil.drawTextWidth(userLocation))*2-40, 18);
 
         return ImageUtil.createWaterMaskRightBottom(this, btm,
-                BitmapFactory.decodeResource(getResources(), R.mipmap.me_ii), ((int) ImageUtil.drawTextWidth(userName))*2+10, 48);
+                BitmapFactory.decodeResource(getResources(), R.mipmap.me_ii), ((int) ImageUtil.drawTextWidth(userName))*2+15, 48);
     }
 
 
@@ -139,7 +139,7 @@ public class ResultActivity extends AppCompatActivity {
                 Intent receiver = new Intent(ACTION);
                 sendBroadcast(receiver);
 
-                File file = new File("/sdcard/myOA");
+                File file = new File("/sdcard/OA");
                 if (!file.exists())
                     file.mkdir();
                 long currentTimeMillis = System.currentTimeMillis();
@@ -151,7 +151,7 @@ public class ResultActivity extends AppCompatActivity {
                 String sName = fileName.substring(fileName.lastIndexOf("."));
 
                 // /sdcard/myFolder/temp_cropped.jpg
-                String filePath = "/sdcard/myOA" + "/" + mName + "_cropped" + sName;
+                String filePath = "/sdcard/OA" + "/" + mName + "_cropped" + sName;
                 file = new File(filePath);
                 try {
                     file.createNewFile();

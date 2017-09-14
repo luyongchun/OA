@@ -9,7 +9,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:background="@color/white"
         android:padding="5dp">
 
@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:paddingLeft="10dp"
-        android:background="@color/split_line"
+        android:background="@color/white"
         android:gravity="center_vertical"
         >
         <ImageView

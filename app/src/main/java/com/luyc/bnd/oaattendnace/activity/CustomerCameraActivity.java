@@ -213,7 +213,7 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
 
     private void dealWithCameraData(byte[] data) {
 
-        File file = new File("/sdcard/myOA");
+        File file = new File("/sdcard/OA");
         if (!file.exists())
             file.mkdir();
         long currentTimeMillis = System.currentTimeMillis();
@@ -224,7 +224,7 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
         String sName = fileName.substring(fileName.lastIndexOf("."));
 
         // /sdcard/myFolder/temp_cropped.jpg
-        String filePath = "/sdcard/myOA" + "/" + mName + "_cropped" + sName;
+        String filePath = "/sdcard/OA" + "/" + mName + "_cropped" + sName;
         file = new File(filePath);
         try {
             file.createNewFile();
