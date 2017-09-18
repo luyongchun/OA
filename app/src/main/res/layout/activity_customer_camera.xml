@@ -113,35 +113,13 @@
         </RelativeLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="75dp"
-            android:layout_marginRight="3dp"
-            android:gravity="right"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_username"
-                style="@style/textView_water"
-                android:drawableLeft="@mipmap/me"
-                android:text="小木匠" />
-
-            <TextView
-                android:id="@+id/tv_address"
-                style="@style/textView_water"
-                android:drawableLeft="@mipmap/location"
-                android:text="广珠西线高速" />
-        </LinearLayout>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_alignParentBottom="true"
             android:layout_gravity="center_vertical"
-            android:background="@color/blak">
+            android:background="@color/blak"
+            android:id="@+id/relativeLayout">
 
             <TextView
                 android:id="@+id/btn_cancel"
@@ -161,6 +139,27 @@
                 android:layout_centerInParent="true"
                 android:src="@mipmap/take_phone_i" />
         </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="right"
+            android:orientation="vertical"
+            android:layout_above="@+id/relativeLayout"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:id="@+id/tv_username"
+                style="@style/textView_water"
+                android:drawableLeft="@mipmap/me"
+                android:text="小木匠" />
+
+            <TextView
+                android:id="@+id/tv_address"
+                style="@style/textView_water"
+                android:drawableLeft="@mipmap/location"
+                android:text="广珠西线高速" />
+        </LinearLayout>
     </RelativeLayout>
 
 </RelativeLayout>

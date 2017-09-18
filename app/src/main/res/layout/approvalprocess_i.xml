@@ -10,20 +10,12 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
             android:text="事项标题:"
-            android:textColor="@color/blue_iii"
-            android:textSize="18sp"
-            android:gravity="center" />
+            style="@style/TextStyle_i"/>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:text="标题"
-            android:gravity="center"
-            android:layout_margin="5dp"
-            android:background="@drawable/shape_matter_title_rg"
+            style="@style/TextStyle_ii"
             android:id="@+id/textView4" />
 
     </LinearLayout>
@@ -37,12 +29,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
             android:text="关联流程:"
-            android:textColor="@color/blue_iii"
-            android:textSize="18sp"
-            android:gravity="center" />
+           style="@style/TextStyle_i" />
 
         <RelativeLayout
             android:layout_height="match_parent"
@@ -51,17 +39,13 @@
             android:background="@drawable/shape_matter_flow_rg">
 
             <ImageView
-                android:layout_width="30dp"
-                android:padding="5dp"
-                android:background="@drawable/shape_img_bg"
-                android:layout_height="match_parent"
+               style="@style/ImgViewStyle_i"
                 android:src="@mipmap/down" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:text="请假"
-                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:gravity="center" />
         </RelativeLayout>
 
@@ -77,20 +61,12 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
             android:text="请假理由:"
-            android:textColor="@color/blue_iii"
-            android:textSize="18sp"
-            android:gravity="center" />
+            style="@style/TextStyle_i" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:text="请假理由"
-            android:gravity="center"
-            android:layout_margin="5dp"
-            android:background="@drawable/shape_matter_title_rg" />
+            style="@style/TextStyle_ii"/>
 
     </LinearLayout>
 
@@ -103,20 +79,12 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
             android:text="请假人员:"
-            android:textColor="@color/blue_iii"
-            android:textSize="18sp"
-            android:gravity="center" />
+            style="@style/TextStyle_i"/>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:text="伯乐"
-            android:gravity="center"
-            android:layout_margin="5dp"
-            android:background="@drawable/shape_matter_flow_rg" />
+            style="@style/TextStyle_ii"/>
     </LinearLayout>
 
     <TextView style="@style/HorizontalStyle_i" />
@@ -128,12 +96,9 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
             android:text="请假类型:"
-            android:textColor="@color/blue_iii"
-            android:textSize="18sp"
-            android:gravity="center" />
+            style="@style/TextStyle_i"
+            android:id="@+id/textView6" />
 
         <RelativeLayout
             android:layout_height="match_parent"
@@ -142,17 +107,13 @@
             android:background="@drawable/shape_matter_flow_rg">
 
             <ImageView
-                android:layout_width="30dp"
-                android:padding="5dp"
-                android:background="@drawable/shape_img_bg"
-                android:layout_height="match_parent"
+                style="@style/ImgViewStyle_i"
                 android:src="@mipmap/down" />
 
             <TextView
+                android:text="请选择请假类型"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="请选择请假类型"
-                android:background="@null"
                 android:gravity="center" />
         </RelativeLayout>
 
@@ -167,12 +128,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
             android:text="开始时间:"
-            android:textColor="@color/blue_iii"
-            android:textSize="18sp"
-            android:gravity="center" />
+            style="@style/TextStyle_i"/>
 
         <RelativeLayout
             android:layout_height="match_parent"
@@ -181,11 +138,9 @@
             android:background="@drawable/shape_matter_flow_rg">
 
             <ImageView
-                android:layout_width="30dp"
-                android:padding="5dp"
-                android:background="@drawable/shape_img_bg"
-                android:layout_height="match_parent"
-                android:src="@mipmap/select_time" />
+               style="@style/ImgViewStyle_i"
+                android:src="@mipmap/select_time"
+                />
         </RelativeLayout>
 
     </LinearLayout>
@@ -199,12 +154,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
             android:text="结束时间:"
-            android:textColor="@color/blue_iii"
-            android:textSize="18sp"
-            android:gravity="center" />
+            style="@style/TextStyle_i" />
 
         <RelativeLayout
             android:layout_height="match_parent"
@@ -213,11 +164,9 @@
             android:background="@drawable/shape_matter_flow_rg">
 
             <ImageView
-                android:layout_width="30dp"
-                android:padding="5dp"
-                android:background="@drawable/shape_img_bg"
-                android:layout_height="match_parent"
-                android:src="@mipmap/select_time" />
+                style="@style/ImgViewStyle_i"
+                android:src="@mipmap/select_time"
+                />
         </RelativeLayout>
 
     </LinearLayout>
@@ -231,12 +180,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
             android:text="请假时长:"
-            android:textColor="@color/blue_iii"
-            android:textSize="18sp"
-            android:gravity="center" />
+            style="@style/TextStyle_i"/>
 
         <TextView
             android:layout_width="50dp"
@@ -246,12 +191,8 @@
             android:background="@drawable/shape_matter_title_rg" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
             android:text="小时"
-            android:textColor="@color/blue_iii"
-            android:gravity="center"
-            android:textSize="18sp" />
+            style="@style/TextStyle_i" />
 
         <TextView
             android:layout_width="match_parent"

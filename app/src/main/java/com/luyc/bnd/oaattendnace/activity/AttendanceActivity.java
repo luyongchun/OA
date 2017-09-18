@@ -105,8 +105,8 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
 //    TextView tvOrizontal;
 
     private PopupWindow popupWindow,mPopupWindow,aPopupWindow,iPopupWindow;
-    private String address;
-    private String mapTime;//地图时间
+    private String address="";
+    private String mapTime="";//地图时间
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
     //声明AMapLocationClientOption对象
@@ -533,7 +533,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                     new String[]{Manifest.permission.CAMERA},
                     REQUEST_TAKE_PHOTO_PERMISSION);
         } else {
-            if (address == null) {
+            if (address == "") {
                 Toast.makeText(this, "没有获取到当前位置信息，请您重新定位", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -686,7 +686,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             case REQUEST_TAKE_PHOTO_PERMISSION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //申请成功，可以拍照
-                    if (address == null) {
+                    if (address == "") {
                         Toast.makeText(this, "没有获取到当前位置信息，请您重新定位", Toast.LENGTH_SHORT).show();
                         return;
                     }

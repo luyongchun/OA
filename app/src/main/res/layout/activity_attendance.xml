@@ -19,27 +19,19 @@
             android:src="@mipmap/left_i" />
 
         <TextView
-            android:id="@+id/tv_company"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@+id/iv_back"
-            android:gravity="center"
-            android:singleLine="true"
-            android:text="佛山市数融通信息科技有限公司"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-        />
-
-        <TextView
             android:id="@+id/tv_help"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:gravity="center"
-            android:singleLine="true"
+            style="@style/TextStyle_iii"
             android:text="帮助" />
+
+        <TextView
+            android:id="@+id/tv_company"
+            android:text="佛山市数融通信息科技有限公司"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            style="@style/TextStyle_iii"
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 
     <TextView
@@ -58,21 +50,6 @@
             android:layout_margin="5dp"
             android:layout_marginLeft="10dp"
             android:src="@mipmap/male_employees" />
-
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@+id/iv_header"
-            android:gravity="center"
-            android:singleLine="true"
-            android:text="陆永春"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-        />
-
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
@@ -88,17 +65,23 @@
 
         <TextView
             android:id="@+id/tv_attendance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/tv_name"
             android:layout_alignStart="@+id/tv_name"
             android:layout_below="@+id/tv_name"
+            android:text="考勤组：考勤"
+            style="@style/TextStyle_iv" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:text="陆永春"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:singleLine="true"
-
-            android:text="考勤组：考勤"
-            android:textColor="@color/split_line_i"
-            android:textSize="12sp" />
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_alignTop="@+id/iv_header"
+            android:layout_toRightOf="@+id/iv_header"/>
     </RelativeLayout>
 
     <TextView
@@ -107,12 +90,10 @@
         android:background="@color/split_line_ii" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
         android:text="追求卓越，成功就会在不经意间遇上你"
-        android:textColor="@color/split_line_i"
-        android:textSize="12sp" />
+        style="@style/TextStyle_iv"
+        android:padding="10dp"
+        />
 
     <RelativeLayout
         android:id="@+id/rl_all_card"
@@ -130,12 +111,13 @@
 
         <TextView
             android:id="@+id/tv_work_attendace"
+            android:text="上班时间08:30"
+            android:layout_toRightOf="@+id/iv_go_work"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/iv_go_work"
             android:gravity="center"
-            android:text="上班时间08:30" />
+            />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -194,7 +176,6 @@
                     android:layout_marginRight="2dp"
 
                     />
-
                 <TextView
                     android:id="@+id/tv_attendance_address"
                     android:layout_width="wrap_content"

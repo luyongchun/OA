@@ -19,15 +19,10 @@
             />
         <RadioButton
             android:id="@+id/rb_all"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_centerInParent="true"
             android:button="@null"
             android:text="申请记录"
-            android:textColor="@color/record_bg"
             android:drawableRight="@mipmap/bottom"
-            android:textSize="18sp" />
+            style="@style/TextViewTitle_i" />
     </RelativeLayout>
 
     <RadioGroup
@@ -36,8 +31,6 @@
         android:orientation="horizontal"
         android:background="@drawable/rb_day_bg"
         >
-
-
         <RadioButton
             android:id="@+id/startTimeByRb"
             style="@style/TextColorByRadioButton"
@@ -48,7 +41,6 @@
             android:layout_height="match_parent"
             android:background="@color/gray_ii"
             />
-
         <RadioButton
             style="@style/TextColorByRadioButton"
             android:text="2017-8-21 17：30"

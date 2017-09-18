@@ -53,15 +53,11 @@
                 android:padding="2dp"
                 android:scaleType="fitXY"
                 />
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
                 android:text="研发部经理"
-                android:gravity="center"
-                android:textSize="12sp"
-                android:textColor="@color/white"
-                android:layout_marginLeft="5dp"
-                />
+                style="@style/TextStyle_user_ii"
+                android:id="@+id/textView8" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -82,13 +78,8 @@
                 />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
                 android:text="软件开发工程师"
-                android:gravity="center"
-                android:textSize="12sp"
-                android:textColor="@color/white"
-                android:layout_marginLeft="5dp"
+                style="@style/TextStyle_user_ii"
                 android:id="@+id/textView3" />
         </LinearLayout>
 

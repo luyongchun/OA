@@ -23,11 +23,8 @@
             android:layout_width="match_parent"
             >
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
                 android:text="系统消息"
-                android:padding="5dp"
-                android:textSize="18sp"
+                style="@style/TextStyle_user_i"
                 android:layout_marginLeft="10dp"
                 android:gravity="center" />
             <TextView
@@ -63,11 +60,8 @@
             android:layout_width="match_parent"
             >
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
                 android:text="关于我们"
-                android:textSize="18sp"
-                android:padding="5dp"
+                style="@style/TextStyle_user_i"
                 android:layout_marginLeft="10dp"
                 android:gravity="center" />
             <ImageView

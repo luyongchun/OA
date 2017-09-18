@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -10,25 +11,14 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
             android:text="事项标题:"
-            android:textColor="@color/blue_iii"
-            android:textSize="18sp" />
+            style="@style/TextStyle_i"/>
 
         <EditText
             android:id="@+id/et_title"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:background="@drawable/shape_matter_title_rg"
-            android:cursorVisible="true"
-            android:ellipsize="end"
-            android:gravity="center"
             android:hint="事项标题"
-            android:imeOptions="actionNext"
-            android:singleLine="true" />
+            android:layout_width="match_parent"
+            style="@style/EditTextStyle_ii"/>
 
     </LinearLayout>
 
@@ -41,12 +31,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
             android:text="关联流程:"
-            android:textColor="@color/blue_iii"
-            android:textSize="18sp" />
+            style="@style/TextStyle_i" />
 
         <RelativeLayout
             android:id="@+id/rl_flow"
@@ -58,10 +44,7 @@
 
             <ImageView
                 android:id="@+id/iv_flow"
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/shape_img_bg"
-                android:padding="5dp"
+                style="@style/ImgViewStyle_i"
                 android:src="@mipmap/down" />
 
             <TextView
@@ -90,25 +73,14 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
             android:text="请假理由:"
-            android:textColor="@color/blue_iii"
-            android:textSize="18sp" />
+            style="@style/TextStyle_i"/>
 
         <EditText
             android:id="@+id/et_cause"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:background="@drawable/shape_matter_title_rg"
-            android:cursorVisible="true"
-            android:ellipsize="end"
-            android:gravity="center"
             android:hint="请输入请假理由"
-            android:imeOptions="actionNext"
-            android:singleLine="true" />
+            android:layout_width="match_parent"
+            style="@style/EditTextStyle_ii" />
 
     </LinearLayout>
 
@@ -121,25 +93,14 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
             android:text="请假人员:"
-            android:textColor="@color/blue_iii"
-            android:textSize="18sp" />
+            style="@style/TextStyle_i"/>
 
         <EditText
             android:id="@+id/et_name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:background="@drawable/shape_matter_flow_rg"
-            android:cursorVisible="true"
-            android:ellipsize="end"
-            android:gravity="center"
             android:hint="伯乐"
-            android:imeOptions="actionNext"
-            android:singleLine="true" />
+            android:layout_width="match_parent"
+            style="@style/EditTextStyle_ii" />
     </LinearLayout>
 
     <TextView style="@style/HorizontalStyle_i" />
@@ -151,12 +112,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
             android:text="请假类型:"
-            android:textColor="@color/blue_iii"
-            android:textSize="18sp" />
+            style="@style/TextStyle_i"/>
 
         <RelativeLayout
             android:id="@+id/rl_type"
@@ -186,12 +143,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
             android:text="开始时间:"
-            android:textColor="@color/blue_iii"
-            android:textSize="18sp" />
+            style="@style/TextStyle_i" />
 
         <RelativeLayout
             android:id="@+id/rl_start_time"
@@ -202,10 +155,7 @@
 
             <ImageView
                 android:id="@+id/iv_i"
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/shape_img_bg"
-                android:padding="5dp"
+                style="@style/ImgViewStyle_i"
                 android:src="@mipmap/select_time" />
 
             <TextView
@@ -228,12 +178,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
             android:text="结束时间:"
-            android:textColor="@color/blue_iii"
-            android:textSize="18sp" />
+            style="@style/TextStyle_i"/>
 
         <RelativeLayout
             android:id="@+id/rl_end_time"
@@ -244,20 +190,14 @@
 
             <ImageView
                 android:id="@+id/iv_ii"
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/shape_img_bg"
-                android:padding="5dp"
+                style="@style/ImgViewStyle_i"
                 android:src="@mipmap/select_time" />
 
             <TextView
                 android:id="@+id/tv_end_time"
+                android:layout_toRightOf="@id/iv_ii"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@id/iv_ii"
                 android:gravity="center"
                 android:textSize="18sp" />
         </RelativeLayout>
@@ -273,32 +213,17 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
             android:text="请假时长:"
-            android:textColor="@color/blue_iii"
-            android:textSize="18sp" />
+            style="@style/TextStyle_i" />
 
         <EditText
             android:id="@+id/et_releas_time"
             android:layout_width="70dp"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:background="@drawable/shape_matter_title_rg"
-            android:cursorVisible="true"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:imeOptions="actionNext"
-            android:singleLine="true" />
+            style="@style/EditTextStyle_ii" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
             android:text="小时"
-            android:textColor="@color/blue_iii"
-            android:textSize="18sp" />
+            style="@style/TextStyle_i" />
 
         <TextView
             android:layout_width="match_parent"
@@ -323,24 +248,12 @@
 
         <RadioButton
             android:id="@+id/rb_discommit"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape_matter_flow_rg"
-            android:button="@null"
-            android:gravity="center"
+            style="@style/RadioButtonStyle_i"
             android:text="取消" />
 
         <RadioButton
             android:id="@+id/rb_commit"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape_matter_flow_rg"
-            android:button="@null"
-            android:gravity="center"
+            style="@style/RadioButtonStyle_i"
             android:text="提交" />
 
     </RadioGroup>

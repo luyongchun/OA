@@ -49,11 +49,11 @@
             />
         <TextView
             android:layout_width="wrap_content"
+            android:textSize="18sp"
             android:layout_height="30dp"
             android:padding="2dp"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:textSize="18sp"
             android:text="今日打卡2次，工时共计8小时12分钟" />
     </LinearLayout>
 
@@ -92,19 +92,15 @@
 
                 <TextView
                     android:id="@+id/tv_attendance_time_i"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:gravity="center"
+                    style="@style/TextStyle_iii"
                     android:textSize="18sp"
+                    android:layout_marginLeft="5dp"
                     android:text="打卡时间 08:10" />
 
                 <TextView
                     android:id="@+id/tv_company_work_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    style="@style/TextStyle_iii"
                     android:layout_marginLeft="5dp"
-                    android:gravity="center"
                     android:text="(A上班时间08:30)"
                     android:textSize="13sp" />
 
@@ -126,35 +122,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp">
-
                 <TextView
                     android:id="@+id/tv_work_nor_i"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shape_attend_nor_bg"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
                     android:text="正常"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-
+                    style="@style/TextStyle_vii"/>
 
             </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_updata_attend_i"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:background="@drawable/shape_matter_bg_iii"
-                android:paddingBottom="2dp"
-                android:paddingLeft="7dp"
-                android:paddingRight="7dp"
-                android:paddingTop="2dp"
+               style="@style/TextStyle_vi"
                 android:text="补卡，已通过"
-                android:textColor="@color/color_iii"
-                android:textSize="12sp" />
+                />
 
             <ImageView
                 android:id="@+id/iv_img_i"
@@ -239,32 +218,16 @@
 
                 <TextView
                     android:id="@+id/tv_work_nor_ii"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shape_attend_nor_bg"
-
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
+                    style="@style/TextStyle_vii"
                     android:text="正常"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    />
 
             </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_updata_attend_ii"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="30dp"
-                android:background="@drawable/shape_matter_bg_iii"
-                android:paddingBottom="2dp"
-                android:paddingLeft="7dp"
-                android:paddingRight="7dp"
-                android:paddingTop="2dp"
+                style="@style/TextStyle_vi"
                 android:text="更新打卡"
-                android:textColor="@color/color_iii"
-                android:textSize="12sp"
                 android:visibility="gone" />
 
             <ImageView

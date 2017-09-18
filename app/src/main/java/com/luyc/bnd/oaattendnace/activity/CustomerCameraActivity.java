@@ -47,32 +47,19 @@ import butterknife.OnClick;
 public class CustomerCameraActivity extends AppCompatActivity implements SurfaceHolder.Callback {
 
 
-    @InjectView(R.id.sfv_camera)
-    SurfaceView sfvCamera;
-    @InjectView(R.id.tv_time)
-    TextView tvTime;
-    @InjectView(R.id.tv_date)
-    TextView tvDate;
-    @InjectView(R.id.imgvBtn_switchFlash)
-    ImageButton imgvBtnSwitchFlash;
-    @InjectView(R.id.imgvBtn_switchCamera)
-    ImageButton imgvBtnSwitchCamera;
-    @InjectView(R.id.rl_setting)
-    RelativeLayout rlSetting;
-    @InjectView(R.id.tv_username)
-    TextView tvUsername;
-    @InjectView(R.id.tv_address)
-    TextView tvAddress;
-    @InjectView(R.id.btn_cancel)
-    TextView btnCancel;
-    @InjectView(R.id.iv_take_photo)
-    ImageView ivTakePhoto;
-    @InjectView(R.id.activity_customer_camera)
-    RelativeLayout activityCustomerCamera;
-    @InjectView(R.id.cb_light)
-    CheckBox cbLight;
-    @InjectView(R.id.btn_switch)
-    Button btnSwitch;
+    @InjectView(R.id.sfv_camera) SurfaceView sfvCamera;
+    @InjectView(R.id.tv_time) TextView tvTime;
+    @InjectView(R.id.tv_date) TextView tvDate;
+    @InjectView(R.id.imgvBtn_switchFlash) ImageButton imgvBtnSwitchFlash;
+    @InjectView(R.id.imgvBtn_switchCamera) ImageButton imgvBtnSwitchCamera;
+    @InjectView(R.id.rl_setting) RelativeLayout rlSetting;
+    @InjectView(R.id.tv_username) TextView tvUsername;
+    @InjectView(R.id.tv_address) TextView tvAddress;
+    @InjectView(R.id.btn_cancel) TextView btnCancel;
+    @InjectView(R.id.iv_take_photo) ImageView ivTakePhoto;
+    @InjectView(R.id.activity_customer_camera) RelativeLayout activityCustomerCamera;
+    @InjectView(R.id.cb_light) CheckBox cbLight;
+    @InjectView(R.id.btn_switch) Button btnSwitch;
 
 
     private Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
