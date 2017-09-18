@@ -222,8 +222,7 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
         String fileName = file.getName();
         String mName = fileName.substring(0, fileName.lastIndexOf("."));
         String sName = fileName.substring(fileName.lastIndexOf("."));
-
-        // /sdcard/myFolder/temp_cropped.jpg
+        // /sdcard/OA/temp_cropped.jpg
         String filePath = "/sdcard/OA" + "/" + mName + "_cropped" + sName;
         file = new File(filePath);
         try {
@@ -248,32 +247,6 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
             e.printStackTrace();
         }
 
-//        FileOutputStream fos = null;
-//        String filePath = "/sdcard/oa" +"/"+ System.currentTimeMillis() + ".jpg";
-//
-//        try {
-//            File tempFile = new File(filePath);
-//            if (tempFile.exists()){
-//                tempFile.delete();
-//                tempFile.mkdirs();
-//            }
-//            fos = new FileOutputStream(tempFile);
-//            fos.write(data); //保存图片数据
-//            fos.close();
-//            //启动显示图片的activity
-//            Intent intent = new Intent(CustomerCameraActivity.this, ResultActivity.class);
-//            Bundle bundle = new Bundle();
-//            bundle.putString("filePath", filePath);
-//            bundle.putString("nowData", nowData);
-//            bundle.putString("nowTime", nowTime);
-//            bundle.putBoolean("isCamera",isCamera);
-//            bundle.putString("address",address);
-//            intent.putExtra("bundle", bundle);
-//            startActivity(intent);
-//            finish();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
     }
 
     /**
@@ -451,7 +424,7 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
     }
 
     /**
-     * 检测手机是否存在SD卡,网络连接是否打开
+     * 检测手机是否存在SD卡
      */
     private void checkSoftStage() {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {  //判断是否存在SD卡

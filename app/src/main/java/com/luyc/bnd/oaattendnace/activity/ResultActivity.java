@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,7 +22,6 @@ import com.luyc.bnd.oaattendnace.utils.ImageUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -51,8 +49,9 @@ public class ResultActivity extends AppCompatActivity {
     private boolean isCamera;
     private String TAG="ResultActivity";
     private String address, filePath;
-    private Bitmap btm3;
+    private Bitmap btm;
     private String compay="数控汇OA考勤";
+    private byte[] datas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +65,7 @@ public class ResultActivity extends AppCompatActivity {
         nowTime = bundle.getString("nowTime");
         address = bundle.getString("address");
         isCamera = bundle.getBoolean("isCamera");
+        datas = bundle.getByteArray("data");
         userLocation =address;
 
         Log.e(TAG, "onCreate:address== "+address );
@@ -74,6 +74,8 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     private void showPic2ImageView(String filePath) {
+
+
         WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
         int width = wm.getDefaultDisplay().getWidth();
         if (!TextUtils.isEmpty(filePath)) {
@@ -84,15 +86,14 @@ public class ResultActivity extends AppCompatActivity {
                 //通过Matrix把图片旋转90度
                 if (isCamera){
                     matrix.setRotate(270);
-//                    matrix.postRotate(360);
                 }else {
                     matrix.setRotate(90);
                 }
                 //给照片打上水印
-                btm3 = drawWaterBitmap(width, bitmap, matrix);
-                sfvCamera.setImageBitmap(btm3);
+                btm = drawWaterBitmap(width, bitmap, matrix);
+                sfvCamera.setImageBitmap(btm);
 
-            } catch (FileNotFoundException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }else {
@@ -111,14 +112,12 @@ public class ResultActivity extends AppCompatActivity {
 
         Log.e(TAG, "showPic2ImageView: drawTextWidth//width//bitmap.getWidth()"
                 +drawTextWidth+"//"+ width+"//"+bitmap.getWidth());
-//        if (drawTextWidth>350){
-//            userLocation=userLocation.substring(0,27);
-//            userLocation=userLocation+"...";
-//        }
+        if (drawTextWidth>350){
+            userLocation=userLocation.substring(0,28);
+            userLocation=userLocation+"...";
+        }
         Bitmap btm4 = ImageUtil.drawTextToRightBottom(this, btm3, userLocation, 22, Color.WHITE, 10, 20);
-
         Bitmap btm5 = ImageUtil.drawTextToRightBottom(this, btm4, userName, 22, Color.WHITE, 20, 50);
-
         Bitmap btm = ImageUtil.createWaterMaskRightBottom(this, btm5,
                 BitmapFactory.decodeResource(getResources(), R.mipmap.location_ii), ((int) ImageUtil.drawTextWidth(userLocation))*2-40, 18);
 
@@ -142,25 +141,11 @@ public class ResultActivity extends AppCompatActivity {
             case R.id.tv_user_photo:
                 Intent receiver = new Intent(ACTION);
                 sendBroadcast(receiver);
-
-                File file = new File("/sdcard/OA");
-                if (!file.exists())
-                    file.mkdir();
-                long currentTimeMillis = System.currentTimeMillis();
-                CharSequence sysTimeStr = DateFormat.format("MM.dd-HH.mm.ss",currentTimeMillis);
-
-                file = new File("/sdcard/"+ sysTimeStr +"_oa.jpg".trim());
-                String fileName = file.getName();
-                String mName = fileName.substring(0, fileName.lastIndexOf("."));
-                String sName = fileName.substring(fileName.lastIndexOf("."));
-
-                // /sdcard/myFolder/temp_cropped.jpg
-                String filePath = "/sdcard/OA" + "/" + mName + "_cropped" + sName;
-                file = new File(filePath);
+                File file = new File(filePath);
                 try {
                     file.createNewFile();
                     FileOutputStream fos = new FileOutputStream(file);
-                    btm3.compress(Bitmap.CompressFormat.JPEG,100,fos);
+                    btm.compress(Bitmap.CompressFormat.JPEG,50,fos);
                     fos.flush();
                     fos.close();
                     finish();
