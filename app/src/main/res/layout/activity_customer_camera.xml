@@ -14,27 +14,26 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@color/blak"
-             >
+            android:background="@color/blak">
+
             <CheckBox
                 android:id="@+id/cb_light"
                 android:layout_width="25dp"
                 android:layout_height="wrap_content"
-                android:button="@null"
-                android:layout_marginLeft="10dp"
                 android:layout_margin="5dp"
+                android:layout_marginLeft="10dp"
                 android:background="@drawable/select_light"
-                />
+                android:button="@null" />
+
             <Button
                 android:id="@+id/btn_switch"
                 android:layout_width="20dp"
                 android:layout_height="match_parent"
-                android:button="@null"
-                android:layout_margin="8dp"
                 android:layout_alignParentRight="true"
+                android:layout_margin="8dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/select_toggle_bg"
-                />
+                android:button="@null" />
 
         </RelativeLayout>
 
@@ -44,48 +43,48 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="70dp"
-            android:layout_marginTop="40dp"
-            />
+            android:layout_marginTop="40dp" />
 
         <!--想要的信息放在surfaceview之上就OK了，下面是我想要加入的信息-->
         <RelativeLayout
             android:id="@+id/rl_setting"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:layout_marginTop="40dp"
             android:background="@null"
             android:gravity="center_vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
+                android:gravity="center_vertical"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:shadowColor="#000"
-                    android:shadowDx="3"
-                    android:shadowDy="3"
-                    android:shadowRadius="2"
+                    android:layout_marginLeft="7dp"
                     android:text="08:27"
-                    android:textColor="#fff"
-                    android:textSize="25sp" />
+                    android:textColor="@color/white"
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/tv_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:shadowColor="#000"
-                    android:shadowDx="3"
-                    android:shadowDy="3"
-                    android:shadowRadius="2"
                     android:text="2017.09.02"
-                    android:textColor="#fff"
-                    android:textSize="15sp" />
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="数控汇OA考勤"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <ImageButton

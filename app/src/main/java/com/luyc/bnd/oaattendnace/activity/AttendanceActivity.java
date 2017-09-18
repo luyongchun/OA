@@ -196,14 +196,11 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         double lon2 = (Math.PI / 180) * end.longitude;
         double lat1 = (Math.PI / 180) * start.latitude;
         double lat2 = (Math.PI / 180) * end.latitude;
-
         // 地球半径
         double R = 6371;
-
         // 两点间距离 km，如果想要米的话，结果*1000就可以了
         double d = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1))
                 * R;
-
         return d * 1000;
     }
 
@@ -485,7 +482,6 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                 Toast.makeText(this,"正在努力建设哦",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_again_location:
-//                requestLocationAdrees(1);
                 Intent intent = new Intent(this, MapActivity.class);
                 startActivityForResult(intent,0);
                 break;
@@ -504,16 +500,16 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             case R.id.tv_look_i:
                 showPopupWindow();
                 break;
-
         }
     }
-
+    //结果回调
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (data!=null){
             backAddress = data.getStringExtra("address");
             mapAddress = data.getStringExtra("mAddress");
+            requestLocationAdrees(1);
         }
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
@@ -526,10 +522,9 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                     tvAddress.setText("");
                 }
                 break;
-
         }
-
     }
+    //相机权限申请
     private void setPermision() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {

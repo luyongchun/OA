@@ -46,12 +46,14 @@ public class ResultActivity extends AppCompatActivity {
     private int cameraPosition = 1;
     private String nowData;
     private String nowTime;
-    private String userName="陆永春";
-    private String userLocation="广珠西线高速";
+    private String userName="小木匠";
+    private String userLocation="";
     private boolean isCamera;
     private String TAG="ResultActivity";
     private String address, filePath;
     private Bitmap btm3;
+    private String compay="数控汇OA考勤";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +83,8 @@ public class ResultActivity extends AppCompatActivity {
                 Matrix matrix = new Matrix();
                 //通过Matrix把图片旋转90度
                 if (isCamera){
-                    matrix.setRotate(-90);
+                    matrix.setRotate(270);
+//                    matrix.postRotate(360);
                 }else {
                     matrix.setRotate(90);
                 }
@@ -101,8 +104,9 @@ public class ResultActivity extends AppCompatActivity {
     private Bitmap drawWaterBitmap(int width, Bitmap bitmap, Matrix matrix) {
         bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
-        Bitmap btm1 = ImageUtil.drawTextToLeftTop(this, bitmap, nowTime, 35, Color.WHITE, 10, 15);
+        Bitmap btm1 = ImageUtil.drawTextToLeftTop(this, bitmap, nowTime, 35, Color.WHITE, 15, 15);
         Bitmap btm2 = ImageUtil.drawTextToLeftTop(this, btm1, nowData, 20, Color.WHITE, 10, 50);
+        Bitmap btm3 = ImageUtil.drawTextToLeftTop(this, btm2, compay, 20, Color.WHITE, 10, 70);
         int drawTextWidth = (int) ImageUtil.drawTextWidth(userLocation);
 
         Log.e(TAG, "showPic2ImageView: drawTextWidth//width//bitmap.getWidth()"
@@ -111,7 +115,7 @@ public class ResultActivity extends AppCompatActivity {
 //            userLocation=userLocation.substring(0,27);
 //            userLocation=userLocation+"...";
 //        }
-        Bitmap btm4 = ImageUtil.drawTextToRightBottom(this, btm2, userLocation, 22, Color.WHITE, 10, 20);
+        Bitmap btm4 = ImageUtil.drawTextToRightBottom(this, btm3, userLocation, 22, Color.WHITE, 10, 20);
 
         Bitmap btm5 = ImageUtil.drawTextToRightBottom(this, btm4, userName, 22, Color.WHITE, 20, 50);
 

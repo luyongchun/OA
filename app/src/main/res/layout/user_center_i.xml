@@ -96,7 +96,7 @@
             android:id="@+id/tv_userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="黄俊东"
+            android:text="吴工"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_alignParentRight="true"

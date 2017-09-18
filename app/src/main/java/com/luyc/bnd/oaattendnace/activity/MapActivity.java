@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -52,7 +51,6 @@ public class MapActivity extends AppCompatActivity implements
 
     @InjectView(R.id.tv_address)
     TextView tvAddress;
-
     @InjectView(R.id.tv_time)
     TextView tvTime;
     @InjectView(R.id.tv_attendance)
@@ -76,10 +74,12 @@ public class MapActivity extends AppCompatActivity implements
     EditText etRemarks;
     @InjectView(R.id.ll_attendance)
     LinearLayout llAttendance;
+    @InjectView(R.id.mapview)
+    TextureMapView mapview;
     private UiSettings mUiSettings;
     private AMap aMap;
-    private OnLocationChangedListener mListener;
-    private TextureMapView mv;
+    private OnLocationChangedListener mListener = null;
+    //    private TextureMapView mv;
     private String nowTime, address;
     private String mapTime;
     private Circle circle;
@@ -97,7 +97,6 @@ public class MapActivity extends AppCompatActivity implements
             if (aMapLocation != null) {
                 if (aMapLocation.getErrorCode() == 0) {
                     initMapData(aMapLocation);
-
                 } else {
                     //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
                     Log.e(TAG, "location Error, ErrCode:"
@@ -121,7 +120,7 @@ public class MapActivity extends AppCompatActivity implements
         double longitude = aMapLocation.getLongitude();//纬度
         LatLng start = new LatLng(22.811404, 113.33247);//考勤经纬度
         LatLng end = new LatLng(latitude, longitude);//定位的经纬度
-        mListener.onLocationChanged(aMapLocation);
+        mListener.onLocationChanged(aMapLocation);//定位
         //以考勤地点经纬度做以250M半径画圆
         circle = aMap.addCircle(new CircleOptions()
                 .center(start)
@@ -129,20 +128,16 @@ public class MapActivity extends AppCompatActivity implements
                 .fillColor(Color.argb(1, 0, 0, R.color.color_iii))
                 .strokeColor(Color.argb(1, 1, 1, R.color.color_iii))
                 .strokeWidth(1));
-
         if (isFirstLocation) {
             // 设置缩放级别
-            aMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+            aMap.moveCamera(CameraUpdateFactory.zoomTo(16));
             // 将地图移动到定位点
             aMap.moveCamera(CameraUpdateFactory.changeLatLng(end));
             // 点击定位按钮 能够将地图的中心移动到定位点
             mListener.onLocationChanged(aMapLocation);
             isFirstLocation = false;
         }
-
         tvAddress.setText(address);
-
-
         Intent intent = new Intent();
         String mAddress = street + streetNum;
         intent.putExtra("mAddress", mAddress);
@@ -154,7 +149,6 @@ public class MapActivity extends AppCompatActivity implements
         int Hour = Integer.parseInt(mHour);
         int Min = Integer.parseInt(mMin);
         float width = AMapUtils.calculateLineDistance(start, end);//比较两点之间的距离
-
         if (Hour <= 8 && Min <= 30 || Hour >= 17 && Min >= 30) {
             setNormalAttendance(width, "正常打卡", "正常", R.drawable.shape_attend_nor_bg);
         } else if (Hour == 8 && Min > 30 || Hour > 8 && Hour <= 12) {
@@ -231,12 +225,11 @@ public class MapActivity extends AppCompatActivity implements
         Intent intent = new Intent(this, CustomerCameraActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("mapTime", mapTime);
-
         bundle.putString("address", address);
-
         Log.e(TAG, "setPermision: address" + address);
         intent.putExtra("bundle", bundle);
         startActivity(intent);
+        finish();
     }
 
     //定时器
@@ -262,15 +255,11 @@ public class MapActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         ButterKnife.inject(this);
-
         getSystemTime();
         new TimeThread().start();//开启定时器
-        initMap(savedInstanceState);
-        setStyle();
-        requestLocationAdrees(-1);
-        mUiSettings = aMap.getUiSettings();
+        initMap();
+        setStyle(savedInstanceState);
         set();
-
     }
 
     private void getSystemTime() {
@@ -296,37 +285,33 @@ public class MapActivity extends AppCompatActivity implements
         }
     }
 
-    private void initMap(Bundle savedInstanceState) {
-        mv = ((TextureMapView) findViewById(R.id.mapview));
+    private void initMap() {
+//        mv = ((TextureMapView) findViewById(R.id.mapview));
         mLocationClient = new AMapLocationClient(getApplicationContext());
         mLocationClient.setLocationListener(mLocationListener);
         mLocationOption = new AMapLocationClientOption();
-        mv.onCreate(savedInstanceState);//创建地图
-        if (aMap == null) {
-            aMap = mv.getMap();//显示地图
-        }
-    }
 
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mv.onResume();//重新绘制加载地图
+        mapview.onResume();//重新绘制加载地图
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         // 暂停地图的绘制
-        mv.onPause();
-        mLocationClient.stopLocation();//停止定位
-        mLocationClient.onDestroy();//销毁定位客户端，同时销毁本地定位服务。
+        mapview.onPause();
+        aMap.clear();
+        deactivate();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mv.onDestroy();//销毁地图
+        mapview.onDestroy();//销毁地图
         if (null != mLocationClient) {
             mLocationClient.onDestroy();
         }
@@ -335,7 +320,7 @@ public class MapActivity extends AppCompatActivity implements
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        mv.onSaveInstanceState(outState);
+        mapview.onSaveInstanceState(outState);
     }
 
     private void setPermision() {
@@ -343,7 +328,7 @@ public class MapActivity extends AppCompatActivity implements
                 != PackageManager.PERMISSION_GRANTED) {
             //申请权限，REQUEST_TAKE_PHOTO_PERMISSION是自定义的常量
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA}, 2);
+                    new String[]{Manifest.permission.CAMERA}, 100);
         } else {
             if (address == null) {
                 Toast.makeText(this, "没有获取到当前位置信息，请您重新定位", Toast.LENGTH_SHORT).show();
@@ -354,29 +339,23 @@ public class MapActivity extends AppCompatActivity implements
     }
 
     private void set() {
-        mUiSettings.setZoomControlsEnabled(true);
+        mUiSettings = aMap.getUiSettings();
+        mUiSettings.setZoomControlsEnabled(true);//是否能设置缩放级别
         mUiSettings.setCompassEnabled(true);//指南针
         mUiSettings.setScaleControlsEnabled(true);//
         mUiSettings.setRotateGesturesEnabled(false);
     }
 
-    private void setStyle() {
-
-        //自定义系统定位小蓝点
-        MyLocationStyle myLocationStyle;
-
-        myLocationStyle = new MyLocationStyle();
-        //初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);
-        // 连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。
-        // （1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
-        //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
-        myLocationStyle.interval(2000);
-        // /连续定位、且将视角移动到地图中心点，定位蓝点跟随设备移动。（1秒1次定位）
-        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW);
-        myLocationStyle.showMyLocation(false);
-        myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
-
-        //设置定位蓝点的Style
+    private void setStyle(Bundle savedInstanceState) {
+        mapview.onCreate(savedInstanceState);//创建地图
+        if (aMap == null) {
+            aMap = mapview.getMap();//显示地图
+        }
+        //自定义图标
+        MyLocationStyle myLocationStyle = new MyLocationStyle();
+        myLocationStyle.strokeColor(Color.argb(0, 0, 0, 0));
+        myLocationStyle.radiusFillColor(Color.argb(0, 0, 0, 0));
+        myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromResource(R.mipmap.location_i));
         aMap.setMyLocationStyle(myLocationStyle);
         //设置默认定位按钮是否显示，非必需设置。
         aMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -394,19 +373,13 @@ public class MapActivity extends AppCompatActivity implements
         aMap.setTrafficEnabled(true);
         //地图模式可选类型：MAP_TYPE_NORMAL,MAP_TYPE_SATELLITE,MAP_TYPE_NIGHT
         aMap.setMapType(AMap.MAP_TYPE_NORMAL);
-
         //设置默认定位按钮是否显示
         aMap.getUiSettings().setMyLocationButtonEnabled(true);
-
         // 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         aMap.setMyLocationEnabled(true);
-        aMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
-    }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        mv.onSaveInstanceState(outState);
+        aMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
+
     }
 
     private void requestLocationAdrees(int requestType) {
@@ -436,28 +409,22 @@ public class MapActivity extends AppCompatActivity implements
         mLocationClient.setLocationListener(mLocationListener);
         //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。Device_Sensors设备模式
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-
         // 设置定位间隔,单位毫秒,默认为2000ms，最低1000ms。
-        mLocationOption.setInterval(2000);
-
+        mLocationOption.setInterval(1000);
         // 设置是否返回地址信息（默认返回地址信息）
         mLocationOption.setNeedAddress(true);
-
         //单位是毫秒，默认30000毫秒，建议超时时间不要低于8000毫秒。
         mLocationOption.setHttpTimeOut(30000);
-
         // 设置是否强制刷新WIFI，默认为true，强制刷新。
         mLocationOption.setWifiActiveScan(true);
         // 设置是否允许模拟软件Mock位置结果，多为模拟GPS定位结果，默认为false，不允许模拟位置。
         // 设置是否允许模拟位置,默认为false，不允许模拟位置
         mLocationOption.setMockEnable(false);
-
         // 设置是否开启定位缓存机制
         // 缓存机制默认开启，可以通过以下接口进行关闭。
         // 当开启定位缓存功能，在高精度模式和低功耗模式下进行的网络定位结果均会生成本地缓存，不区分单次定位还是连续定位。GPS定位结果不会被缓存。
         // 关闭缓存机制
         mLocationOption.setLocationCacheEnable(false);
-
         //给定位客户端对象设置定位参数
         mLocationClient.setLocationOption(mLocationOption);
         //启动定位
@@ -470,7 +437,6 @@ public class MapActivity extends AppCompatActivity implements
         switch (view.getId()) {
             case R.id.ll_attendance:
                 setPermision();
-                finish();
                 break;
             case R.id.tv_again_location:
                 requestLocationAdrees(1);
@@ -483,17 +449,18 @@ public class MapActivity extends AppCompatActivity implements
 
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
-//        if (aMapLocation != null) {
-//            mListener.onLocationChanged(aMapLocation);//显示系统小蓝点
-//        } else {
-//            Toast.makeText(this, "定位失败", Toast.LENGTH_SHORT).show();
-//        }
+        if (aMapLocation != null && mListener != null) {
+            mListener.onLocationChanged(aMapLocation);//显示系统小蓝点
+        } else {
+            Toast.makeText(this, "定位失败", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
     @Override
     public void activate(OnLocationChangedListener onLocationChangedListener) {
         mListener = onLocationChangedListener;
+        requestLocationAdrees(-1);
     }
 
     @Override
@@ -510,15 +477,13 @@ public class MapActivity extends AppCompatActivity implements
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         switch (requestCode) {
-            case 2:
+            case 100:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openCCActivity();
                 } else {
                     Toast.makeText(this, "请您先开启照相机权限！", Toast.LENGTH_SHORT).show();
                 }
                 break;
-
-
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
