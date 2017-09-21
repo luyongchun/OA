@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/shape_popupwin_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="删除"
+        android:paddingTop="20dp"
+        android:paddingBottom="5dp"
+        android:textColor="@color/color_later"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:id="@+id/tv_delect" />
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="是否要删除本条补签？"
+        android:textSize="18sp"
+        android:padding="20dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/split_line_ii"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        >
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="取消"
+            android:textSize="18sp"
+            android:gravity="center"
+            />
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/split_line_ii"
+            />
+        <TextView
+            android:id="@+id/tv_comfirm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="确认"
+            android:textSize="18sp"
+            android:gravity="center"
+            />
+
+    </LinearLayout>
+</LinearLayout>

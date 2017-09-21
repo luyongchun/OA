@@ -19,11 +19,14 @@ import android.view.View;
 
 import com.luyc.bnd.oaattendnace.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by admin on 2017/8/28.
  */
 
-public class ProcessView extends View{
+public class ProcessView extends View {
     /**
      * 默认线宽度
      */
@@ -56,7 +59,12 @@ public class ProcessView extends View{
     private float mProgress = 0.0f;
     //所有的状态文字
     private String[] texts;
+    private ArrayList<List<String[]>> mList = new ArrayList<>();
+    private ArrayList<String[]> list = new ArrayList<>();
     private Bitmap bitmap;
+    private String[] userNmes, userDepartment, userState;
+//    private String[] userDepartment;
+//    private String[] state;
 
     public ProcessView(Context context) {
         this(context, null);
@@ -72,8 +80,16 @@ public class ProcessView extends View{
         initViews();
     }
 
+    public void setApprovalProcessText(String[] userNmes, String[] userDepartment, String[] userState) {
+        this.userNmes = userNmes;
+        this.userDepartment = userDepartment;
+        this.userState = userState;
+        Log.e(TAG, "userNmes: " + userNmes[1]);
+    }
+
     /**
      * 获取我们的自定义属性
+     *
      * @param context
      * @param attrs
      * @param defStyleAttr
@@ -88,12 +104,12 @@ public class ProcessView extends View{
                 a.getDimensionPixelSize(R.styleable.ProcessView_thumb_radius, 0) : mThumbRadius;
         mTextSize = a.hasValue(R.styleable.ProcessView_textsize) ?
                 a.getDimensionPixelSize(R.styleable.ProcessView_text_color, 0) : mTextSize;
-        mReachedColor=a.hasValue(R.styleable.ProcessView_color_reached)?
-                a.getColor(R.styleable.ProcessView_color_reached,D_REACH_COLOR):D_REACH_COLOR;
-        mUnreachedColor=a.hasValue(R.styleable.ProcessView_color_unreached)?
-                a.getColor(R.styleable.ProcessView_color_unreached,D_UNREACH_COLOR):D_UNREACH_COLOR;
-        mTextColor=a.hasValue(R.styleable.ProcessView_text_color)?
-                a.getColor(R.styleable.ProcessView_text_color,D_TEXT_COLOR):D_TEXT_COLOR;
+        mReachedColor = a.hasValue(R.styleable.ProcessView_color_reached) ?
+                a.getColor(R.styleable.ProcessView_color_reached, D_REACH_COLOR) : D_REACH_COLOR;
+        mUnreachedColor = a.hasValue(R.styleable.ProcessView_color_unreached) ?
+                a.getColor(R.styleable.ProcessView_color_unreached, D_UNREACH_COLOR) : D_UNREACH_COLOR;
+        mTextColor = a.hasValue(R.styleable.ProcessView_text_color) ?
+                a.getColor(R.styleable.ProcessView_text_color, D_TEXT_COLOR) : D_TEXT_COLOR;
         a.recycle();
     }
 
@@ -170,32 +186,40 @@ public class ProcessView extends View{
         for (int i = 0; i < texts.length; i++) {
             canvas.save();
             //每画一条竖线让画布向下平移linew个宽度
-            canvas.translate(0,i * lineW);
+            canvas.translate(0, i * lineW);
             //如果当前进度>竖线所在的位置，就改变竖线的颜色
             linePaint.setColor(i * lineW >= mProgress * (endX - startX) ? mUnreachedColor : mReachedColor);
             float endX2 = i == texts.length - 1 ? startX - lineWidth / 2 : startX + lineWidth / 2;
             //绘画小短线
-            if (i==(texts.length-1)){
-                canvas.drawLine(lineY-5, endX2, lineY+ lineH, endX2+10, linePaint);
-            }else if (i==0){
-                canvas.drawLine(lineY-5, endX2, lineY+ lineH, endX2-10, linePaint);
-            }else{
-                canvas.drawLine(lineY-5, endX2, lineY+ lineH, endX2, linePaint);
+            if (i == (texts.length - 1)) {
+                canvas.drawLine(lineY - 5, endX2, lineY + lineH, endX2 + 10, linePaint);
+            } else if (i == 0) {
+                canvas.drawLine(lineY - 5, endX2, lineY + lineH, endX2 - 10, linePaint);
+            } else {
+                canvas.drawLine(lineY - 5, endX2, lineY + lineH, endX2, linePaint);
             }
             //画文字
             textPaint.setTextAlign(Paint.Align.CENTER);
             float textH = (textPaint.getFontMetrics().bottom - textPaint.getFontMetrics().top);
 
             BitmapDrawable drawable = (BitmapDrawable) getContext().getResources().getDrawable(R.mipmap.to_go_out_icon);
-            if (drawable !=null){
+            if (drawable != null) {
                 bitmap = drawable.getBitmap();
             }
-            canvas.drawBitmap(bitmap,endX2-endX2/4,lineY + lineH + textH/5,null);
+            canvas.drawBitmap(bitmap, endX2 - endX2 / 4, lineY + lineH + textH / 5, null);
             int width = bitmap.getWidth();
-            canvas.drawText(texts[i], 2.5f*width+endX2,lineY + lineH + textH * 0.5f, textPaint);//姓名
-            canvas.drawText(texts[i], 2.5f*width+endX2,textH+(lineY + lineH+textH * 0.5f), textPaint);//日期
-            canvas.drawText(texts[i], getWidth()-endX2-10,lineY + lineH + textH * 1.3f, textPaint);//是否审批
-            canvas.restore();
+
+//            if (i==0){
+//                canvas.drawText(userNmes[i], 2.5f * width + endX2, lineY + lineH + textH * 1f, textPaint);//姓名
+//            }else {
+            if (userNmes.length>0){
+                canvas.drawText(userNmes[i], 2.5f * width + endX2, lineY + lineH + textH * 0.5f, textPaint);//姓名
+
+                canvas.drawText(userDepartment[i], 2.5f * width + endX2, textH + (lineY + lineH + textH * 0.5f), textPaint);//部门
+                canvas.drawText(userState[i], getWidth() - endX2 - 10, lineY + lineH + textH * 1.3f, textPaint);//是否审批
+                canvas.restore();
+            }
+
         }
     }
 
@@ -213,17 +237,17 @@ public class ProcessView extends View{
         linePaint.setStrokeWidth(mLineWidth);
         //draw basic line
         linePaint.setColor(mUnreachedColor);
-        canvas.drawLine(lineX, startY, lineX, endX-120, linePaint);
+        canvas.drawLine(lineX, startY, lineX, endX - 120, linePaint);
         //draw progress line
-        float progressX = startY + (endX - 2*startY) * mProgress;
+        float progressX = startY + (endX - 2 * startY) * mProgress;
 
-        Log.e(TAG, "drawProgressAndThumb:  progressX-progressX/50"+ (progressX-progressX/50));
+        Log.e(TAG, "drawProgressAndThumb:  progressX-progressX/50" + (progressX - progressX / 50));
         linePaint.setColor(mReachedColor);
 
-        canvas.drawLine(lineX, startY, lineX, progressX-progressX/50, linePaint);
+        canvas.drawLine(lineX, startY, lineX, progressX - progressX / 50, linePaint);
         //给移动圆点一个RadialGradient颜色梯度效果
-        thumbPaint.setShader(new RadialGradient(progressX, mThumbRadius, mThumbRadius, new int[]{ D_REACH_COLOR, Color.YELLOW}, null, Shader.TileMode.REPEAT));
-        canvas.drawCircle(mThumbRadius, progressX-progressX/35, mThumbRadius, thumbPaint);
+        thumbPaint.setShader(new RadialGradient(progressX, mThumbRadius, mThumbRadius, new int[]{D_REACH_COLOR, Color.YELLOW}, null, Shader.TileMode.REPEAT));
+        canvas.drawCircle(mThumbRadius, progressX - progressX / 35, mThumbRadius, thumbPaint);
     }
 
     public void setProgress(float progress) {
@@ -247,7 +271,6 @@ public class ProcessView extends View{
         return (TypedValue.applyDimension(
                 unit, value, r.getDisplayMetrics()));
     }
-
 
 
 }

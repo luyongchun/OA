@@ -64,49 +64,85 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
 
     private static final int REQUEST_TAKE_PHOTO_PERMISSION = 100;
     private static final int REQUEST_LOCATION_PERMISSION = 11;
-    @InjectView(R.id.iv_back) ImageView ivBack;
-    @InjectView(R.id.tv_company) TextView tvCompany;
-    @InjectView(R.id.tv_help) TextView tvHelp;
-    @InjectView(R.id.iv_header) ImageView ivHeader;
-    @InjectView(R.id.tv_name) TextView tvName;
-    @InjectView(R.id.tv_time) TextView tvTime;
-    @InjectView(R.id.tv_attendance) TextView tvAttendance;
-    @InjectView(R.id.iv_go_work) ImageView ivGoWork;
-    @InjectView(R.id.activity_attendance) LinearLayout activityAttendance;
-    @InjectView(R.id.mcv_card) MyCircleView mcvCard;
-    @InjectView(R.id.tv_card) TextView tvCard;
-    @InjectView(R.id.tv_now_time) TextView tvNowTime;
-    @InjectView(R.id.rl_card) RelativeLayout rlCard;
-    @InjectView(R.id.tv_address) TextView tvAddress;
+    @InjectView(R.id.iv_back)
+    ImageView ivBack;
+    @InjectView(R.id.tv_company)
+    TextView tvCompany;
+    @InjectView(R.id.tv_help)
+    TextView tvHelp;
+    @InjectView(R.id.iv_header)
+    ImageView ivHeader;
+    @InjectView(R.id.tv_name)
+    TextView tvName;
+    @InjectView(R.id.tv_time)
+    TextView tvTime;
+    @InjectView(R.id.tv_attendance)
+    TextView tvAttendance;
+    @InjectView(R.id.iv_go_work)
+    ImageView ivGoWork;
+    @InjectView(R.id.activity_attendance)
+    LinearLayout activityAttendance;
+    @InjectView(R.id.mcv_card)
+    MyCircleView mcvCard;
+    @InjectView(R.id.tv_card)
+    TextView tvCard;
+    @InjectView(R.id.tv_now_time)
+    TextView tvNowTime;
+    @InjectView(R.id.rl_card)
+    RelativeLayout rlCard;
+    @InjectView(R.id.tv_address)
+    TextView tvAddress;
 
-    @InjectView(R.id.rcv_attendance) RecyclerView rcvAttendance;
-    @InjectView(R.id.tv_work_attendace) TextView tvWorkAttendace;
-    @InjectView(R.id.tv_again_location) TextView tvAgainLocation;
-    @InjectView(R.id.tv_attendance_address) TextView tvAttendanceAddress;
-    @InjectView(R.id.iv_attendance) ImageView ivAttendance;
-    @InjectView(R.id.rl_all_card) RelativeLayout rlAllCard;
-    @InjectView(R.id.iv_attend) ImageView ivAttend;
-    @InjectView(R.id.tv_attendance_time) TextView tvAttendanceTime;
-    @InjectView(R.id.tv_company_work_time) TextView tvCompanyWorkTime;
-    @InjectView(R.id.tv_addressed) TextView tvAddressed;
-    @InjectView(R.id.tv_work_nor) TextView tvWorkNor;
-    @InjectView(R.id.tv_look) TextView tvLook;
-    @InjectView(R.id.tv_updata_attend) TextView tvUpdataAttend;
-    @InjectView(R.id.iv_attend_i) ImageView ivAttendI;
-    @InjectView(R.id.tv_attendance_time_i) TextView tvAttendanceTimeI;
-    @InjectView(R.id.tv_addressed_i) TextView tvAddressedI;
-    @InjectView(R.id.tv_work_nor_i) TextView tvWorkNorI;
-    @InjectView(R.id.tv_look_i) TextView tvLookI;
-    @InjectView(R.id.tv_updata_attend_i) TextView tvUpdataAttendI;
-    @InjectView(R.id.ll_gowork_i) LinearLayout llGoworkI;
-    @InjectView(R.id.ll_after_ii) LinearLayout llAfterIi;
-    @InjectView(R.id.tv_horizontal) TextView tvHorizontal;
+    @InjectView(R.id.rcv_attendance)
+    RecyclerView rcvAttendance;
+    @InjectView(R.id.tv_work_attendace)
+    TextView tvWorkAttendace;
+    @InjectView(R.id.tv_again_location)
+    TextView tvAgainLocation;
+    @InjectView(R.id.tv_attendance_address)
+    TextView tvAttendanceAddress;
+    @InjectView(R.id.iv_attendance)
+    ImageView ivAttendance;
+    @InjectView(R.id.rl_all_card)
+    RelativeLayout rlAllCard;
+    @InjectView(R.id.iv_attend)
+    ImageView ivAttend;
+    @InjectView(R.id.tv_attendance_time)
+    TextView tvAttendanceTime;
+    @InjectView(R.id.tv_company_work_time)
+    TextView tvCompanyWorkTime;
+    @InjectView(R.id.tv_addressed)
+    TextView tvAddressed;
+    @InjectView(R.id.tv_work_nor)
+    TextView tvWorkNor;
+    @InjectView(R.id.tv_look)
+    TextView tvLook;
+    @InjectView(R.id.tv_updata_attend)
+    TextView tvUpdataAttend;
+    @InjectView(R.id.iv_attend_i)
+    ImageView ivAttendI;
+    @InjectView(R.id.tv_attendance_time_i)
+    TextView tvAttendanceTimeI;
+    @InjectView(R.id.tv_addressed_i)
+    TextView tvAddressedI;
+    @InjectView(R.id.tv_work_nor_i)
+    TextView tvWorkNorI;
+    @InjectView(R.id.tv_look_i)
+    TextView tvLookI;
+    @InjectView(R.id.tv_updata_attend_i)
+    TextView tvUpdataAttendI;
+    @InjectView(R.id.ll_gowork_i)
+    LinearLayout llGoworkI;
+    @InjectView(R.id.ll_after_ii)
+    LinearLayout llAfterIi;
+    @InjectView(R.id.tv_horizontal)
+    TextView tvHorizontal;
 //    @InjectView(R.id.tv_orizontal)
 //    TextView tvOrizontal;
 
-    private PopupWindow popupWindow,mPopupWindow,aPopupWindow,iPopupWindow;
-    private String address="";
-    private String mapTime="";//地图时间
+    private PopupWindow popupWindow, mPopupWindow, aPopupWindow, iPopupWindow;
+    private String address = "";
+    private String mapTime = "";//地图时间
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
     //声明AMapLocationClientOption对象
@@ -133,15 +169,17 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             }
         }
     };
-    private String succeedTime,backAddress = "",mapAddress="";;
+    private String succeedTime, backAddress = "", mapAddress = "";
+    ;
     private Dialog dialog;
+    private MyCircleView mcv;
 
     private void initAddressAndView(AMapLocation aMapLocation) {
         address = aMapLocation.getAddress();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.CHINA);
         mapTime = sdf.format(new Date(aMapLocation.getTime()));//获取地图时间
 
-        Log.e(TAG, "initAddressAndView: now=="+mapTime );
+        Log.e(TAG, "initAddressAndView: now==" + mapTime);
         String street = aMapLocation.getStreet();//街道
         String streetNum = aMapLocation.getStreetNum();//街道号
 
@@ -155,33 +193,38 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
 
         int distance = (int) getDistance(start, end);
 
-        Log.e(TAG, "onLocationChanged: v//distance//v1==" + v+"//"+distance+"//"+v1);
+        Log.e(TAG, "onLocationChanged: v//distance//v1==" + v + "//" + distance + "//" + v1);
         String mAddress = street + streetNum;
+//        distance=500;
 
-        //endgion
         if (!mAddress.equals("")) {
             if (distance <= 400) {
+                mcv.setPaintColor(1);
+//                myCircleView.setPaintColor(1);
                 tvAttendanceAddress.setText("您已进入考勤范围:");
-                if (mapAddress.equals("")){
+                tvAttendanceAddress.setTextColor(getResources().getColor(R.color.text2));
+                if (mapAddress.equals("")) {
                     tvAddress.setText(mAddress);
-                }else {
+                } else {
                     tvAddress.setText(mapAddress);
                 }
                 ivAttendance.setImageResource(R.mipmap.ok_ii);
             } else {
-                tvCard.setText("外勤打卡");
-                tvAttendanceAddress.setText("当前不在考勤范围内 ");
+                 mcv.setPaintColor(-1);
+//                tvCard.setText("外勤打卡");
+                tvAttendanceAddress.setText("当前不在考勤范围内:");
+                tvAttendanceAddress.setTextColor(getResources().getColor(R.color.color_later));
 //                tvAddress.setText(mAddress);
-                if (mapAddress.equals("")){
+                if (mapAddress.equals("")) {
                     tvAddress.setText(mAddress);
-                }else {
+                } else {
                     tvAddress.setText(mapAddress);
                 }
-
-                ivAttendance.setImageResource(R.mipmap.warring);
+                ivAttendance.setImageResource(R.mipmap.warring_i);
             }
         } else {
             tvAttendanceAddress.setText("当前信号较弱 ");
+            tvAttendanceAddress.setTextColor(getResources().getColor(R.color.color_ii));
             tvAddress.setText("");
             ivAttendance.setImageResource(R.mipmap.warring);
         }
@@ -228,6 +271,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance);
         ButterKnife.inject(this);
+        mcv = ((MyCircleView) findViewById(R.id.mcv_card));
         getSystemTime();
         new TimeThread().start();//开启定时器
         //初始化地图
@@ -327,7 +371,6 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         mLocationOption.setHttpTimeOut(20000);
         //关闭缓存机制
         mLocationOption.setLocationCacheEnable(false);
-
         //给定位客户端对象设置定位参数
         mLocationClient.setLocationOption(mLocationOption);
         //启动定位
@@ -409,7 +452,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         if (!file.exists())
             file.mkdir();
 
-        file = new File("/sdcard/"+System.currentTimeMillis()+"temp.jpg".trim());
+        file = new File("/sdcard/" + System.currentTimeMillis() + "temp.jpg".trim());
         String fileName = file.getName();
         String mName = fileName.substring(0, fileName.lastIndexOf("."));
         String sName = fileName.substring(fileName.lastIndexOf("."));
@@ -421,7 +464,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             file.createNewFile();
             FileOutputStream fos = new FileOutputStream(file);
             bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-            Toast.makeText(this,"图片保存成功",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "图片保存成功", Toast.LENGTH_SHORT).show();
             fos.flush();
             fos.close();
         } catch (IOException e) {
@@ -430,6 +473,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         }
 
     }
+
     class TimeThread extends Thread {
         @Override
         public void run() {
@@ -479,11 +523,11 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                 finish();
                 break;
             case R.id.tv_help:
-                Toast.makeText(this,"正在努力建设哦",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "正在努力建设哦", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_again_location:
                 Intent intent = new Intent(this, MapActivity.class);
-                startActivityForResult(intent,0);
+                startActivityForResult(intent, 0);
                 break;
             case R.id.rl_card:
                 setPermision();
@@ -502,28 +546,30 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                 break;
         }
     }
+
     //结果回调
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (data!=null){
+        if (data != null) {
             backAddress = data.getStringExtra("address");
             mapAddress = data.getStringExtra("mAddress");
             requestLocationAdrees(1);
         }
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             case 0:
-                if (!mapAddress.equals("")){
+                if (!mapAddress.equals("")) {
                     tvAddress.setText(mapAddress);
-                }else if (!address.equals("")){
+                } else if (!address.equals("")) {
                     tvAddress.setText(address);
-                }else {
+                } else {
                     tvAddress.setText("");
                 }
                 break;
         }
     }
+
     //相机权限申请
     private void setPermision() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
@@ -548,10 +594,10 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         }
         Intent intent = new Intent(this, CustomerCameraActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("mapTime",mapTime);
-        if (backAddress.equals("")){
+        bundle.putString("mapTime", mapTime);
+        if (backAddress.equals("")) {
             bundle.putString("address", address);
-        }else {
+        } else {
             bundle.putString("address", backAddress);
         }
 
@@ -577,6 +623,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         setPopupWindow(popupWindow, view);
         showBigBitmap();
     }
+
     private void showImgPopupWindow() {
         View view = LayoutInflater.from(this).inflate(R.layout.popupwindows_img, null);
         ImageView img = (ImageView) view.findViewById(R.id.iv_img);
@@ -586,6 +633,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         setPopupWindow(iPopupWindow, view);
 
     }
+
     private void showUpdataPopupWindow() {
 
         View view = LayoutInflater.from(this).inflate(R.layout.popup_updata_attendance, null);
@@ -601,6 +649,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         setPopupWindow(aPopupWindow, view);
 
     }
+
     private void showSucceedPopupWindow() {
 
         View view = LayoutInflater.from(this).inflate(R.layout.succeed_attendance, null);
@@ -615,17 +664,17 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         tvSucceed.setText(aTime);
         String str = mapTime.substring(0, 2);
         int i = Integer.parseInt(str);
-        if (i<12 && list.size()<1){
+        if (i < 12 && list.size() < 1) {
             tvWorkType.setText("上");
             tv.setText("成功，从开始上班开始");
-        }else {
+        } else {
             tvWorkType.setText("下");
             tv.setText("忙碌了一天了，好好休息吧");
             tvUpdataAttend.setVisibility(View.GONE);
             tvHorizontal.setVisibility(View.VISIBLE);
             llAfterIi.setVisibility(View.VISIBLE);
             rlAllCard.setVisibility(View.GONE);
-            tvAttendanceTimeI.setText("打卡时间"+aTime);
+            tvAttendanceTimeI.setText("打卡时间" + aTime);
         }
         setPopupWindow(mPopupWindow, view);
 
@@ -662,12 +711,13 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             }
         });
     }
+
     private BroadcastReceiver myReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            switch (action){
+            switch (action) {
                 case ResultActivity.ACTION:
                     showSucceedPopupWindow();
                     if (backAddress.equals(""))
@@ -679,6 +729,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         }
 
     };
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {

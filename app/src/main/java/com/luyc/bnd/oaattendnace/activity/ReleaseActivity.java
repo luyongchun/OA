@@ -36,25 +36,50 @@ import butterknife.Optional;
 
 public class ReleaseActivity extends AppCompatActivity {
 
-    @InjectView(R.id.ll_releas_back) LinearLayout llReleasBack;
-    @InjectView(R.id.id_process) ProcessView idProcess;
-    @InjectView(R.id.et_title) EditText etTitle;
-    @InjectView(R.id.rl_flow) RelativeLayout rlFlow;
-    @InjectView(R.id.et_cause) EditText etCause;
-    @InjectView(R.id.et_name) EditText etName;
-    @InjectView(R.id.rl_type) RelativeLayout rlType;
-    @InjectView(R.id.tv_start_time) TextView tvStartTime;
-    @InjectView(R.id.rl_start_time) RelativeLayout rlStartTime;
-    @InjectView(R.id.tv_end_time) TextView tvEndTime;
-    @InjectView(R.id.rl_end_time) RelativeLayout rlEndTime;
-    @InjectView(R.id.et_releas_time) EditText etReleasTime;
-    @InjectView(R.id.rb_discommit) RadioButton rbDiscommit;
-    @InjectView(R.id.rb_commit) RadioButton rbCommit;
-    @InjectView(R.id.iv_i) ImageView ivI;
-    @InjectView(R.id.iv_ii) ImageView ivIi;
-    @InjectView(R.id.sp_type) Spinner spType;
-    @InjectView(R.id.tv_flow) TextView tvFlow;
-    @InjectView(R.id.tv_bartop) TextView tvBartop;
+    @InjectView(R.id.ll_releas_back)
+    LinearLayout llReleasBack;
+    @InjectView(R.id.id_process)
+    ProcessView idProcess;
+    @InjectView(R.id.et_title)
+    EditText etTitle;
+    @InjectView(R.id.rl_flow)
+    RelativeLayout rlFlow;
+    @InjectView(R.id.et_cause)
+    EditText etCause;
+    @InjectView(R.id.et_name)
+    EditText etName;
+    @InjectView(R.id.rl_type)
+    RelativeLayout rlType;
+    @InjectView(R.id.tv_start_time)
+    TextView tvStartTime;
+    @InjectView(R.id.rl_start_time)
+    RelativeLayout rlStartTime;
+    @InjectView(R.id.tv_end_time)
+    TextView tvEndTime;
+    @InjectView(R.id.rl_end_time)
+    RelativeLayout rlEndTime;
+    @InjectView(R.id.et_releas_time)
+    EditText etReleasTime;
+    @InjectView(R.id.rb_discommit)
+    RadioButton rbDiscommit;
+    @InjectView(R.id.rb_commit)
+    RadioButton rbCommit;
+    @InjectView(R.id.iv_i)
+    ImageView ivI;
+    @InjectView(R.id.iv_ii)
+    ImageView ivIi;
+    @InjectView(R.id.sp_type)
+    Spinner spType;
+    @InjectView(R.id.tv_flow)
+    TextView tvFlow;
+    @InjectView(R.id.tv_bartop)
+    TextView tvBartop;
+    @InjectView(R.id.tv_because)
+    TextView tvBecause;
+    @InjectView(R.id.tv_name)
+    TextView tvName;
+    @InjectView(R.id.tv_type)
+    TextView tvType;
 
     private CustomDatePicker customDatePicker1, customDatePicker2;
     private String TAG = "ReleaseActivity";
@@ -64,6 +89,7 @@ public class ReleaseActivity extends AppCompatActivity {
     private RadioButton rbStartTime;
     private RadioButton rbEndTime;
     private ImageView ivBack;
+    private ProcessView process;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +102,7 @@ public class ReleaseActivity extends AppCompatActivity {
         list.add("外出");
         list.add("出差");
         Log.e(TAG, "onCreate: list.size()-1///type" + (list.size() - 1) + "///" + type);
-        StatusBarCompat.compat(this,R.color.white);
+        StatusBarCompat.compat(this, R.color.white);
         if (type == list.size()) {
             setContentView(R.layout.activity_apply);
             recyclerView = ((RecyclerView) findViewById(R.id.recycler));
@@ -109,9 +135,12 @@ public class ReleaseActivity extends AppCompatActivity {
         } else {
             setContentView(R.layout.activity_release);
             ButterKnife.inject(this);
+            process = ((ProcessView) findViewById(R.id.id_process));
+            process.setApprovalProcessText(ApprovalProcessActivity.userNmes,
+                    ApprovalProcessActivity.userDepartment,ApprovalProcessActivity.userState);
             tvBartop.setText(list.get(type));
             tvFlow.setText(list.get(type));
-            initDownMenu();
+            initDownMenu(type);
             initDatePicker(-1);
         }
 
@@ -126,12 +155,12 @@ public class ReleaseActivity extends AppCompatActivity {
         adapter.setOnRecyclerViewItemClick(new RecycleViewAdapter.onRecycleViewItemClick() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(ReleaseActivity.this, "叽叽叽叽", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReleaseActivity.this, "点击", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onItemLongClick(View view, int position) {
-                Toast.makeText(ReleaseActivity.this, "滕涛涛涛涛涛涛", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReleaseActivity.this, "长按", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -183,11 +212,36 @@ public class ReleaseActivity extends AppCompatActivity {
     }
 
     //初始化菜单
-    private void initDownMenu() {
-//        ArrayAdapter<String> flowAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.ReleaseFlow));
-//        flowAdapter.setDropDownViewResource(android.support.v7.appcompat.R.layout.support_simple_spinner_dropdown_item);
-//        spFlow.setAdapter(flowAdapter);
-        ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.ReleaseType));
+    private void initDownMenu(int type) {
+        ArrayAdapter<String> typeAdapter = null;
+        switch (type) {
+            case 0:
+                typeAdapter = new ArrayAdapter<>(this,
+                        R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.ReleaseFlow));
+                break;
+            case 1:
+                tvBecause.setText("加班理由:");
+                tvName.setText("加班人员:");
+                tvType.setText("加班类型:");
+                typeAdapter = new ArrayAdapter<>(this,
+                        R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.ReleaseType));
+                break;
+            case 2:
+                tvBecause.setText("外出理由:");
+                tvName.setText("外出人员:");
+                tvType.setText("外出类型:");
+                typeAdapter = new ArrayAdapter<>(this,
+                        R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.ReleaseType_i));
+                break;
+            case 3:
+                tvBecause.setText("出差理由:");
+                tvName.setText("出差人员:");
+                tvType.setText("出差类型:");
+                typeAdapter = new ArrayAdapter<>(this,
+                        R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.ReleaseType_ii));
+                break;
+
+        }
         typeAdapter.setDropDownViewResource(android.support.v7.appcompat.R.layout.support_simple_spinner_dropdown_item);
         spType.setAdapter(typeAdapter);
     }

@@ -123,8 +123,6 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);//surfaceview不维护自己的缓存
     }
 
-
-
     private void initData(String mapTime) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.CHINA);
         String now = sdf.format(new Date());
