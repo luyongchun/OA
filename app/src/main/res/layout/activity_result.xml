@@ -7,11 +7,18 @@
     android:background="@color/blak"
     tools:context="com.luyc.bnd.oaattendnace.activity.ResultActivity">
     <!--这是用来预览相机的空间，大家可以去好好了解一下，这里我就不详细讲了-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/blak"
+        />
     <ImageView
         android:id="@+id/sfv_camera"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="50dp"
+        android:layout_marginTop="40dp"
+        android:scaleType="fitXY"
         android:src="@mipmap/ic_launcher" />
 
     <RelativeLayout
