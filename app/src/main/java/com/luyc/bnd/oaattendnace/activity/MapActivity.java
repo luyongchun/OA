@@ -83,6 +83,7 @@ public class MapActivity extends AppCompatActivity implements
     private String nowTime, address;
     private String mapTime;
     private Circle circle;
+    private double latitude,longitude;
     // 标识首次定位
     private boolean isFirstLocation = true;
 
@@ -116,8 +117,8 @@ public class MapActivity extends AppCompatActivity implements
         mapTime = sdf.format(new Date(aMapLocation.getTime()));//获取地图时间
         String street = aMapLocation.getStreet();//街道
         String streetNum = aMapLocation.getStreetNum();//街道号
-        double latitude = aMapLocation.getLatitude();//经度
-        double longitude = aMapLocation.getLongitude();//纬度
+        latitude = aMapLocation.getLatitude();//经度
+        longitude = aMapLocation.getLongitude();//纬度
         LatLng start = new LatLng(22.811404, 113.33247);//考勤经纬度
         LatLng end = new LatLng(latitude, longitude);//定位的经纬度
         mListener.onLocationChanged(aMapLocation);//定位
@@ -153,9 +154,10 @@ public class MapActivity extends AppCompatActivity implements
             setNormalAttendance(width, "正常打卡", "正常", R.drawable.shape_attend_nor_bg);
         } else if (Hour == 8 && Min > 30 || Hour > 8 && Hour <= 12) {
             setLateAttdence(width, "迟到打卡", "迟到");
-        } else if (Hour > 12 && Hour < 17 || Hour == 17 && Min < 30) {
-            setLeaveEarlyAttdence(width, "早退打卡", "早退");
         }
+//        else if (Hour > 12 && Hour < 17 || Hour == 17 && Min < 30) {
+//            setLeaveEarlyAttdence(width, "早退打卡", "早退");
+//        }
     }
 
     //早退

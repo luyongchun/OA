@@ -44,8 +44,14 @@ import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.model.LatLng;
 import com.luyc.bnd.oaattendnace.R;
 import com.luyc.bnd.oaattendnace.adapter.AttendanceRcvAdapter;
+import com.luyc.bnd.oaattendnace.utils.MyToastShow;
 import com.luyc.bnd.oaattendnace.utils.MyToos;
 import com.luyc.bnd.oaattendnace.view.MyCircleView;
+
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -137,9 +143,10 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
     LinearLayout llAfterIi;
     @InjectView(R.id.tv_horizontal)
     TextView tvHorizontal;
-//    @InjectView(R.id.tv_orizontal)
+    //    @InjectView(R.id.tv_orizontal)
 //    TextView tvOrizontal;
-
+    final static String SERVICE_NS = "http://ws.platform.telezone.com/";
+    final static String SERVICE_URL = "http://192.168.1.57:9090/platform-webapp/services/pdaAssetWebService";
     private PopupWindow popupWindow, mPopupWindow, aPopupWindow, iPopupWindow;
     private String address = "";
     private String mapTime = "";//地图时间
@@ -150,7 +157,13 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
     private String TAG = "AttendanceActivity";
     private double mLatitude = 22.811013, mLongittude = 113.333643, mAccuracy = 550;//固定经度纬度以及精确度
     private double latitude, longitude;
-
+    private boolean netWorkStatle, isFirst;
+    private String succeedTime, backAddress = "", mapAddress = "";
+    ;
+    private Dialog dialog;
+    private MyCircleView mcv;
+    private long parseInt=-1, ServiceT=-1;
+    private String toStamp="", serviceDate="", serviceTime="";
     //声明定位回调监听器
     public AMapLocationListener mLocationListener = new AMapLocationListener() {
 
@@ -169,10 +182,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             }
         }
     };
-    private String succeedTime, backAddress = "", mapAddress = "";
-    ;
-    private Dialog dialog;
-    private MyCircleView mcv;
+
 
     private void initAddressAndView(AMapLocation aMapLocation) {
         address = aMapLocation.getAddress();
@@ -210,7 +220,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                 }
                 ivAttendance.setImageResource(R.mipmap.ok_ii);
             } else {
-                 mcv.setPaintColor(-1);
+                mcv.setPaintColor(-1);
 //                tvCard.setText("外勤打卡");
                 tvAttendanceAddress.setText("当前不在考勤范围内:");
                 tvAttendanceAddress.setTextColor(getResources().getColor(R.color.color_later));
@@ -253,9 +263,25 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-                    long sysTime = System.currentTimeMillis();
-                    CharSequence sysTimeStr = DateFormat.format("HH:mm:ss", sysTime);
-                    tvNowTime.setText(sysTimeStr);
+                    if (netWorkStatle) {
+                        if (!toStamp.equals("") && isFirst) {
+                            parseInt = Long.parseLong(toStamp);
+                            ServiceT = parseInt + 1000;
+                            isFirst = false;
+                        } else {
+                            ServiceT += 1000;
+                        }
+                        String date = stampToDate(ServiceT + "");
+                        Log.e("test", "handleMessage:date/toStamp== " + date + "/" + ServiceT);
+                        serviceDate = date.substring(0, 11);
+                        serviceTime = date.substring(11);
+                        tvNowTime.setText(serviceTime);
+                        tvTime.setText(serviceDate.replaceAll("-", "."));
+                    } else {
+                        long sysTime = System.currentTimeMillis();
+                        CharSequence sysTimeStr = DateFormat.format("HH:mm:ss", sysTime);
+                        tvNowTime.setText(sysTimeStr);
+                    }
                     break;
                 default:
                     break;
@@ -273,7 +299,10 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         ButterKnife.inject(this);
         mcv = ((MyCircleView) findViewById(R.id.mcv_card));
         getSystemTime();
-        new TimeThread().start();//开启定时器
+
+        //检查网络
+        MyToos myToos = new MyToos(this);
+        netWorkStatle = myToos.isNetWorkStatle();
         //初始化地图
         mLocationClient = new AMapLocationClient(this);
         //初始化AMapLocationClientOption对象
@@ -281,7 +310,86 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         //注册广播接收器
         initReceiver();
         initData();//初始化数据
-        requestLocationAdrees(-1);//请求定位
+        if (netWorkStatle) {
+            requestLocationAdrees(-1);//请求定位
+            getServiceSysTime();
+        } else {
+            MyToastShow.showToast(this, "当前网络不可用，请先检查您的网络连接哦");
+        }
+        new TimeThread().start();//开启定时器
+    }
+
+    private void getServiceSysTime() {
+        new Thread() {
+            @Override
+            public void run() {
+                String methodName = "sysn_time";
+                //创建httpTransportSE传输对象
+                HttpTransportSE ht = new HttpTransportSE(SERVICE_URL);
+                // ht.debug = true;
+                //使用soap1.1协议创建Envelop对象
+                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                //实例化SoapObject对象
+                SoapObject request = new SoapObject(SERVICE_NS, methodName);
+                /**
+                 * 设置参数，参数名不一定需要跟调用的服务器端的参数名相同，只需要对应的顺序相同即可
+                 * */
+                //将SoapObject对象设置为SoapSerializationEnvelope对象的传出SOAP消息
+                envelope.bodyOut = request;
+
+                try {
+                    //调用webService
+                    ht.call(null, envelope);
+                    if (envelope.getResponse() != null) {
+                        SoapObject result = (SoapObject) envelope.bodyIn;
+                        String sys = envelope.getResult().toString().trim();
+//                        String time = sys.substring(11);
+                        toStamp = dateToStamp(sys);
+                        isFirst = true;
+                        Log.e("test", "run: sys==" + sys +"/" + toStamp);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    /*
+   * 将时间转换为时间戳
+   */
+    public static String dateToStamp(String s) {
+        String res = null;
+        Date date = null;
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            date = simpleDateFormat.parse(s);
+            long ts = date.getTime();
+            Log.e("test", "dateToStamp: ts" + ts);
+            res = String.valueOf(ts);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return res;
+    }
+
+    /*
+    * 将时间戳转换为时间
+ ```*/
+    public static String stampToDate(String s) {
+        String res = null;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            long lt = new Long(s);
+            date = new Date(lt);
+            res = simpleDateFormat.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return res;
     }
 
     private void initReceiver() {
@@ -490,7 +598,6 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             } while (true);
         }
     }
-
 
     private void getSystemTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.CHINA);
