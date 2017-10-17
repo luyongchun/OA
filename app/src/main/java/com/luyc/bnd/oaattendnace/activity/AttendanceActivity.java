@@ -46,6 +46,7 @@ import com.luyc.bnd.oaattendnace.R;
 import com.luyc.bnd.oaattendnace.adapter.AttendanceRcvAdapter;
 import com.luyc.bnd.oaattendnace.utils.MyToastShow;
 import com.luyc.bnd.oaattendnace.utils.MyToos;
+import com.luyc.bnd.oaattendnace.utils.Service;
 import com.luyc.bnd.oaattendnace.view.MyCircleView;
 
 import org.ksoap2.SoapEnvelope;
@@ -145,8 +146,6 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
     TextView tvHorizontal;
     //    @InjectView(R.id.tv_orizontal)
 //    TextView tvOrizontal;
-    final static String SERVICE_NS = "http://ws.platform.telezone.com/";
-    final static String SERVICE_URL = "http://192.168.1.57:9090/platform-webapp/services/pdaAssetWebService";
     private PopupWindow popupWindow, mPopupWindow, aPopupWindow, iPopupWindow;
     private String address = "";
     private String mapTime = "";//地图时间
@@ -162,8 +161,8 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
     ;
     private Dialog dialog;
     private MyCircleView mcv;
-    private long parseInt=-1, ServiceT=-1;
-    private String toStamp="", serviceDate="", serviceTime="";
+    private long parseInt = -1, ServiceT = -1;
+    private String toStamp = "", serviceDate = "", serviceTime = "";
     //声明定位回调监听器
     public AMapLocationListener mLocationListener = new AMapLocationListener() {
 
@@ -182,7 +181,6 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             }
         }
     };
-
 
     private void initAddressAndView(AMapLocation aMapLocation) {
         address = aMapLocation.getAddress();
@@ -263,7 +261,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-                    if (netWorkStatle) {
+                    if (netWorkStatle && !toStamp.equals("")) {
                         if (!toStamp.equals("") && isFirst) {
                             parseInt = Long.parseLong(toStamp);
                             ServiceT = parseInt + 1000;
@@ -311,8 +309,8 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         initReceiver();
         initData();//初始化数据
         if (netWorkStatle) {
-            requestLocationAdrees(-1);//请求定位
             getServiceSysTime();
+            requestLocationAdrees(-1);//请求定位
         } else {
             MyToastShow.showToast(this, "当前网络不可用，请先检查您的网络连接哦");
         }
@@ -325,12 +323,12 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             public void run() {
                 String methodName = "sysn_time";
                 //创建httpTransportSE传输对象
-                HttpTransportSE ht = new HttpTransportSE(SERVICE_URL);
+                HttpTransportSE ht = new HttpTransportSE(Service.SERVICE_URL);
                 // ht.debug = true;
                 //使用soap1.1协议创建Envelop对象
                 SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 //实例化SoapObject对象
-                SoapObject request = new SoapObject(SERVICE_NS, methodName);
+                SoapObject request = new SoapObject(Service.SERVICE_NS, methodName);
                 /**
                  * 设置参数，参数名不一定需要跟调用的服务器端的参数名相同，只需要对应的顺序相同即可
                  * */
@@ -343,10 +341,10 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                     if (envelope.getResponse() != null) {
                         SoapObject result = (SoapObject) envelope.bodyIn;
                         String sys = envelope.getResult().toString().trim();
+                        Log.e(TAG, "run: sysssss"+sys );
 //                        String time = sys.substring(11);
                         toStamp = dateToStamp(sys);
                         isFirst = true;
-                        Log.e("test", "run: sys==" + sys +"/" + toStamp);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -394,7 +392,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
 
     private void initReceiver() {
         IntentFilter filter = new IntentFilter();
-        filter.addAction(ResultActivity.ACTION);
+        filter.addAction(ResultActivity.ACTION_SUCCEED);
         filter.setPriority(Integer.MAX_VALUE);
         registerReceiver(myReceiver, filter);
     }
@@ -637,6 +635,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                 startActivityForResult(intent, 0);
                 break;
             case R.id.rl_card:
+                getServiceSysTime();
                 setPermision();
                 break;
             case R.id.tv_updata_attend:
@@ -702,6 +701,8 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         Intent intent = new Intent(this, CustomerCameraActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("mapTime", mapTime);
+        bundle.putDouble("latitude", latitude);
+        bundle.putDouble("longitude", longitude);
         if (backAddress.equals("")) {
             bundle.putString("address", address);
         } else {
@@ -757,9 +758,13 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-    private void showSucceedPopupWindow() {
-
-        View view = LayoutInflater.from(this).inflate(R.layout.succeed_attendance, null);
+    private void showSucceedPopupWindow(int attendType) {
+        View view = null;
+        if (attendType == 1) {
+            view = LayoutInflater.from(this).inflate(R.layout.succeed_attendance, null);
+        } else{
+            view = LayoutInflater.from(this).inflate(R.layout.fail_attendance, null);
+        }
         TextView tvSucceed = (TextView) view.findViewById(R.id.tv_succeed_time);
         TextView tvKnow = (TextView) view.findViewById(R.id.tv_know);
         TextView tvWorkType = (TextView) view.findViewById(R.id.tv_work_type);
@@ -771,6 +776,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         tvSucceed.setText(aTime);
         String str = mapTime.substring(0, 2);
         int i = Integer.parseInt(str);
+
         if (i < 12 && list.size() < 1) {
             tvWorkType.setText("上");
             tv.setText("成功，从开始上班开始");
@@ -825,12 +831,15 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             switch (action) {
-                case ResultActivity.ACTION:
-                    showSucceedPopupWindow();
+                case ResultActivity.ACTION_SUCCEED:
+                    showSucceedPopupWindow(1);
                     if (backAddress.equals(""))
                         tvAddressedI.setText(address);
                     else
                         tvAddressedI.setText(backAddress);
+                    break;
+                case ResultActivity.ACTION_FAILD:
+                    showSucceedPopupWindow(-1);
                     break;
             }
         }

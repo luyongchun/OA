@@ -83,6 +83,8 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
     //是否开启闪光灯 默认关闭闪光灯
     private String isOpenFlashMode= Camera.Parameters.FLASH_MODE_OFF;
     private boolean mIsOpenFlashMode =true;
+    private double longitude, latitude;
+    private String second;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +96,8 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
         Bundle bundle = intent.getBundleExtra("bundle");
         String address = bundle.getString("address");
         String mapTime = bundle.getString("mapTime");
+        longitude = bundle.getDouble("longitude");
+        latitude = bundle.getDouble("latitude");
         this.address = address;
 
         Log.e(TAG, "onCreate: address=="+address );
@@ -124,16 +128,21 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
     }
 
     private void initData(String mapTime) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.CHINA);
-        String now = sdf.format(new Date());
-        nowData = now.substring(0, 11);
-        nowTime = now.substring(11);
+
         if (!mapTime.equals("")){
             nowData = mapTime.substring(0, 11);
             nowTime = mapTime.substring(11,16);
+            second = mapTime.substring(16);
+            Log.e(TAG, "initData: second"+second );
             tvDate.setText(nowData);
             tvTime.setText(nowTime);
         }else {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.CHINA);
+            String now = sdf.format(new Date());
+            nowData = now.substring(0, 11);
+            nowTime = now.substring(11);
+            second = mapTime.substring(16);
+            Log.e(TAG, "initData: second"+second );
             tvDate.setText(nowData);
             tvTime.setText(nowTime);
         }
@@ -160,7 +169,6 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
         Display display = wm.getDefaultDisplay();
         int height = display.getHeight();
         int width = display.getWidth();
-
         //获取相机参数
         parameters = camera.getParameters();
         //设置照片格式
@@ -222,6 +230,9 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
             bundle.putString("filePath", filePath);
             bundle.putString("nowData", nowData);
             bundle.putString("nowTime", nowTime);
+            bundle.putString("second", second);
+            bundle.putDouble("latitude",latitude);
+            bundle.putDouble("longitude",longitude);
             bundle.putBoolean("isCamera",isCamera);
             bundle.putString("address",address);
             intent.putExtra("bundle", bundle);

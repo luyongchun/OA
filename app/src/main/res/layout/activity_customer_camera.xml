@@ -64,6 +64,20 @@
                 android:layout_marginLeft="5dp"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="数控汇OA考勤"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2017.09.02"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
 
                 <TextView
                     android:id="@+id/tv_time"
@@ -73,21 +87,6 @@
                     android:text="08:27"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
-
-                <TextView
-                    android:id="@+id/tv_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2017.09.02"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="数控汇OA考勤"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
             </LinearLayout>
 
             <ImageButton
