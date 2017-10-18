@@ -147,7 +147,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
     //    @InjectView(R.id.tv_orizontal)
 //    TextView tvOrizontal;
     private PopupWindow popupWindow, mPopupWindow, aPopupWindow, iPopupWindow;
-    private String address = "";
+    private String address = "", date;
     private String mapTime = "";//地图时间
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
@@ -158,7 +158,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
     private double latitude, longitude;
     private boolean netWorkStatle, isFirst;
     private String succeedTime, backAddress = "", mapAddress = "";
-    ;
+    private MyToos myToos;
     private Dialog dialog;
     private MyCircleView mcv;
     private long parseInt = -1, ServiceT = -1;
@@ -256,6 +256,8 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
     }
 
     private Handler handler = new Handler() {
+
+
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -269,12 +271,14 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                         } else {
                             ServiceT += 1000;
                         }
-                        String date = stampToDate(ServiceT + "");
+
+                        date = stampToDate(ServiceT + "");
                         Log.e("test", "handleMessage:date/toStamp== " + date + "/" + ServiceT);
                         serviceDate = date.substring(0, 11);
                         serviceTime = date.substring(11);
                         tvNowTime.setText(serviceTime);
                         tvTime.setText(serviceDate.replaceAll("-", "."));
+                        Log.e("test", "handleMessage: date==" + date);
                     } else {
                         long sysTime = System.currentTimeMillis();
                         CharSequence sysTimeStr = DateFormat.format("HH:mm:ss", sysTime);
@@ -299,7 +303,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         getSystemTime();
 
         //检查网络
-        MyToos myToos = new MyToos(this);
+        myToos = new MyToos(this);
         netWorkStatle = myToos.isNetWorkStatle();
         //初始化地图
         mLocationClient = new AMapLocationClient(this);
@@ -341,7 +345,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                     if (envelope.getResponse() != null) {
                         SoapObject result = (SoapObject) envelope.bodyIn;
                         String sys = envelope.getResult().toString().trim();
-                        Log.e(TAG, "run: sysssss"+sys );
+                        Log.e(TAG, "run: sysssss" + sys);
 //                        String time = sys.substring(11);
                         toStamp = dateToStamp(sys);
                         isFirst = true;
@@ -502,7 +506,13 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                 aPopupWindow.dismiss();
                 break;
             case R.id.tv_updata:
-                setPermision();
+                boolean netWorkStatle = myToos.isNetWorkStatle();
+                if (netWorkStatle){
+                    getServiceSysTime();
+                    setPermision();
+                }else {
+                    MyToastShow.showToast(this,"哎呀，又塞网了，请先检查您的网络哦");
+                }
                 aPopupWindow.dismiss();
                 break;
             case R.id.iv_img:
@@ -635,8 +645,14 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                 startActivityForResult(intent, 0);
                 break;
             case R.id.rl_card:
-                getServiceSysTime();
-                setPermision();
+                boolean netWorkStatle = MyToos.isNetWorkStatle();
+                if (netWorkStatle){
+                    getServiceSysTime();
+                    setPermision();
+                }else {
+                    MyToastShow.showToast(this,"哎呀，塞网了，请先检查您的网络哦");
+                }
+
                 break;
             case R.id.tv_updata_attend:
                 showUpdataPopupWindow();
@@ -685,7 +701,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                     new String[]{Manifest.permission.CAMERA},
                     REQUEST_TAKE_PHOTO_PERMISSION);
         } else {
-            if (address == "") {
+            if (address.equals("")) {
                 Toast.makeText(this, "没有获取到当前位置信息，请您重新定位", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -700,7 +716,9 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         }
         Intent intent = new Intent(this, CustomerCameraActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("mapTime", mapTime);
+        String replace = date.replace("-", ".");
+        bundle.putString("mapTime", replace);
+        Log.e(TAG + "ssss", "openCCActivity: date.replace==" + replace);
         bundle.putDouble("latitude", latitude);
         bundle.putDouble("longitude", longitude);
         if (backAddress.equals("")) {
@@ -758,13 +776,9 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-    private void showSucceedPopupWindow(int attendType) {
-        View view = null;
-        if (attendType == 1) {
-            view = LayoutInflater.from(this).inflate(R.layout.succeed_attendance, null);
-        } else{
-            view = LayoutInflater.from(this).inflate(R.layout.fail_attendance, null);
-        }
+    private void showSucceedPopupWindow() {
+        View view = LayoutInflater.from(this).inflate(R.layout.succeed_attendance, null);
+
         TextView tvSucceed = (TextView) view.findViewById(R.id.tv_succeed_time);
         TextView tvKnow = (TextView) view.findViewById(R.id.tv_know);
         TextView tvWorkType = (TextView) view.findViewById(R.id.tv_work_type);
@@ -777,7 +791,39 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         String str = mapTime.substring(0, 2);
         int i = Integer.parseInt(str);
 
-        if (i < 12 && list.size() < 1) {
+        if (i < 12) {
+            tvWorkType.setText("上");
+            tv.setText("成功，从开始上班开始");
+        } else {
+            tvWorkType.setText("下");
+            tv.setText("忙碌了一天了，好好休息吧");
+            tvUpdataAttend.setVisibility(View.GONE);
+            tvHorizontal.setVisibility(View.VISIBLE);
+            llAfterIi.setVisibility(View.VISIBLE);
+            rlAllCard.setVisibility(View.GONE);
+            tvAttendanceTimeI.setText("打卡时间" + aTime);
+        }
+        setPopupWindow(mPopupWindow, view);
+
+    }
+
+    private void showFailPopupWindow() {
+
+        View view = LayoutInflater.from(this).inflate(R.layout.fail_attendance, null);
+
+        TextView tvSucceed = (TextView) view.findViewById(R.id.tv_succeed_time);
+        TextView tvKnow = (TextView) view.findViewById(R.id.tv_know);
+        TextView tvWorkType = (TextView) view.findViewById(R.id.tv_work_type);
+        TextView tv = (TextView) view.findViewById(R.id.tv_yuyan);
+        mPopupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        tvKnow.setOnClickListener(this);
+        String aTime = mapTime.substring(11, 16);
+        tvSucceed.setText(aTime);
+        String str = mapTime.substring(0, 2);
+        int i = Integer.parseInt(str);
+
+        if (i < 12) {
             tvWorkType.setText("上");
             tv.setText("成功，从开始上班开始");
         } else {
@@ -832,14 +878,14 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             String action = intent.getAction();
             switch (action) {
                 case ResultActivity.ACTION_SUCCEED:
-                    showSucceedPopupWindow(1);
+                    showSucceedPopupWindow();
                     if (backAddress.equals(""))
                         tvAddressedI.setText(address);
                     else
                         tvAddressedI.setText(backAddress);
                     break;
                 case ResultActivity.ACTION_FAILD:
-                    showSucceedPopupWindow(-1);
+                    showFailPopupWindow();
                     break;
             }
         }

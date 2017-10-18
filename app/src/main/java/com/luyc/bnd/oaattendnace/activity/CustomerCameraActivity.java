@@ -210,8 +210,8 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
         if (!file.exists())
             file.mkdir();
         long currentTimeMillis = System.currentTimeMillis();
-        CharSequence sysTimeStr = DateFormat.format("MM.dd-HH:mm:ss",currentTimeMillis);
-        file = new File("/sdcard/"+sysTimeStr+"_oa.jpg".trim());
+        CharSequence sysTimeStr = DateFormat.format("yyyy.MM:dd HH:mm:ss",currentTimeMillis);
+        file = new File("/sdcard/"+sysTimeStr+".jpg".trim());
         String fileName = file.getName();
         String mName = fileName.substring(0, fileName.lastIndexOf("."));
         String sName = fileName.substring(fileName.lastIndexOf("."));

@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -54,7 +56,7 @@ public class ResultActivity extends AppCompatActivity {
     public static final String ACTION_FAILD = "FAILD.ATTENDANCE_CARD";
     private int cameraPosition = 1;
     private String nowData;
-    private String nowTime,second;
+    private String nowTime, second;
     private String userName = "小木匠";
     private String userLocation = "";
     private boolean isCamera;
@@ -63,9 +65,26 @@ public class ResultActivity extends AppCompatActivity {
     private Bitmap btm;
     private String compay = "数控汇OA考勤";
     private byte[] datas;
-//    final static String SERVICE_NS = "http://ws.platform.telezone.com/";
+    //    final static String SERVICE_NS = "http://ws.platform.telezone.com/";
 //    final static String SERVICE_URL = "http://192.168.1.57:9090/platform-webapp/services/pdaAssetWebService";
     private double longitude, latitude;
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.arg1) {
+                case 1:
+                    MyToastShow.showToast(ResultActivity.this, "哎呀，服务器出错了 ");
+                    break;
+                case -1:
+                    MyToastShow.showToast(ResultActivity.this, "哎呀，网络塞住了，先去检查您的网络连接吧");
+                    break;
+            }
+
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +104,7 @@ public class ResultActivity extends AppCompatActivity {
         datas = bundle.getByteArray("data");
         userLocation = address;
 
-        Log.e(TAG, "onCreate:address== " + address);
+        Log.e(TAG, "onCreate:address/time== " + address + "/" + nowData + nowTime + second);
         showPic2ImageView(filePath);
 
     }
@@ -128,10 +147,10 @@ public class ResultActivity extends AppCompatActivity {
 
         Log.e(TAG, "showPic2ImageView: drawTextWidth//width//bitmap.getWidth()"
                 + drawTextWidth + "//" + width + "//" + bitmap.getWidth());
-//        if (drawTextWidth > 350) {
-//            userLocation = userLocation.substring(0, 28);
-//            userLocation = userLocation + "...";
-//        }
+        if (drawTextWidth > 350) {
+            userLocation = userLocation.substring(0, 28);
+            userLocation = userLocation + "...";
+        }
         Bitmap btm4 = ImageUtil.drawTextToRightBottom(this, btm3, userLocation, 22, Color.WHITE, 10, 20);
         Bitmap btm5 = ImageUtil.drawTextToRightBottom(this, btm4, userName, 22, Color.WHITE, 20, 50);
         Bitmap btm = ImageUtil.createWaterMaskRightBottom(this, btm5,
@@ -151,7 +170,7 @@ public class ResultActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, CustomerCameraActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("address", address);
-                bundle.putString("mapTime", nowData + nowTime+second);
+                bundle.putString("mapTime", nowData + nowTime + second);
                 bundle.putDouble("latitude", latitude);
                 bundle.putDouble("longitude", longitude);
                 intent.putExtra("bundle", bundle);
@@ -194,16 +213,16 @@ public class ResultActivity extends AppCompatActivity {
                             // @WebParam(name="lng")String lng, @WebParam(name="kq_date") String kq_date,yyyy-MM-dd HH:mm:ss
                             // @WebParam(name="note")String note,@WebParam(name="photo") String photo)
                             request.addProperty("gpsCode", "12345678901");
-                            request.addProperty("lat", latitude+"");
-                            request.addProperty("lng", longitude+"");
+                            request.addProperty("lat", latitude + "");
+                            request.addProperty("lng", longitude + "");
 //                            SimpleDateFormat d= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            String value = nowData.replace(".","-")+ nowTime+second;
+                            String value = nowData.replace(".", "-") + nowTime + second;
 //                            String format = d.format(nowData + nowTime+":00");
-                            Log.e(TAG, "run: value"+value);
+                            Log.e(TAG, "run: value" + value);
                             request.addProperty("kq_date", value);
                             request.addProperty("note", "正常");
                             request.addProperty("photo", imgStr);
-                            request.addProperty("kq_address",address);
+                            request.addProperty("kq_address", address);
                             // request.addProperty("password",password.getText().toString());
                             //将SoapObject对象设置为SoapSerializationEnvelope对象的传出SOAP消息
                             envelope.bodyOut = request;
@@ -224,8 +243,9 @@ public class ResultActivity extends AppCompatActivity {
                                         finish();
                                     }
                                 } else {
-                                    MyToastShow.showToast(ResultActivity.this, "哎呀，服务器出错了 ");
-
+                                    Message msg = new Message();
+                                    msg.arg1 = 1;
+                                    handler.sendMessage(msg);
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -234,7 +254,9 @@ public class ResultActivity extends AppCompatActivity {
                     }.start();
 
                 } else {
-                    MyToastShow.showToast(this, "哎呀，网络塞住了，先去检查您的网络连接吧");
+                    Message msg = new Message();
+                    msg.arg1 = -1;
+                    handler.sendMessage(msg);
                 }
                 break;
         }
