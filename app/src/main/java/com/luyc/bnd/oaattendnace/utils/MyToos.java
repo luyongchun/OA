@@ -29,7 +29,7 @@ public class MyToos {
     }
 
     /*
-     *  判断网络连接是否可以用。 注意，使用网络判断一定要传入上下文！！！
+     *  判断网络连接是否可以用, 注意，使用网络判断一定要传入上下文！！！
      */
     public static boolean isNetWorkStatle() {
         // 获取手机所有连接管理对象（包括对wi-fi,net等连接的管理）

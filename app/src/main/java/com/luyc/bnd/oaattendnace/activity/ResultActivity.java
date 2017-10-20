@@ -75,7 +75,10 @@ public class ResultActivity extends AppCompatActivity {
             super.handleMessage(msg);
             switch (msg.arg1) {
                 case 1:
-                    MyToastShow.showToast(ResultActivity.this, "哎呀，服务器出错了 ");
+                    MyToastShow.showToast(ResultActivity.this, "服务器返回了空的数据");
+                    break;
+                case 2:
+                    MyToastShow.showToast(ResultActivity.this, "哎呀，服务器出错了");
                     break;
                 case -1:
                     MyToastShow.showToast(ResultActivity.this, "哎呀，网络塞住了，先去检查您的网络连接吧");
@@ -249,6 +252,9 @@ public class ResultActivity extends AppCompatActivity {
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
+                                Message msg = new Message();
+                                msg.arg1 = 2;
+                                handler.sendMessage(msg);
                             }
                         }
                     }.start();

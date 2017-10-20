@@ -20,8 +20,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Gravity;
@@ -43,7 +41,6 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.model.LatLng;
 import com.luyc.bnd.oaattendnace.R;
-import com.luyc.bnd.oaattendnace.adapter.AttendanceRcvAdapter;
 import com.luyc.bnd.oaattendnace.utils.MyToastShow;
 import com.luyc.bnd.oaattendnace.utils.MyToos;
 import com.luyc.bnd.oaattendnace.utils.Service;
@@ -100,8 +97,6 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
     @InjectView(R.id.tv_address)
     TextView tvAddress;
 
-    @InjectView(R.id.rcv_attendance)
-    RecyclerView rcvAttendance;
     @InjectView(R.id.tv_work_attendace)
     TextView tvWorkAttendace;
     @InjectView(R.id.tv_again_location)
@@ -422,13 +417,6 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
             rlAllCard.setVisibility(View.GONE);
             llGoworkI.setVisibility(View.VISIBLE);
             llAfterIi.setVisibility(View.VISIBLE);
-        }
-        rcvAttendance.setLayoutManager(new LinearLayoutManager(this));
-        //防止recycleview会因为没有数据报空指针异常而闪退
-        if (list != null) {
-            rcvAttendance.setAdapter(new AttendanceRcvAdapter(this, list));
-        } else {
-            rcvAttendance.setAdapter(new AttendanceRcvAdapter(this, mlist));
         }
     }
 
