@@ -499,7 +499,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                     getServiceSysTime();
                     setPermision();
                 }else {
-                    MyToastShow.showToast(this,"哎呀，又塞网了，请先检查您的网络哦");
+                    MyToastShow.showToast(this,"哎呀，又塞网啦，请先检查您的网络哦");
                 }
                 aPopupWindow.dismiss();
                 break;
@@ -638,9 +638,8 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                     getServiceSysTime();
                     setPermision();
                 }else {
-                    MyToastShow.showToast(this,"哎呀，塞网了，请先检查您的网络哦");
+                    MyToastShow.showToast(this,"哎呀，塞网啦，请先检查您的网络哦");
                 }
-
                 break;
             case R.id.tv_updata_attend:
                 showUpdataPopupWindow();
@@ -690,7 +689,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                     REQUEST_TAKE_PHOTO_PERMISSION);
         } else {
             if (address.equals("")) {
-                Toast.makeText(this, "没有获取到当前位置信息，请您重新定位", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "没有获取到当前的位置信息，请您重新定位", Toast.LENGTH_SHORT).show();
                 return;
             }
             openCCActivity();

@@ -148,8 +148,8 @@ public class ResultActivity extends AppCompatActivity {
         Bitmap btm3 = ImageUtil.drawTextToLeftTop(this, btm2, nowTime, 45, Color.WHITE, 28, 65);
         int drawTextWidth = (int) ImageUtil.drawTextWidth(userLocation);
 
-        Log.e(TAG, "showPic2ImageView: drawTextWidth//width//bitmap.getWidth()"
-                + drawTextWidth + "//" + width + "//" + bitmap.getWidth());
+        Log.e(TAG, "showPic2ImageView: drawTextWidth//width//w"
+                + drawTextWidth + "//" + width );
         if (drawTextWidth > 350) {
             userLocation = userLocation.substring(0, 28);
             userLocation = userLocation + "...";
@@ -200,62 +200,7 @@ public class ResultActivity extends AppCompatActivity {
                     new Thread() {
                         @Override
                         public void run() {
-                            String imgStr = getImgStr(filePath);
-                            String methodName = "saveKqGps";
-                            //创建httpTransportSE传输对象
-                            HttpTransportSE ht = new HttpTransportSE(Service.SERVICE_URL);
-                            // ht.debug = true;
-                            //使用soap1.1协议创建Envelop对象
-                            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-                            //实例化SoapObject对象
-                            SoapObject request = new SoapObject(Service.SERVICE_NS, methodName);
-                            /**
-                             * 设置参数，参数名不一定需要跟调用的服务器端的参数名相同，只需要对应的顺序相同即可
-                             * */
-                            //saveKqGps(@WebParam(name="gpsCode")String gpsCode,@WebParam(name="lat")String lat,
-                            // @WebParam(name="lng")String lng, @WebParam(name="kq_date") String kq_date,yyyy-MM-dd HH:mm:ss
-                            // @WebParam(name="note")String note,@WebParam(name="photo") String photo)
-                            request.addProperty("gpsCode", "12345678901");
-                            request.addProperty("lat", latitude + "");
-                            request.addProperty("lng", longitude + "");
-//                            SimpleDateFormat d= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            String value = nowData.replace(".", "-") + nowTime + second;
-//                            String format = d.format(nowData + nowTime+":00");
-                            Log.e(TAG, "run: value" + value);
-                            request.addProperty("kq_date", value);
-                            request.addProperty("note", "正常");
-                            request.addProperty("photo", imgStr);
-                            request.addProperty("kq_address", address);
-                            // request.addProperty("password",password.getText().toString());
-                            //将SoapObject对象设置为SoapSerializationEnvelope对象的传出SOAP消息
-                            envelope.bodyOut = request;
-                            try {
-                                //调用webService
-                                ht.call(null, envelope);
-                                if (envelope.getResponse() != null) {
-                                    SoapObject result = (SoapObject) envelope.bodyIn;
-                                    String name = envelope.getResult().toString();
-                                    Log.e(TAG, "name==" + name);
-                                    if (name.equals("1")) {
-                                        Intent receiver = new Intent(ACTION_SUCCEED);
-                                        sendBroadcast(receiver);
-                                        finish();
-                                    } else {
-                                        Intent receiver = new Intent(ACTION_FAILD);
-                                        sendBroadcast(receiver);
-                                        finish();
-                                    }
-                                } else {
-                                    Message msg = new Message();
-                                    msg.arg1 = 1;
-                                    handler.sendMessage(msg);
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                Message msg = new Message();
-                                msg.arg1 = 2;
-                                handler.sendMessage(msg);
-                            }
+                            upLoadPhoto();
                         }
                     }.start();
 
@@ -265,6 +210,65 @@ public class ResultActivity extends AppCompatActivity {
                     handler.sendMessage(msg);
                 }
                 break;
+        }
+    }
+
+    private void upLoadPhoto() {
+        String imgStr = getImgStr(filePath);
+        String methodName = "saveKqGps";
+        //创建httpTransportSE传输对象
+        HttpTransportSE ht = new HttpTransportSE(Service.SERVICE_URL);
+        // ht.debug = true;
+        //使用soap1.1协议创建Envelop对象
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        //实例化SoapObject对象
+        SoapObject request = new SoapObject(Service.SERVICE_NS, methodName);
+        /**
+         * 设置参数，参数名不一定需要跟调用的服务器端的参数名相同，只需要对应的顺序相同即可
+         * */
+        //saveKqGps(@WebParam(name="gpsCode")String gpsCode,@WebParam(name="lat")String lat,
+        // @WebParam(name="lng")String lng, @WebParam(name="kq_date") String kq_date,日期格式：yyyy-MM-dd HH:mm:ss
+        // @WebParam(name="note")String note,@WebParam(name="photo") String photo)
+        request.addProperty("gpsCode", "12345678901");
+        request.addProperty("lat", latitude + "");
+        request.addProperty("lng", longitude + "");
+//                            SimpleDateFormat d= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String value = nowData.replace(".", "-") + nowTime + second;
+//                            String format = d.format(nowData + nowTime+":00");
+        Log.e(TAG, "run: value" + value);
+        request.addProperty("kq_date", value);
+        request.addProperty("note", "正常");
+        request.addProperty("photo", imgStr);
+        request.addProperty("kq_address", address);
+        // request.addProperty("password",password.getText().toString());
+        //将SoapObject对象设置为SoapSerializationEnvelope对象的传出SOAP消息
+        envelope.bodyOut = request;
+        try {
+            //调用webService
+            ht.call(null, envelope);
+            if (envelope.getResponse() != null) {
+                SoapObject result = (SoapObject) envelope.bodyIn;
+                String name = envelope.getResult().toString();
+                Log.e(TAG, "name==" + name);
+                if (name.equals("1")) {
+                    Intent receiver = new Intent(ACTION_SUCCEED);
+                    sendBroadcast(receiver);
+                    finish();
+                } else {
+                    Intent receiver = new Intent(ACTION_FAILD);
+                    sendBroadcast(receiver);
+                    finish();
+                }
+            } else {
+                Message msg = new Message();
+                msg.arg1 = 1;
+                handler.sendMessage(msg);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Message msg = new Message();
+            msg.arg1 = 2;
+            handler.sendMessage(msg);
         }
     }
 
