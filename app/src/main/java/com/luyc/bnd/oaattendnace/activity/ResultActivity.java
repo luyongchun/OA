@@ -145,7 +145,7 @@ public class ResultActivity extends AppCompatActivity {
 
         Bitmap btm1 = ImageUtil.drawTextToLeftTop(this, bitmap, compay, 25, Color.WHITE, 10, 7);
         Bitmap btm2 = ImageUtil.drawTextToLeftTop(this, btm1, nowData, 25, Color.WHITE, 20, 40);
-        Bitmap btm3 = ImageUtil.drawTextToLeftTop(this, btm2, nowTime, 45, Color.WHITE, 28, 65);
+        Bitmap btm3 = ImageUtil.drawTextToLeftTop(this, btm2, nowTime, 40, Color.WHITE, 10, 65);
         int drawTextWidth = (int) ImageUtil.drawTextWidth(userLocation);
 
         Log.e(TAG, "showPic2ImageView: drawTextWidth//width//w"

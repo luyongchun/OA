@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_idcard"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.luyc.bnd.oaattendnace.activity.IDCardActivity">
+
+    <RelativeLayout
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        >
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/left"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="身份证识别"
+            android:gravity="center"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_card_front"
+        android:layout_width="match_parent"
+        android:background="@color/split_line"
+        android:layout_height="40dp">
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/take_oh"
+            />
+
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            >
+            <TextView
+                android:text="身份证正面"
+                style="@style/TextStyle_user_i"
+                android:layout_marginLeft="12dp"
+                android:gravity="center" />
+            <TextView
+                android:layout_alignParentBottom="true"
+                android:background="@color/gray_ii"
+                style="@style/HorizontalStyle" />
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="match_parent"
+                android:src="@mipmap/right"
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_card_native"
+        android:layout_width="match_parent"
+        android:background="@color/split_line"
+        android:layout_height="40dp">
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/take_oh"
+            />
+
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            >
+            <TextView
+                android:text="身份证反面"
+                style="@style/TextStyle_user_i"
+                android:layout_marginLeft="12dp"
+                android:gravity="center" />
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="match_parent"
+                android:src="@mipmap/right"
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

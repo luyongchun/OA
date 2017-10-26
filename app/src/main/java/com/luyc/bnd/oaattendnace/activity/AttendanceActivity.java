@@ -266,13 +266,14 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                         } else {
                             ServiceT += 1000;
                         }
-
+                        //将时间戳转换为时间
                         date = stampToDate(ServiceT + "");
                         Log.e("test", "handleMessage:date/toStamp== " + date + "/" + ServiceT);
                         serviceDate = date.substring(0, 11);
                         serviceTime = date.substring(11);
                         tvNowTime.setText(serviceTime);
                         tvTime.setText(serviceDate.replaceAll("-", "."));
+                        date=serviceDate+serviceTime;
                         Log.e("test", "handleMessage: date==" + date);
                     } else {
                         long sysTime = System.currentTimeMillis();
@@ -296,7 +297,6 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         ButterKnife.inject(this);
         mcv = ((MyCircleView) findViewById(R.id.mcv_card));
         getSystemTime();
-
         //检查网络
         myToos = new MyToos(this);
         netWorkStatle = myToos.isNetWorkStatle();
@@ -342,8 +342,12 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
                         String sys = envelope.getResult().toString().trim();
                         Log.e(TAG, "run: sysssss" + sys);
 //                        String time = sys.substring(11);
+                        //将时间转换为时间戳
                         toStamp = dateToStamp(sys);
                         isFirst = true;
+                        Message msg = new Message();
+                        msg.what = 1;
+                        handler.sendMessage(msg);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -353,8 +357,8 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
     }
 
     /*
-   * 将时间转换为时间戳
-   */
+    * 将时间转换为时间戳
+    */
     public static String dateToStamp(String s) {
         String res = null;
         Date date = null;
@@ -373,7 +377,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
 
     /*
     * 将时间戳转换为时间
- ```*/
+    */
     public static String stampToDate(String s) {
         String res = null;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -703,9 +707,9 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         }
         Intent intent = new Intent(this, CustomerCameraActivity.class);
         Bundle bundle = new Bundle();
-        String replace = date.replace("-", ".");
-        bundle.putString("mapTime", replace);
-        Log.e(TAG + "ssss", "openCCActivity: date.replace==" + replace);
+//        String replace = date.replace("-", ".");
+        bundle.putString("mapTime",serviceDate+serviceTime);
+        Log.e("ssss", "openCCActivity: date==" + serviceDate+serviceTime);
         bundle.putDouble("latitude", latitude);
         bundle.putDouble("longitude", longitude);
         if (backAddress.equals("")) {

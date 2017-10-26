@@ -141,7 +141,7 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
             String now = sdf.format(new Date());
             nowData = now.substring(0, 11);
             nowTime = now.substring(11);
-            second = mapTime.substring(16);
+            second = now.substring(16);
             Log.e(TAG, "initData: second"+second );
             tvDate.setText(nowData);
             tvTime.setText(nowTime);
