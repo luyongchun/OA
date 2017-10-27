@@ -36,7 +36,8 @@ public class IDCardActivity extends AppCompatActivity {
     private AlertDialog.Builder alertDialog;
     private int REQUEST_CODE_CAMERA = 222;
     private boolean isID_CARD_FRONT=false, isID_CARD_BACK=false;
-
+    private String AK="GrgQ4HkTXcvomE993Tsc5ZBd";
+    private String SK="I89b4glboBIGafYPZWgv6WN1OWzKZrGo";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +103,7 @@ public class IDCardActivity extends AppCompatActivity {
                 error.printStackTrace();
                 alertText("AK，SK方式获取token失败", error.getMessage());
             }
-        }, this, "GrgQ4HkTXcvomE993Tsc5ZBd", "I89b4glboBIGafYPZWgv6WN1OWzKZrGo");
+        }, this, AK, SK);
     }
 
     private void alertText(final String title, final String message) {
@@ -159,29 +160,36 @@ public class IDCardActivity extends AppCompatActivity {
             @Override
             public void onResult(IDCardResult result) {
                 if (result != null) {
-                    if (isID_CARD_FRONT) {
-                        String birthday = result.getBirthday().toString();
-                        alertText("扫描结果：\n",
-                                "姓名：" + result.getName().toString() + "\n"
-                                        + "性别：" + result.getGender().toString() + "\n"
-                                        + "民族：" + result.getEthnic().toString() + "\n"
-                                        + "出生：" + birthday.substring(0, 4) + "年"
-                                        + birthday.substring(4, 6) + "月"
-                                        + birthday.substring(6) + "日" + "\n"
-                                        + "地址：" + result.getAddress().toString() + "\n"
-                                        + "身份证号码：" + result.getIdNumber() + "\n");
-                        isID_CARD_FRONT = false;
-                    } else if (isID_CARD_BACK) {
-                        alertText("扫描结果：\n",
-                                        "签发机关：" + result.getIssueAuthority().toString() + "\n"
-                                        + "有效期：" + result.getSignDate().toString().substring(0, 4) + "年"
-                                                +result.getSignDate().toString().substring(4, 6) + "月"+
-                                                result.getSignDate().toString().substring(6) + "日"+"\t到\t"+"\n"
-                                                + result.getExpiryDate().toString().substring(0, 4) + "年"
-                                                +result.getExpiryDate().toString().substring(4, 6) + "月"+
-                                                result.getExpiryDate().toString().substring(6) + "日"+"\n"
-                        );
-                        isID_CARD_BACK=false;
+                    try {
+                        if (isID_CARD_FRONT) {
+                            String birthday = result.getBirthday().toString();
+                            alertText("扫描结果：\n",
+                                    "姓名：" + result.getName().toString() + "\n"
+                                            + "性别：" + result.getGender().toString() + "\n"
+                                            + "民族：" + result.getEthnic().toString() + "\n"
+                                            + "出生：" + birthday.substring(0, 4) + "年"
+                                            + birthday.substring(4, 6) + "月"
+                                            + birthday.substring(6) + "日" + "\n"
+                                            + "地址：" + result.getAddress().toString() + "\n"
+                                            + "身份证号码：" + result.getIdNumber() + "\n");
+                            isID_CARD_FRONT = false;
+                        } else if (isID_CARD_BACK) {
+                            String expiryDate = result.getExpiryDate().toString();
+                            String signDate = result.getSignDate().toString();
+                            alertText("扫描结果：\n",
+                                            "签发机关：" + result.getIssueAuthority().toString() + "\n"
+                                            + "有效期：" + signDate.substring(0, 4) + "年"
+                                                    + signDate.substring(4, 6) + "月"
+                                                    + signDate.substring(6) + "日"+"\t到"+"\n"
+                                                    + expiryDate.substring(0, 4) + "年"
+                                                    + expiryDate.substring(4, 6) + "月"+
+                                                    expiryDate.substring(6) + "日"+"\n"
+                            );
+                            isID_CARD_BACK=false;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        alertText("扫描结果异常,结果如下:\n", result.toString());
                     }
 //                    alertText("", result.toString());
                 }
@@ -189,9 +197,12 @@ public class IDCardActivity extends AppCompatActivity {
 
             @Override
             public void onError(OCRError error) {
-                alertText("", error.getMessage());
+                alertText("", "识别错误，错误信息如下：\n"+error.getMessage());
             }
         });
     }
 
+    public void onBackClick(View view) {
+        finish();
+    }
 }

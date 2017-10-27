@@ -5,16 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/split_line"
     tools:context="com.luyc.bnd.oaattendnace.activity.IDCardActivity">
 
     <RelativeLayout
         android:layout_height="50dp"
+        android:background="@color/white"
         android:layout_width="match_parent"
         >
         <ImageView
             android:layout_width="30dp"
             android:layout_height="40dp"
             android:src="@mipmap/left"
+            android:onClick="onBackClick"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
             />
@@ -29,7 +32,8 @@
     <LinearLayout
         android:id="@+id/ll_card_front"
         android:layout_width="match_parent"
-        android:background="@color/split_line"
+        android:background="@color/white"
+        android:layout_marginTop="2dp"
         android:layout_height="40dp">
         <ImageView
             android:layout_width="25dp"
@@ -67,7 +71,7 @@
     <LinearLayout
         android:id="@+id/ll_card_native"
         android:layout_width="match_parent"
-        android:background="@color/split_line"
+        android:background="@color/white"
         android:layout_height="40dp">
         <ImageView
             android:layout_width="25dp"
