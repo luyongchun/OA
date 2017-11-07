@@ -1,6 +1,7 @@
 package com.luyc.bnd.oaattendnace.activity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
@@ -30,14 +32,19 @@ public class IDCardActivity extends AppCompatActivity {
 
     @InjectView(R.id.ll_card_front)
     LinearLayout llCardFront;
-    @InjectView(R.id.ll_card_native)
+    @InjectView(R.id.ll_card_back)
     LinearLayout llCardNative;
+    @InjectView(R.id.tv_result)
+    TextView tvResult;
+    @InjectView(R.id.ll_result)
+    LinearLayout llResult;
     private boolean hasGotToken;
     private AlertDialog.Builder alertDialog;
     private int REQUEST_CODE_CAMERA = 222;
-    private boolean isID_CARD_FRONT=false, isID_CARD_BACK=false;
-    private String AK="GrgQ4HkTXcvomE993Tsc5ZBd";
-    private String SK="I89b4glboBIGafYPZWgv6WN1OWzKZrGo";
+    private boolean isID_CARD_FRONT = false, isID_CARD_BACK = false;
+    private String AK = "GrgQ4HkTXcvomE993Tsc5ZBd";
+    private String SK = "I89b4glboBIGafYPZWgv6WN1OWzKZrGo";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +54,7 @@ public class IDCardActivity extends AppCompatActivity {
         initAccessTokenWithAkSk();//初始化OCR
     }
 
-    @OnClick({R.id.ll_card_front, R.id.ll_card_native})
+    @OnClick({R.id.ll_card_front, R.id.ll_card_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_card_front:
@@ -63,7 +70,7 @@ public class IDCardActivity extends AppCompatActivity {
                 intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_ID_CARD_FRONT);
                 startActivityForResult(intent, REQUEST_CODE_CAMERA);
                 break;
-            case R.id.ll_card_native:
+            case R.id.ll_card_back:
                 Intent i = new Intent(IDCardActivity.this, CameraActivity.class);
                 i.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH,
                         FileUtil.getSaveFile(getApplication()).getAbsolutePath());
@@ -112,7 +119,14 @@ public class IDCardActivity extends AppCompatActivity {
             public void run() {
                 alertDialog.setTitle(title)
                         .setMessage(message)
-                        .setPositiveButton("确定", null)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                llResult.setVisibility(View.VISIBLE);
+                                tvResult.setText(message);
+                            }
+                        })
+
                         .show();
             }
         });
@@ -138,7 +152,7 @@ public class IDCardActivity extends AppCompatActivity {
                         isID_CARD_FRONT = true;
                         recIDCard(IDCardParams.ID_CARD_SIDE_FRONT, filePath);
                     } else if (CameraActivity.CONTENT_TYPE_ID_CARD_BACK.equals(contentType)) {
-                        isID_CARD_BACK =true;
+                        isID_CARD_BACK = true;
                         recIDCard(IDCardParams.ID_CARD_SIDE_BACK, filePath);
                     }
                 }
@@ -177,15 +191,15 @@ public class IDCardActivity extends AppCompatActivity {
                             String expiryDate = result.getExpiryDate().toString();
                             String signDate = result.getSignDate().toString();
                             alertText("扫描结果：\n",
-                                            "签发机关：" + result.getIssueAuthority().toString() + "\n"
+                                    "签发机关：" + result.getIssueAuthority().toString() + "\n"
                                             + "有效期：" + signDate.substring(0, 4) + "年"
-                                                    + signDate.substring(4, 6) + "月"
-                                                    + signDate.substring(6) + "日"+"\t到"+"\n"
-                                                    + expiryDate.substring(0, 4) + "年"
-                                                    + expiryDate.substring(4, 6) + "月"+
-                                                    expiryDate.substring(6) + "日"+"\n"
+                                            + signDate.substring(4, 6) + "月"
+                                            + signDate.substring(6) + "日" + "\t到" + "\n"
+                                            +"\t\t\t\t\t\t\t\t" +expiryDate.substring(0, 4) + "年"
+                                            + expiryDate.substring(4, 6) + "月" +
+                                            expiryDate.substring(6) + "日" + "\n"
                             );
-                            isID_CARD_BACK=false;
+                            isID_CARD_BACK = false;
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -197,7 +211,7 @@ public class IDCardActivity extends AppCompatActivity {
 
             @Override
             public void onError(OCRError error) {
-                alertText("", "识别错误，错误信息如下：\n"+error.getMessage());
+                alertText("", "识别错误，错误信息如下：\n" + error.getMessage());
             }
         });
     }

@@ -96,6 +96,7 @@ public class CustomerCameraActivity extends AppCompatActivity implements Surface
         Bundle bundle = intent.getBundleExtra("bundle");
         String address = bundle.getString("address");
         String mapTime = bundle.getString("mapTime");
+        Log.e(TAG, "onCreate: mapTime"+mapTime );
         longitude = bundle.getDouble("longitude");
         latitude = bundle.getDouble("latitude");
         this.address = address;

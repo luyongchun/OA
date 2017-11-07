@@ -13,7 +13,7 @@
         android:paddingTop="20dp"
         android:paddingBottom="5dp"
         android:textColor="@color/color_later"
-        android:textSize="22sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         android:gravity="center"
         android:id="@+id/tv_delect" />
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="是否要删除本条补签？"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:padding="20dp"
         />
 

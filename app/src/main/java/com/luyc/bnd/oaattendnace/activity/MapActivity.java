@@ -122,7 +122,7 @@ public class MapActivity extends AppCompatActivity implements
         LatLng start = new LatLng(22.811404, 113.33247);//考勤经纬度
         LatLng end = new LatLng(latitude, longitude);//定位的经纬度
         mListener.onLocationChanged(aMapLocation);//定位
-        //以考勤地点经纬度做以250M半径画圆
+        //以考勤地点经纬度做以300M半径画圆
         circle = aMap.addCircle(new CircleOptions()
                 .center(start)
                 .radius(300)

@@ -68,77 +68,42 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
 
     private static final int REQUEST_TAKE_PHOTO_PERMISSION = 100;
     private static final int REQUEST_LOCATION_PERMISSION = 11;
-    @InjectView(R.id.iv_back)
-    ImageView ivBack;
-    @InjectView(R.id.tv_company)
-    TextView tvCompany;
-    @InjectView(R.id.tv_help)
-    TextView tvHelp;
-    @InjectView(R.id.iv_header)
-    ImageView ivHeader;
-    @InjectView(R.id.tv_name)
-    TextView tvName;
-    @InjectView(R.id.tv_time)
-    TextView tvTime;
-    @InjectView(R.id.tv_attendance)
-    TextView tvAttendance;
-    @InjectView(R.id.iv_go_work)
-    ImageView ivGoWork;
-    @InjectView(R.id.activity_attendance)
-    LinearLayout activityAttendance;
-    @InjectView(R.id.mcv_card)
-    MyCircleView mcvCard;
-    @InjectView(R.id.tv_card)
-    TextView tvCard;
-    @InjectView(R.id.tv_now_time)
-    TextView tvNowTime;
-    @InjectView(R.id.rl_card)
-    RelativeLayout rlCard;
-    @InjectView(R.id.tv_address)
-    TextView tvAddress;
+    @InjectView(R.id.iv_back) ImageView ivBack;
+    @InjectView(R.id.tv_company) TextView tvCompany;
+    @InjectView(R.id.tv_help) TextView tvHelp;
+    @InjectView(R.id.iv_header) ImageView ivHeader;
+    @InjectView(R.id.tv_name) TextView tvName;
+    @InjectView(R.id.tv_time) TextView tvTime;
+    @InjectView(R.id.tv_attendance) TextView tvAttendance;
+    @InjectView(R.id.iv_go_work) ImageView ivGoWork;
+    @InjectView(R.id.activity_attendance) LinearLayout activityAttendance;
+    @InjectView(R.id.mcv_card) MyCircleView mcvCard;
+    @InjectView(R.id.tv_card) TextView tvCard;
+    @InjectView(R.id.tv_now_time) TextView tvNowTime;
+    @InjectView(R.id.rl_card) RelativeLayout rlCard;
+    @InjectView(R.id.tv_address) TextView tvAddress;
 
-    @InjectView(R.id.tv_work_attendace)
-    TextView tvWorkAttendace;
-    @InjectView(R.id.tv_again_location)
-    TextView tvAgainLocation;
-    @InjectView(R.id.tv_attendance_address)
-    TextView tvAttendanceAddress;
-    @InjectView(R.id.iv_attendance)
-    ImageView ivAttendance;
-    @InjectView(R.id.rl_all_card)
-    RelativeLayout rlAllCard;
-    @InjectView(R.id.iv_attend)
-    ImageView ivAttend;
-    @InjectView(R.id.tv_attendance_time)
-    TextView tvAttendanceTime;
-    @InjectView(R.id.tv_company_work_time)
-    TextView tvCompanyWorkTime;
-    @InjectView(R.id.tv_addressed)
-    TextView tvAddressed;
-    @InjectView(R.id.tv_work_nor)
-    TextView tvWorkNor;
-    @InjectView(R.id.tv_look)
-    TextView tvLook;
-    @InjectView(R.id.tv_updata_attend)
-    TextView tvUpdataAttend;
-    @InjectView(R.id.iv_attend_i)
-    ImageView ivAttendI;
-    @InjectView(R.id.tv_attendance_time_i)
-    TextView tvAttendanceTimeI;
-    @InjectView(R.id.tv_addressed_i)
-    TextView tvAddressedI;
-    @InjectView(R.id.tv_work_nor_i)
-    TextView tvWorkNorI;
-    @InjectView(R.id.tv_look_i)
-    TextView tvLookI;
-    @InjectView(R.id.tv_updata_attend_i)
-    TextView tvUpdataAttendI;
-    @InjectView(R.id.ll_gowork_i)
-    LinearLayout llGoworkI;
-    @InjectView(R.id.ll_after_ii)
-    LinearLayout llAfterIi;
-    @InjectView(R.id.tv_horizontal)
-    TextView tvHorizontal;
+    @InjectView(R.id.tv_work_attendace) TextView tvWorkAttendace;
+    @InjectView(R.id.tv_again_location) TextView tvAgainLocation;
+    @InjectView(R.id.tv_attendance_address) TextView tvAttendanceAddress;
+    @InjectView(R.id.iv_attendance) ImageView ivAttendance;
+    @InjectView(R.id.rl_all_card) RelativeLayout rlAllCard;
+    @InjectView(R.id.iv_attend) ImageView ivAttend;
+    @InjectView(R.id.tv_attendance_time) TextView tvAttendanceTime;
+    @InjectView(R.id.tv_company_work_time) TextView tvCompanyWorkTime;
+    @InjectView(R.id.tv_addressed) TextView tvAddressed;
+    @InjectView(R.id.tv_work_nor) TextView tvWorkNor;
+    @InjectView(R.id.tv_look) TextView tvLook;
+    @InjectView(R.id.tv_updata_attend) TextView tvUpdataAttend;
+    @InjectView(R.id.iv_attend_i) ImageView ivAttendI;
+    @InjectView(R.id.tv_attendance_time_i) TextView tvAttendanceTimeI;
+    @InjectView(R.id.tv_addressed_i) TextView tvAddressedI;
+    @InjectView(R.id.tv_work_nor_i) TextView tvWorkNorI;
+    @InjectView(R.id.tv_look_i) TextView tvLookI;
+    @InjectView(R.id.tv_updata_attend_i) TextView tvUpdataAttendI;
+    @InjectView(R.id.ll_gowork_i) LinearLayout llGoworkI;
+    @InjectView(R.id.ll_after_ii) LinearLayout llAfterIi;
+    @InjectView(R.id.tv_horizontal) TextView tvHorizontal;
     //    @InjectView(R.id.tv_orizontal)
 //    TextView tvOrizontal;
     private PopupWindow popupWindow, mPopupWindow, aPopupWindow, iPopupWindow;
@@ -296,7 +261,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_attendance);
         ButterKnife.inject(this);
         mcv = ((MyCircleView) findViewById(R.id.mcv_card));
-        getSystemTime();
+        getSystemTime();//获取本机系统时间
         //检查网络
         myToos = new MyToos(this);
         netWorkStatle = myToos.isNetWorkStatle();
@@ -308,7 +273,7 @@ public class AttendanceActivity extends AppCompatActivity implements View.OnClic
         initReceiver();
         initData();//初始化数据
         if (netWorkStatle) {
-            getServiceSysTime();
+            getServiceSysTime();//获取服务器返回的时间，一般情况下以获取服务器的时间为准
             requestLocationAdrees(-1);//请求定位
         } else {
             MyToastShow.showToast(this, "当前网络不可用，请先检查您的网络连接哦");
